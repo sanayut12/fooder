@@ -4,6 +4,7 @@ import 'package:fooder/MainScreen/subScreen/feedScreen.dart';
 import 'package:fooder/MainScreen/subScreen/notificationScreen.dart';
 import 'package:fooder/MainScreen/subScreen/orderScreen.dart';
 import 'package:fooder/MainScreen/subScreen/profileScreen.dart';
+import 'package:fooder/MainScreen/subScreen/subFeedScreen/BasketScreen.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -32,6 +33,62 @@ class _MainScreenState extends State<MainScreen> {
       ProfileScreen()
     ];
 
+    Widget TopBar = Container(
+      alignment: Alignment.center,
+      height: double.infinity,
+      width: double.infinity,
+      color: Colors.red[400],
+      child: Row(
+        children: [
+          Expanded(
+              flex: 4,
+              child: Container(
+                alignment: Alignment.center,
+                child: Text(
+                  "fooder",
+                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                ),
+              )),
+          Expanded(
+              flex: 2,
+              child: Row(
+                children: [
+                  Expanded(
+                      child: GestureDetector(
+                    onTap: () {
+                      OnClickGotoBasket();
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(left: 2, right: 2),
+                      padding: EdgeInsets.only(top: 3, bottom: 3),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                      ),
+                      child: Icon(
+                        Icons.add_shopping_cart_rounded,
+                        size: 40,
+                        color: Colors.grey[700],
+                      ),
+                    ),
+                  )),
+                  Expanded(
+                      child: Container(
+                    margin: EdgeInsets.only(left: 2, right: 2),
+                    padding: EdgeInsets.only(top: 3, bottom: 3),
+
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                    ),
+                    // color: Colors.blue,
+                    child: Icon(Icons.chat, size: 40, color: Colors.grey[700]),
+                  ))
+                ],
+              ))
+        ],
+      ),
+    );
     return Scaffold(
         drawer: Drawer(
           child: Container(
@@ -42,11 +99,7 @@ class _MainScreenState extends State<MainScreen> {
         ),
         body: Column(
           children: [
-            Expanded(
-                flex: 1,
-                child: Container(
-                  color: Colors.red,
-                )),
+            Expanded(flex: 1, child: TopBar),
             Expanded(flex: 8, child: ListSwapScreen[bottomBarIndex])
           ],
         ),
@@ -60,5 +113,10 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       bottomBarIndex = bottombarindex;
     });
+  }
+
+  Future OnClickGotoBasket() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) => BasketScreen()));
   }
 }

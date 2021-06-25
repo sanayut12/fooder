@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fooder/FirstScreen/login.dart';
 import 'package:fooder/FirstScreen/register.dart';
+import 'package:fooder/function/http/httpAddMenuToBasket.dart';
+import 'package:fooder/function/http/httpGetPostFeedFooder.dart';
 
 class MainScreen extends StatelessWidget {
   @override
@@ -32,7 +34,13 @@ class _SubFirstState extends State<SubFirst> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    LoadData();
     this.page = 0;
+  }
+
+  Future LoadData() async {
+    await initHttpGetPostFeedFooder();
+    await initHttpAddMenuToBasket();
   }
 
   Function changeFromRegistered() {
