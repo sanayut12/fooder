@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fooder/ClassObjects/httpObjectAddMenutoBasket.dart';
+import 'package:fooder/function/ClassObjects/httpObjectAddMenutoBasket.dart';
+import 'package:fooder/function/dataManagement/Readhostname.dart';
 import 'package:fooder/function/dataManagement/dataPostBox.dart';
 import 'package:fooder/function/dataManagement/dataUserInfo.dart';
 import 'package:fooder/function/http/httpAddMenuToBasket.dart';
@@ -44,7 +45,7 @@ class _BuyMenuScreenState extends State<BuyMenuScreen> {
           color: Colors.red,
           image: DecorationImage(
               fit: BoxFit.cover,
-              image: NetworkImage("http://192.168.137.1:3000/image/menuImage/" +
+              image: NetworkImage("${HostName()}/image/menuImage/" +
                   this.widget.dataMenu.path))),
     );
 

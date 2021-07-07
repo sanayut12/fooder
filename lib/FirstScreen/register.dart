@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:fooder/ClassObjects/httpObjectRegister.dart';
+import 'package:fooder/function/ClassObjects/httpObjectRegister.dart';
 import '../function/http/httpRegister.dart';
 
 String name, password, confirmpassword, phone, email;
@@ -28,7 +28,6 @@ class _RegisterState extends State<Register> {
     _confirmpassword = TextEditingController(text: confirmpassword);
     _phone = TextEditingController(text: phone);
     _email = TextEditingController(text: email);
-    initHttpRegister();
   }
 
   void resetInput() {

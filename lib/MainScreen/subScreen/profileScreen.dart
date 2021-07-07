@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fooder/function/dataManagement/dataUserInfo.dart';
+import 'package:fooder/function/dataManagement/Readhostname.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -37,7 +38,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Text(
             "$image",
             style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
-          )
+          ),
+          Text("${HostName()}")
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fooder/MainScreen/subScreen/subFeedScreen/BuyMenuScreen.dart';
+import 'package:fooder/MainScreen/subScreen/subFeedScreen/basket/BuyMenuScreen.dart';
+import 'package:fooder/function/dataManagement/Readhostname.dart';
 import 'package:fooder/function/dataManagement/dataPostBox.dart';
 
 class MenuBoxWidget extends StatefulWidget {
@@ -31,7 +32,7 @@ class _MenuBoxWidgetState extends State<MenuBoxWidget> {
           borderRadius: BorderRadius.circular(10),
           image: DecorationImage(
               fit: BoxFit.cover,
-              image: NetworkImage("http://192.168.137.1:3000/image/menuImage/" +
+              image: NetworkImage("${HostName()}/image/menuImage/" +
                   this.widget.dataMenu.path))),
     );
     Widget DetailMenu = Container(

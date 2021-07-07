@@ -1,11 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 
+Map datajson;
+
 class AddressThailand {
-  Map datajson;
   Future<void> init() async {
     final String response = await rootBundle.loadString('assets/thailand.json');
     Map _datajson = await json.decode(response);
+    print("Load data address");
+    // print(_datajson.toString());
     datajson = _datajson;
   }
 
@@ -18,12 +22,13 @@ class AddressThailand {
   }
 
   //tranfer key to value
-  String ProvinceValue({String provinceKey, String language}) {
+  String ProvinceValue(
+      {@required String provinceKey, @required String language}) {
     String data = datajson[provinceKey]['name'][language];
     return data;
   }
 
-  Future<List<String>> DistrictKey({String provinceKey}) async {
+  Future<List<String>> DistrictKey({@required String provinceKey}) async {
     List<String> data = [];
 
     datajson[provinceKey]['amphoes'].forEach((key, value) {
@@ -34,14 +39,16 @@ class AddressThailand {
   }
 
   String DistrictValue(
-      {String provinceKey, String districtKey, String language}) {
+      {@required String provinceKey,
+      @required String districtKey,
+      @required String language}) {
     String data =
         datajson[provinceKey]['amphoes'][districtKey]['name'][language];
     return data;
   }
 
   Future<List<String>> Sub_DistrictKey(
-      {String provinceKey, String districtKey}) async {
+      {@required String provinceKey, @required String districtKey}) async {
     List<String> data = [];
 
     datajson[provinceKey]['amphoes'][districtKey]['tambons']
@@ -53,17 +60,19 @@ class AddressThailand {
   }
 
   String Sub_DistrictValue(
-      {String provinceKey,
-      String districtKey,
-      String sub_districtKey,
-      String language}) {
+      {@required String provinceKey,
+      @required String districtKey,
+      @required String sub_districtKey,
+      @required String language}) {
     String data = datajson[provinceKey]['amphoes'][districtKey]['tambons']
         [sub_districtKey]['name'][language];
     return data;
   }
 
   int Post_CodeValue(
-      {String provinceKey, String districtKey, String sub_districtKey}) {
+      {@required String provinceKey,
+      @required String districtKey,
+      @required String sub_districtKey}) {
     int data = datajson[provinceKey]['amphoes'][districtKey]['tambons']
         [sub_districtKey]['zipcode'];
     return data;

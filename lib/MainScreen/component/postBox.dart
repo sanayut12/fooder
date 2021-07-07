@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fooder/MainScreen/component/menuBox.dart';
+import 'package:fooder/function/dataManagement/Readhostname.dart';
 import 'package:fooder/function/dataManagement/dataListShopInfo.dart';
 import 'package:fooder/function/dataManagement/dataPostBox.dart';
 import 'package:fooder/function/dataManagement/dateBox.dart';
@@ -50,7 +51,7 @@ class _PostBoxComPonentState extends State<PostBoxComPonent> {
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: NetworkImage(
-                    "http://192.168.137.1:3000/image/ImageProfileShop/" +
+                    "${HostName()}/image/ImageProfileShop/" +
                         dataShopInfo.image,
                   ),
                 )),

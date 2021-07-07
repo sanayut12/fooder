@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:auth_buttons/auth_buttons.dart';
-import 'package:fooder/ClassObjects/httpObjectLogin.dart';
+
 import 'package:fooder/MainScreen/mainScreen.dart';
+import 'package:fooder/function/ClassObjects/httpObjectLogin.dart';
 import 'package:fooder/function/dataManagement/dataUserInfo.dart';
 import 'package:fooder/function/http/httpLogin.dart';
 
@@ -20,7 +20,6 @@ class _LoginState extends State<Login> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    initHttpLogin();
     _phone = TextEditingController(text: phone);
     _password = TextEditingController(text: password);
   }

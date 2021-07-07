@@ -1,5 +1,6 @@
-import '../dataManagement/readjson.dart';
-import '../../ClassObjects/httpObjectLogin.dart';
+import 'package:fooder/function/ClassObjects/httpObjectLogin.dart';
+import 'package:fooder/function/dataManagement/Readhostname.dart';
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -9,16 +10,12 @@ Map<String, String> Header = {
   'Content-Type': 'application/json; charset=UTF-8',
 };
 
-void initHttpLogin() async {
-  hostname = await json.decode(await readJson())['http'];
-}
-
 Future<LoginResponse> HttpLogin(LoginRequest bufferLoginRequest) async {
   var body = {
     'phone': bufferLoginRequest.phone,
     'password': bufferLoginRequest.password
   };
-  var url = Uri.parse(hostname + "/users/login");
+  var url = Uri.parse(HostName() + "/users/login");
   var uriResponse = await client.post(
     url,
     body: jsonEncode(body),

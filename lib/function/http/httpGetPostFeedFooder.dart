@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'package:fooder/ClassObjects/httpObjectGetPostFeedFooder.dart';
+import 'package:fooder/function/ClassObjects/httpObjectGetPostFeedFooder.dart';
+import 'package:fooder/function/dataManagement/Readhostname.dart';
 import 'package:fooder/function/dataManagement/dataListShopInfo.dart';
 import 'package:fooder/function/dataManagement/dataPostBox.dart';
 import 'package:fooder/function/dataManagement/dateBox.dart';
-import 'package:fooder/function/dataManagement/readjson.dart';
 import 'package:http/http.dart' as http;
 
 var client = http.Client();
@@ -12,16 +12,11 @@ Map<String, String> Header = {
   'Content-Type': 'application/json; charset=UTF-8',
 };
 
-void initHttpGetPostFeedFooder() async {
-  hostname = await json.decode(await readJson())['http'];
-}
-
-//r
 Future<GetPostFoodFooderResponse> HttpGetPostFeedFooder(
     GetPostFoodFooderRequest bufferGetPostFoodFooderRequest) async {
   var body = bufferGetPostFoodFooderRequest.value();
   // print("$body");
-  var url = Uri.parse(hostname + "/post/getPostFeedFooder");
+  var url = Uri.parse(HostName() + "/post/getPostFeedFooder");
   var uriResponse = await client.post(
     url,
     body: jsonEncode(body),

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fooder/FirstScreen/login.dart';
 import 'package:fooder/FirstScreen/register.dart';
+import 'package:fooder/function/dataManagement/Readhostname.dart';
+import 'package:fooder/function/dataManagement/readJsonAddress.dart';
 import 'package:fooder/function/http/httpAddMenuToBasket.dart';
+import 'package:fooder/function/http/httpGetOrderBasketFooder.dart';
 import 'package:fooder/function/http/httpGetPostFeedFooder.dart';
 
 class MainScreen extends StatelessWidget {
@@ -39,8 +42,8 @@ class _SubFirstState extends State<SubFirst> {
   }
 
   Future LoadData() async {
-    await initHttpGetPostFeedFooder();
-    await initHttpAddMenuToBasket();
+    await initLoadHostName();
+    await AddressThailand().init();
   }
 
   Function changeFromRegistered() {
