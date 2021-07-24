@@ -1,10 +1,10 @@
-import 'dart:ui';
+// import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fooder/MainScreen/subScreen/subFeedScreen/basket/BasketCardComponent.dart';
+// import 'package:fooder/MainScreen/subScreen/subFeedScreen/basket/BasketCardComponent.dart';
 import 'package:fooder/MainScreen/subScreen/subFeedScreen/basket/BasketCardMenuComponent.dart';
-import 'package:fooder/MainScreen/subScreen/subFeedScreen/confirmOrder/SelectAddressComponent.dart';
+import 'package:fooder/MainScreen/subScreen/subFeedScreen/confirmOrderScreen/sub/SelectAddressComponent.dart';
 import 'package:fooder/function/ClassObjects/httpObjectConfirmMenuOrderInBasket.dart';
 import 'package:fooder/function/dataManagement/Readhostname.dart';
 import 'package:fooder/function/dataManagement/dataOrderMenu.dart';
@@ -12,9 +12,13 @@ import 'package:fooder/function/dataManagement/dataUserInfo.dart';
 import 'package:fooder/function/http/httpConfirmMenuOrderInBasket.dart';
 
 class ConfirmOrderScreen extends StatefulWidget {
+  final Function deletePostID;
   final String post_id;
   final MenuCard menuCard;
-  ConfirmOrderScreen({@required this.post_id, @required this.menuCard});
+  ConfirmOrderScreen(
+      {@required this.post_id,
+      @required this.menuCard,
+      @required this.deletePostID});
   @override
   _ConfirmOrderScreenState createState() => _ConfirmOrderScreenState();
 }
@@ -27,6 +31,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
     // TODO: implement initState
     super.initState();
     CalulateTotalCost();
+    print("${this.widget.post_id}");
   }
 
   @override
@@ -118,7 +123,8 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
     //ปุ่มยืนยันออเดอะรฺ
     Widget ConfirmButton = GestureDetector(
       onTap: () {
-        httpConfirmOrder();
+        // httpConfirmOrder();
+        ConfirmOrderDialog();
       },
       child: Container(
         height: double.infinity,
@@ -131,14 +137,19 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
       ),
     );
     //ปุ่มยกเลิกออเดอะ
-    Widget CancelButton = Container(
-      height: double.infinity,
-      width: double.infinity,
-      margin: EdgeInsets.all(5),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          color: Colors.red, borderRadius: BorderRadius.circular(10)),
-      child: Text("ยกเลิกการสั่งซื้อ"),
+    Widget CancelButton = GestureDetector(
+      onTap: () {
+        print("cancel");
+      },
+      child: Container(
+        height: double.infinity,
+        width: double.infinity,
+        margin: EdgeInsets.all(5),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: Colors.red, borderRadius: BorderRadius.circular(10)),
+        child: Text("ยกเลิกการสั่งซื้อ"),
+      ),
     );
 
     //ปุ่ม 2 ปุ่มที่ใช้ยืนยัน หรือ ยกเลิก ออเดอะร์
@@ -211,7 +222,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
     });
   }
 
-  Future httpConfirmOrder() async {
+  Future<int> httpConfirmOrder() async {
     String user_id = UserInfoManagement().User_id();
     ConfirmMenuOrderInBasketRequest bufferConfirmMenuOrderInBasketRequest =
         ConfirmMenuOrderInBasketRequest(
@@ -223,5 +234,63 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
         await HttpConfirmMenuOrderInBasket(
             bufferConfirmMenuOrderInBasketRequest);
     print("${bufferConfirmMenuOrderInBasketResponse.code}");
+    if (bufferConfirmMenuOrderInBasketResponse.code == '20200') {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
+  Future checkREsponse() async {
+    int check = await httpConfirmOrder();
+    if (check == 1) {
+      this.widget.deletePostID(this.widget.post_id);
+      int check1 = await alertCard();
+      if (check1 == 1) {
+        Navigator.of(context).pop(1);
+      }
+    } else {
+      print("error");
+    }
+  }
+
+  Future ConfirmOrderDialog() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text("ยืนยันการสั่งซื้อ"),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    checkREsponse();
+                    Navigator.of(context).pop(1);
+                  },
+                  child: Text("ยืนยัน")),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(1);
+                  },
+                  child: Text("ยกเลิก")),
+            ],
+          );
+        });
+  }
+
+  Future<int> alertCard() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text("ยืนยันการซื้อสำเร็จ"),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(1);
+                  },
+                  child: Text("ตกลง"))
+            ],
+          );
+        });
   }
 }

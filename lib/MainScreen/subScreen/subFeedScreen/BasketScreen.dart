@@ -28,6 +28,7 @@ class _BasketScreenState extends State<BasketScreen> {
           return BasketCardComponent(
             post_id: basket.ListPostID()[index],
             menuCard: basket.bufferMenuCard[basket.ListPostID()[index]],
+            deletePostID: deletePost_id,
           );
         });
 
@@ -37,6 +38,13 @@ class _BasketScreenState extends State<BasketScreen> {
         child: ListCard,
       ),
     );
+  }
+
+  Future deletePost_id(String post_id) {
+    print("delete ${post_id} B K S");
+    setState(() {
+      basket.bufferMenuCard.remove(post_id);
+    });
   }
 
   Future httpGetOrderBasketFooder() async {

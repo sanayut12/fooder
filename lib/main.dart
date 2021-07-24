@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fooder/FirstScreen/mainFirstScreen.dart';
 import 'package:flutter/services.dart';
 
+String name;
 void main() {
   runApp(MyApp());
 }

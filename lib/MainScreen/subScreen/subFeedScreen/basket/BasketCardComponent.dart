@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fooder/MainScreen/subScreen/subFeedScreen/basket/BasketCardMenuComponent.dart';
-import 'package:fooder/MainScreen/subScreen/subFeedScreen/confirmOrder/ConfirmOrderScreen.dart';
+import 'package:fooder/MainScreen/subScreen/subFeedScreen/confirmOrderScreen/ConfirmOrderScreen.dart';
 import 'package:fooder/function/ClassObjects/httpObjectConfirmMenuOrderInBasket.dart';
 import 'package:fooder/function/dataManagement/Readhostname.dart';
 import 'package:fooder/function/dataManagement/dataOrderMenu.dart';
@@ -8,9 +8,13 @@ import 'package:fooder/function/dataManagement/dataUserInfo.dart';
 import 'package:fooder/function/http/httpConfirmMenuOrderInBasket.dart';
 
 class BasketCardComponent extends StatefulWidget {
+  final Function deletePostID;
   final String post_id;
   final MenuCard menuCard;
-  BasketCardComponent({@required this.post_id, @required this.menuCard});
+  BasketCardComponent(
+      {@required this.post_id,
+      @required this.menuCard,
+      @required this.deletePostID});
 
   @override
   _BasketCardComponentState createState() => _BasketCardComponentState();
@@ -108,19 +112,20 @@ class _BasketCardComponentState extends State<BasketCardComponent> {
     );
   }
 
-  Future httpConfirmMenuOrderInBasket() async {
-    String user_id = UserInfoManagement().User_id();
-    ConfirmMenuOrderInBasketRequest bufferConfirmMenuOrderInBasketRequest =
-        ConfirmMenuOrderInBasketRequest(
-            user_id: user_id, post_id: this.widget.post_id);
-    HttpConfirmMenuOrderInBasket(bufferConfirmMenuOrderInBasketRequest);
-  }
+  // Future httpConfirmMenuOrderInBasket() async {
+  //   String user_id = UserInfoManagement().User_id();
+  //   ConfirmMenuOrderInBasketRequest bufferConfirmMenuOrderInBasketRequest =
+  //       ConfirmMenuOrderInBasketRequest(
+  //           user_id: user_id, post_id: this.widget.post_id);
+  //   HttpConfirmMenuOrderInBasket(bufferConfirmMenuOrderInBasketRequest);
+  // }
 
   Future GoToConfirmOrderScreen() {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext context) => ConfirmOrderScreen(
               post_id: this.widget.post_id,
               menuCard: this.widget.menuCard,
+              deletePostID: this.widget.deletePostID,
             )));
   }
 }

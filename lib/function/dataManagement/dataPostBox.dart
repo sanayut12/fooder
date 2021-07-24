@@ -13,6 +13,15 @@ class DataMenu {
       @required this.status,
       @required this.quantity,
       @required this.cost});
+
+  String ToString() {
+    return """
+     ${this.inventory_id}
+     ${this.menu_id} 
+     ${this.name}  
+     ${this.type}
+     """;
+  }
 }
 
 class DataPost {
@@ -22,12 +31,12 @@ class DataPost {
   final Map<int, DataMenu> bufferMenu;
 
   DataPost(
-      {this.post_id,
-      this.shop_id,
-      this.detail,
-      this.sendCost,
-      this.start,
-      this.stop,
-      this.send,
+      {@required this.post_id,
+      @required this.shop_id,
+      @required this.detail,
+      @required this.sendCost,
+      @required this.start,
+      @required this.stop,
+      @required this.send,
       this.bufferMenu});
 }

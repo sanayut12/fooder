@@ -5,7 +5,7 @@ import 'package:fooder/function/ClassObjects/httpObjectLogin.dart';
 import 'package:fooder/function/dataManagement/dataUserInfo.dart';
 import 'package:fooder/function/http/httpLogin.dart';
 
-String phone = "0962459665";
+String phone = "0998765432";
 String password = "12345";
 
 class Login extends StatefulWidget {

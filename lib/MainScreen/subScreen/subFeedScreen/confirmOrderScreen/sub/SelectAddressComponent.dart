@@ -9,6 +9,7 @@ import 'package:fooder/function/http/httpGetAllAddress.dart';
 
 class SelectAddressComponent extends StatefulWidget {
   final Function set_address_user_id;
+
   SelectAddressComponent({@required this.set_address_user_id});
   @override
   _SelectAddressComponentState createState() => _SelectAddressComponentState();

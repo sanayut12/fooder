@@ -5,7 +5,6 @@ import 'package:fooder/function/dataManagement/Readhostname.dart';
 import 'package:fooder/function/dataManagement/readJsonAddress.dart';
 import 'package:fooder/function/http/httpAddMenuToBasket.dart';
 import 'package:fooder/function/http/httpGetOrderBasketFooder.dart';
-import 'package:fooder/function/http/httpGetPostFeedFooder.dart';
 
 class MainScreen extends StatelessWidget {
   @override

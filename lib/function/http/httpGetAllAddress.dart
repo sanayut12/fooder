@@ -22,7 +22,7 @@ Future<GetAllAddressResponse> HttpGetAllAddress(
     headers: Header,
   );
 
-  print("${uriResponse.bodyBytes.lengthInBytes * 0.001} kilo byte");
+  // print("${uriResponse.bodyBytes.lengthInBytes * 0.001} kilo byte");
   Map res = jsonDecode(uriResponse.body);
   // print(res);
   String code = res['code'];
