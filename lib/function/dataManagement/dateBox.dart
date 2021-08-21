@@ -1,9 +1,29 @@
+import 'package:flutter/cupertino.dart';
+
 class DateBox {
   final int year, month, day, hour, min, sec;
-  DateBox({this.year, this.month, this.day, this.hour, this.min, this.sec});
+  DateBox(
+      {@required this.year,
+      @required this.month,
+      @required this.day,
+      @required this.hour,
+      @required this.min,
+      this.sec});
 
   String ToString() {
-    return "${this.hour}:${this.min} ${this.year}-${this.month}-${this.day}";
+    return this.sec == null
+        ? "${this.hour}:${this.min} ${this.year}-${this.month}-${this.day}"
+        : "${this.hour}:${this.min}: ${this.sec} ${this.year}-${this.month}-${this.day}";
+  }
+
+  String ToDateString() {
+    return "${this.day} ${this.month} ${this.year}";
+  }
+
+  String ToTimeString() {
+    return this.sec == null
+        ? "${this.hour}:${this.min}"
+        : "${this.hour}:${this.min}: ${this.sec} ";
   }
 }
 
