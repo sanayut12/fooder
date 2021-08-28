@@ -1,14 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:fooder/function/ClassObjects/httpObjectGetPostFeedFooderPostShop.dart';
-import 'package:fooder/function/dataManagement/dataListShopInfo.dart';
-import 'package:fooder/function/dataManagement/dataPostBox.dart';
-import 'package:fooder/function/dataManagement/dateBox.dart';
 
-class GetPostFoodFooderRequestInit {
+class GetPostFeedFooderRequestInit {
   final String user_id;
   final double latitude, longtitude;
 
-  GetPostFoodFooderRequestInit({
+  GetPostFeedFooderRequestInit({
     @required this.user_id,
     @required this.latitude,
     @required this.longtitude,
@@ -23,9 +19,9 @@ class GetPostFoodFooderRequestInit {
   }
 }
 
-class GetPostFoodFooderResponseInit {
+class GetPostFeedFooderResponseInit {
   final Map<int, BufferIDFeed> bufferIDFeed;
-  GetPostFoodFooderResponseInit({@required this.bufferIDFeed});
+  GetPostFeedFooderResponseInit({@required this.bufferIDFeed});
 
   int length() {
     return bufferIDFeed.length;
@@ -33,9 +29,9 @@ class GetPostFoodFooderResponseInit {
 }
 
 class BufferIDFeed {
-  final String id;
+  final String post_id;
   final String type;
-  BufferIDFeed({@required this.id, @required this.type});
+  BufferIDFeed({@required this.post_id, @required this.type});
 }
 
 //kmlmkm

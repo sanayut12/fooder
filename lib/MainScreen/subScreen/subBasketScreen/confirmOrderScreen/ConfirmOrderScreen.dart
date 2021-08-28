@@ -2,9 +2,9 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:fooder/MainScreen/subScreen/subFeedScreen/basket/BasketCardComponent.dart';
-import 'package:fooder/MainScreen/subScreen/subFeedScreen/basket/BasketCardMenuComponent.dart';
-import 'package:fooder/MainScreen/subScreen/subFeedScreen/confirmOrderScreen/sub/SelectAddressComponent.dart';
+import 'package:fooder/MainScreen/subScreen/subBasketScreen/BasketCardMenuComponent.dart';
+import 'package:fooder/MainScreen/subScreen/subBasketScreen/confirmOrderScreen/sub/SelectAddressComponent.dart';
+
 import 'package:fooder/function/ClassObjects/httpObjectConfirmMenuOrderInBasket.dart';
 import 'package:fooder/function/dataManagement/Readhostname.dart';
 import 'package:fooder/function/dataManagement/dataOrderMenu.dart';

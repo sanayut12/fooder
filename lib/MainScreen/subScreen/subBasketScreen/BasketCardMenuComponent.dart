@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fooder/MainScreen/subScreen/subFeedScreen/basket/MenuCardComponent.dart';
+import 'package:fooder/MainScreen/subScreen/subBasketScreen/MenuCardComponent.dart';
 import 'package:fooder/function/dataManagement/dataOrderMenu.dart';
 
 class BasketCardMenuComponent extends StatefulWidget {

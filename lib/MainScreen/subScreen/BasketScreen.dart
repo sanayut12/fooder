@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fooder/MainScreen/subScreen/subFeedScreen/basket/BasketCardComponent.dart';
+import 'package:fooder/MainScreen/subScreen/subBasketScreen/BasketCardComponent.dart';
 import 'package:fooder/function/ClassObjects/httpObjectGetOrderBasketFooder.dart';
 import 'package:fooder/function/dataManagement/dataOrderMenu.dart';
 import 'package:fooder/function/dataManagement/dataUserInfo.dart';

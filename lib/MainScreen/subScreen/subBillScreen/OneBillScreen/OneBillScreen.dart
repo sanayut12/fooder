@@ -153,7 +153,7 @@ class _OneBillScreenState extends State<OneBillScreen> {
       color: Colors.yellow,
       child: ListView(
         children: [
-          StepProgressView(curStep: 4, width: 10, color: Colors.amber),
+          // StepProgressView(curStep: 4, width: 10, color: Colors.amber),
           OneBillProfileComponent(shopInfoBill: this.widget.shopInfoBill),
           UnderProfileBar,
           Text(

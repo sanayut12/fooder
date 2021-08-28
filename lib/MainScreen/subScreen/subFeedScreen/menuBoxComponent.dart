@@ -1,17 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fooder/MainScreen/subScreen/subFeedScreen/basket/BuyMenuScreen.dart';
+import 'package:fooder/MainScreen/subScreen/BuyMenuScreen.dart';
 import 'package:fooder/function/dataManagement/Readhostname.dart';
 import 'package:fooder/function/dataManagement/dataPostBox.dart';
 
-class MenuBoxWidget extends StatefulWidget {
-  final DataMenu dataMenu;
-  MenuBoxWidget({@required this.dataMenu});
+class MenuBoxComponent extends StatefulWidget {
+  final DataMenu_PostBox dataMenu;
+  final DataInventory_PostBox dataInventory;
+  MenuBoxComponent({
+    @required this.dataInventory,
+    @required this.dataMenu,
+  });
   @override
-  _MenuBoxWidgetState createState() => _MenuBoxWidgetState();
+  _MenuBoxComponentState createState() => _MenuBoxComponentState();
 }
 
-class _MenuBoxWidgetState extends State<MenuBoxWidget> {
+class _MenuBoxComponentState extends State<MenuBoxComponent> {
   @override
   Widget build(BuildContext context) {
     Widget SelectMenu = GestureDetector(
@@ -43,22 +47,25 @@ class _MenuBoxWidgetState extends State<MenuBoxWidget> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            height: 30,
-            width: 100,
+            // height: 30,
+            // width: 100,
+            // padding: ,
             decoration: BoxDecoration(
-                color: Colors.red, borderRadius: BorderRadius.circular(10)),
+                shape: BoxShape.rectangle,
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(10)),
             alignment: Alignment.center,
             child: Text("${this.widget.dataMenu.name}"),
           ),
           SelectMenu,
           Container(
-            height: 25,
-            width: 50,
+            // height: 25,
+            // width: 50,
             alignment: Alignment.center,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10), color: Colors.red),
             child: Text(
-              "${this.widget.dataMenu.cost}",
+              "${this.widget.dataInventory.cost} บาท",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
           ),
@@ -67,7 +74,7 @@ class _MenuBoxWidgetState extends State<MenuBoxWidget> {
     );
     return Container(
       height: double.infinity,
-      width: 150,
+      width: double.infinity,
       // color: Colors.red,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10), color: Colors.red),
@@ -83,6 +90,7 @@ class _MenuBoxWidgetState extends State<MenuBoxWidget> {
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => BuyMenuScreen(
+                  dataInventory: this.widget.dataInventory,
                   dataMenu: this.widget.dataMenu,
                 )));
   }

@@ -4,7 +4,7 @@ import 'package:fooder/MainScreen/subScreen/feedScreen.dart';
 import 'package:fooder/MainScreen/subScreen/notificationScreen.dart';
 import 'package:fooder/MainScreen/subScreen/BillScreen.dart';
 import 'package:fooder/MainScreen/subScreen/profileScreen.dart';
-import 'package:fooder/MainScreen/subScreen/subFeedScreen/BasketScreen.dart';
+import 'package:fooder/MainScreen/subScreen/BasketScreen.dart';
 
 class MainScreen extends StatefulWidget {
   @override

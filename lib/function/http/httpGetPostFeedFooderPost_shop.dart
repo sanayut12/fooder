@@ -1,7 +1,8 @@
 import 'dart:convert';
+import 'package:fooder/function/ClassObjects/httpObjectGetAllAddress.dart';
 import 'package:fooder/function/ClassObjects/httpObjectGetPostFeedFooderPostShop.dart';
-import 'package:fooder/function/ClassObjects/httpObjectGetPostFeedFooderInit.dart';
 import 'package:fooder/function/dataManagement/Readhostname.dart';
+import 'package:fooder/function/dataManagement/dataAddressBox.dart';
 import 'package:fooder/function/dataManagement/dataListShopInfo.dart';
 import 'package:fooder/function/dataManagement/dataPostBox.dart';
 import 'package:fooder/function/dataManagement/dateBox.dart';
@@ -13,10 +14,10 @@ Map<String, String> Header = {
   'Content-Type': 'application/json; charset=UTF-8',
 };
 
-Future<GetPostFoodFooderPostShopResponse> HttpGetPostFeedFooderPostShop(
-    GetPostFoodFooderPostShopRequest
-        bufferGetPostFoodFooderPostShopRequest) async {
-  var body = bufferGetPostFoodFooderPostShopRequest.value();
+Future<GetPostFeedFooderPostShopResponse> HttpGetPostFeedFooderPostShop(
+    GetPostFeedFooderPostShopRequest
+        bufferGetPostFeedFooderPostShopRequest) async {
+  var body = bufferGetPostFeedFooderPostShopRequest.value();
 
   var url = Uri.parse(HostName() + "/post/getPostFeedFooderPost_shop");
   var uriResponse = await client.post(
@@ -24,69 +25,58 @@ Future<GetPostFoodFooderPostShopResponse> HttpGetPostFeedFooderPostShop(
     body: jsonEncode(body),
     headers: Header,
   );
+
   var res = jsonDecode(uriResponse.body);
-  Map shop_info = res['shop_info'];
-  Map post_info = res['post_info'];
+
+  //ข้อมูลที่ ยังไม้ได้อแลง
+  Map shop_info = res['data']['shop_info'];
+  Map post_info = res['data']['post_info'];
+  List inventory_list = res['data']['inventory_list'];
+  Map menu_list = res['data']['menu_list'];
   var code = res['code'];
 
-  Map menu = post_info['menu'];
-  // print("${menu}");
-  // DataMenu bufferDataMenu = DataMenu(inventory_id: inventory_id, menu_id: menu_id, name: name, type: type, path: path, status: status, quantity: quantity, cost: cost)
-
-  Map<String, DataShopInfo> bufferDataShopInfo = {};
-  Map<String, DataPost> bufferDataPost = {};
-
-  DataShopInfo dataShopInfo = DataShopInfo(
+  //ข้อมูลร้านค้า ที่จัดเข้า class
+  DataAddressBox addressBox = DataAddressBox(
+      address: shop_info['address'],
+      no: shop_info['no'],
+      moo: shop_info['moo'],
+      baan: shop_info['baan'],
+      road: shop_info['road'],
+      soy: shop_info['soy'],
+      sub_district: shop_info['sub_district'],
+      district: shop_info['district'],
+      province: shop_info['province']);
+  DataShopInfo_PostBox dataShopInfo_PostBox = DataShopInfo_PostBox(
+      shop_id: shop_info['shop_id'],
       name: shop_info['name'],
       image: shop_info['image'],
-      latitude: shop_info['latitude'],
-      longtitude: shop_info['longtitude']);
+      type: shop_info['type'],
+      addressBox: addressBox,
+      latitude: shop_info['latitude'].toDouble(),
+      longtitude: shop_info['longtitude'].toDouble());
 
-  //แยกเวลาออกมาใส่ตัวแปร
-  Map start = post_info['start'];
-  Map stop = post_info['stop'];
-  Map send = post_info['send'];
+  //ข้อมูล โพสต์ที่จัดเข้า class
 
-  //จัดเวลาใส่คลาส
   DateBox date_start = DateBox(
-      year: start['year'],
-      month: start['month'],
-      day: start['day'],
-      hour: start['hour'],
-      min: start['min']);
-
+      year: post_info['start']['year'],
+      month: post_info['start']['month'],
+      day: post_info['start']['day'],
+      hour: post_info['start']['hour'],
+      min: post_info['start']['min'],
+      sec: post_info['start']['sec']);
   DateBox date_stop = DateBox(
-      year: stop['year'],
-      month: stop['month'],
-      day: stop['day'],
-      hour: stop['hour'],
-      min: stop['min']);
-
+      year: post_info['stop']['year'],
+      month: post_info['stop']['month'],
+      day: post_info['stop']['day'],
+      hour: post_info['stop']['hour'],
+      min: post_info['stop']['min']);
   DateBox date_send = DateBox(
-      year: send['year'],
-      month: send['month'],
-      day: send['day'],
-      hour: send['hour'],
-      min: send['min']);
-  //จัดข้อมูลเมนูในโพสต์
-  Map<int, DataMenu> bufferMenu = {};
-  menu.forEach((key, value) {
-    // print("${key}");
-    DataMenu dataMenu = DataMenu(
-        inventory_id: value['inventory_id'],
-        menu_id: value['menu_id'],
-        name: value['name'],
-        type: value['type'],
-        path: value['path'],
-        status: value['status'],
-        quantity: value['quantity'],
-        cost: value['cost']);
-    bufferMenu[int.parse(key)] = dataMenu;
-    // print("${value}");
-  });
-  // print("${bufferMenu}}");
-  //จัดขอมูลใส่โพสต์
-  DataPost dataPost = DataPost(
+      year: post_info['send']['year'],
+      month: post_info['send']['month'],
+      day: post_info['send']['day'],
+      hour: post_info['send']['hour'],
+      min: post_info['send']['min']);
+  DataPost_PostBox dataPost_PostBox = DataPost_PostBox(
       post_id: post_info['post_id'],
       shop_id: post_info['shop_id'],
       detail: post_info['detail'],
@@ -94,87 +84,33 @@ Future<GetPostFoodFooderPostShopResponse> HttpGetPostFeedFooderPostShop(
       start: date_start,
       stop: date_stop,
       send: date_send,
-      bufferMenu: bufferMenu);
+      how_send: post_info['how_send'],
+      confirm_order: post_info['confirm_order'],
+      over_order: post_info['over_order']);
+  //จัดข้อมูล สตอกสิน้ค้า
+  List<DataInventory_PostBox> bufferDataInventory_PostBox = [];
+  inventory_list.forEach((element) {
+    bufferDataInventory_PostBox.add(DataInventory_PostBox(
+        inventory_id: element['inventory_id'],
+        menu_id: element['menu_id'],
+        quantity: element['quantity'],
+        cost: element['cost']));
+  });
 
-  bufferDataShopInfo[shop_info['shop_id']] = dataShopInfo;
-  bufferDataPost[post_info['post_id']] = dataPost;
-  // print("${date_start.ToString()}");
-  GetPostFoodFooderPostShopResponse bufferGetPostFoodFooderPostShopResponse =
-      GetPostFoodFooderPostShopResponse(
-          bufferDataShopInfo: bufferDataShopInfo,
-          bufferDataPost: bufferDataPost);
-  // bufferGetPostFoodFooderPostShopResponse.bufferDataShopInfo
-  //     .forEach((key, value) {
-  //   print(value);
-  // });
-  return bufferGetPostFoodFooderPostShopResponse;
+  //จัดข้อมูลเมนู
+  // <menu_id , data>
+  Map<String, DataMenu_PostBox> bufferDataMenu_PostBox = {};
+  menu_list.forEach((key, value) {
+    bufferDataMenu_PostBox[key] = DataMenu_PostBox(
+        name: value['name'],
+        detail: value['detail'],
+        type: value['type'],
+        path: value['path']);
+  });
+
+  return GetPostFeedFooderPostShopResponse(
+      dataShopInfo_PostBox: dataShopInfo_PostBox,
+      dataPost_PostBox: dataPost_PostBox,
+      bufferDataInventory_PostBox: bufferDataInventory_PostBox,
+      bufferDataMenu_PostBox: bufferDataMenu_PostBox);
 }
-
-
-
-// //   // print(res);
-// //   Map shop_info = res['shop_info'];
-// //   Map post_shop = res['post_info'];
-// //   // print("$shop_info $post_shop");
-// //   Map<String, DataShopInfo> bufferDataShopInfo = {};
-// //   Map<String, DataPost> bufferDataPost = {};
-// //   shop_info.forEach((key, value) {
-// //     DataShopInfo dataShopInfo = DataShopInfo(
-// //         name: value['name'],
-// //         image: value['image'],
-// //         latitude: value['latitude'],
-// //         longtitude: value['longtitude']);
-// //     bufferDataShopInfo[key] = dataShopInfo;
-// //     // print(value);
-// //   });
-// //   // print("$post_shop");
-// //   post_shop.forEach((key, value) {
-// //     Map<int, DataMenu> bufferMenu = {};
-// //     Map menu_list = value['menu'];
-// //     menu_list.forEach((keyMenu, valueMenu) {
-// //       int level = int.parse(keyMenu);
-
-// //       DataMenu dataMenu = DataMenu(
-// //           inventory_id: valueMenu['inventory_id'],
-// //           menu_id: valueMenu['menu_id'],
-// //           name: valueMenu['name'],
-// //           type: valueMenu['type'],
-// //           path: valueMenu['path'],
-// //           status: valueMenu['status'],
-// //           quantity: valueMenu['quantity'],
-// //           cost: valueMenu['cost']);
-// //       bufferMenu[level] = dataMenu;
-
-// //       // print(keyMenu);
-// //       // print(valueMenu);
-// //     });
-
-// //     // print("ffffffffffffffffffffffffffffffffffff");
-
-// //     DataPost dataPost = DataPost(
-// //         post_id: key,
-// //         shop_id: value['shop_id'],
-// //         detail: value['detail'],
-// //         sendCost: value['sendCost'],
-// //         start: DateBox(
-// //             year: value['start']['year'],
-// //             month: value['start']['month'],
-// //             day: value['start']['date'],
-// //             hour: value['start']['hour'],
-// //             min: value['start']['min']),
-// //         stop: DateBox(
-// //             year: value['stop']['year'],
-// //             month: value['stop']['month'],
-// //             day: value['stop']['date'],
-// //             hour: value['stop']['hour'],
-// //             min: value['stop']['min']),
-// //         send: DateBox(
-// //             year: value['send']['year'],
-// //             month: value['send']['month'],
-// //             day: value['send']['date'],
-// //             hour: value['send']['hour'],
-// //             min: value['send']['min']),
-// //         bufferMenu: bufferMenu);
-// //     bufferDataPost[key] = dataPost;
-// //     // print(key);
-// //   });
