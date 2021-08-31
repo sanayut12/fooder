@@ -17,7 +17,7 @@ class _BuyMenu_NameMenuComponentState extends State<BuyMenu_NameMenuComponent> {
         fontSize: MediaQuery.of(context).size.width * 0.1,
         fontWeight: FontWeight.bold);
     return Container(
-      width: MediaQuery.of(context).size.width,
+      width: double.infinity,
       height: MediaQuery.of(context).size.width * 0.2,
       color: Colors.red,
       alignment: Alignment.center,

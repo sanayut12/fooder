@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fooder/MainScreen/subScreen/subFeedScreen/postBoxComponent.dart';
 import 'package:fooder/function/ClassObjects/httpObjectGetPostFeedFooderInit.dart';
 import 'package:fooder/function/dataManagement/dataUserInfo.dart';
+import 'package:fooder/function/dataManagement/getGPS.dart';
 import 'package:fooder/function/http/httpGetPostFeedFooderInit.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:location/location.dart';
+// import 'package:geolocator/geolocator.dart';
 
 class FeedScreen extends StatefulWidget {
   @override
@@ -39,16 +41,16 @@ class _FeedScreenState extends State<FeedScreen> {
   }
 
   Future getPostID() async {
+    PositionGPS positionGPS = await locatePositionGPS();
     print("load post from shop");
     String user_id = await UserInfoManagement().User_id();
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
 
     GetPostFeedFooderRequestInit bufferGetPostFoodFooderRequestInit =
         GetPostFeedFooderRequestInit(
             user_id: user_id,
-            latitude: position.latitude,
-            longtitude: position.longitude); //longitude  อย่าลืมแก้ เขียนผิด
+            latitude: positionGPS.latitude,
+            longtitude:
+                positionGPS.longtitude); //longitude  อย่าลืมแก้ เขียนผิด
 
     GetPostFeedFooderResponseInit bufferGetPostFoodFooderResponseInit =
         await HttpGetPostFeedFooderInit(bufferGetPostFoodFooderRequestInit);

@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:fooder/function/ClassObjects/httpObjectAddAddress.dart';
+import 'package:fooder/function/ClassObjects/httpObjectCreateAddress.dart';
 import 'package:fooder/function/dataManagement/Readhostname.dart';
 import 'package:http/http.dart' as http;
 
@@ -9,11 +9,11 @@ Map<String, String> Header = {
 };
 
 //r
-Future<AddAddressResponse> HttpAddAddress(
-    AddAddressRequest bufferAddAddressRequest) async {
-  var body = bufferAddAddressRequest.value();
+Future<CreateAddressResponse> HttpCreateAddress(
+    CreateAddressRequest bufferCreateAddressRequest) async {
+  var body = bufferCreateAddressRequest.value();
   // print("$body");
-  var url = Uri.parse("${HostName()}/users/addAddress");
+  var url = Uri.parse("${HostName()}/users/createAddress");
   var uriResponse = await client.post(
     url,
     body: jsonEncode(body),
@@ -23,7 +23,7 @@ Future<AddAddressResponse> HttpAddAddress(
   // print("${uriResponse.bodyBytes.lengthInBytes * 0.001} kilo byte");
   Map res = jsonDecode(uriResponse.body);
   // print(res);
-  AddAddressResponse bufferAddAddressResponse =
-      AddAddressResponse(code: res['code']);
-  return bufferAddAddressResponse;
+  CreateAddressResponse bufferCreateAddressResponse =
+      CreateAddressResponse(code: res['code']);
+  return bufferCreateAddressResponse;
 }
