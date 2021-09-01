@@ -30,22 +30,24 @@ Future<GetAllAddressResponse> HttpGetAllAddress(
   List list_address = res['data']['list_address'];
 
   Map<String, DataAddressUser> bufferDataAddressUser = {};
-  // Map<int, AddressBox> bufferAddressBox = {};
-  // data.forEach((key, value) {
-  //   // print("$value");
-  //   AddressBox addressBox = AddressBox(
-  //       address_user_id: value['address_user_id'],
-  //       phone: value['phone'],
-  //       address: value['address'],
-  //       sub_district: value['sub_district'],
-  //       district: value['district'],
-  //       province: value['province'],
-  //       latitude: value['latitude'],
-  //       longtitude: value['longtitude']);
-  //   bufferAddressBox[int.parse(key)] = addressBox;
-  // });
+  list_address.forEach((element) {
+    bufferDataAddressUser[element['address_user_id']] = DataAddressUser(
+        user_id: element['user_id'],
+        name: element['name'],
+        phone: element['phone'],
+        address: element['address'],
+        no: element['no'],
+        moo: element['moo'],
+        baan: element['baan'],
+        road: element['road'],
+        soy: element['soy'],
+        sub_district: element['sub_district'],
+        district: element['district'],
+        province: element['province'],
+        latitude: element['latitude'].toDouble(),
+        longtitude: element['longtitude'].toDouble());
+  });
 
-  // GetAllAddressResponse bufferAddAddressResponse =
-  //     GetAllAddressResponse(bufferAddressBox: bufferAddressBox, code: code);
-  // return bufferAddAddressResponse;
+  return GetAllAddressResponse(
+      bufferDataAddressUser: bufferDataAddressUser, code: code);
 }
