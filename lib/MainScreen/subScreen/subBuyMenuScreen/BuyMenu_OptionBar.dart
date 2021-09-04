@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fooder/MainScreen/subScreen/subBuyMenuScreen/BuyMenu_OptionUser.dart';
-import 'package:fooder/function/ClassObjects/httpObjectAddMenutoBasket.dart';
+import 'package:fooder/function/ClassObjects/httpObjectAddItemtoBasket.dart';
 import 'package:fooder/function/dataManagement/dataPostBox.dart';
 import 'package:fooder/function/dataManagement/dataUserInfo.dart';
-import 'package:fooder/function/http/httpAddMenuToBasket.dart';
+import 'package:fooder/function/http/httpAddItemToBasket.dart';
 
 class BuyMenu_OptionBar extends StatefulWidget {
   int active;
@@ -100,16 +100,16 @@ class _BuyMenu_OptionBarState extends State<BuyMenu_OptionBar> {
   Future httpAddMenuTobasket() async {
     String user_id = await UserInfoManagement().User_id();
     String inventory_id = this.widget.dataInventory.inventory_id;
-    AddMenuTobasketRequest bufferAddMenuTobasketRequest =
-        AddMenuTobasketRequest(
+    AddItemTobasketRequest bufferAddItemTobasketRequest =
+        AddItemTobasketRequest(
             user_id: user_id,
             inventory_id: inventory_id,
             quantity: quantity,
             comment: comment);
-    AddMenuToBasketResponse bufferAddMenuToBasketResponse =
-        await HttpAddMenuToBasket(bufferAddMenuTobasketRequest);
-    print(bufferAddMenuToBasketResponse.code);
-    if (bufferAddMenuToBasketResponse.code == "20200") {
+    AddItemToBasketResponse bufferAddItemToBasketResponse =
+        await HttpAddMenuToBasket(bufferAddItemTobasketRequest);
+    print(bufferAddItemToBasketResponse.code);
+    if (bufferAddItemToBasketResponse.code == "20200") {
       AlertMenu();
     }
   }

@@ -1,11 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fooder/MainScreen/subScreen/PaymentScreen.dart';
 import 'package:fooder/MainScreen/subScreen/PreviewConfirmItemScreen.dart';
+import 'package:fooder/MainScreen/subScreen/subPreviewConfirmItemScreen/PreviewConfirmItem_OptionBarComponent.dart';
 import 'package:fooder/function/ClassObjects/httpObjectGetItemInBasket_Items.dart';
 
 class Basket2_BoxBasketOptionComponent extends StatefulWidget {
+  final int index;
   final GetItemInBasket_ItemsResponse data;
-  Basket2_BoxBasketOptionComponent({@required this.data});
+  final Function DeleteBasket;
+  Basket2_BoxBasketOptionComponent(
+      {@required this.data, @required this.index, @required this.DeleteBasket});
   @override
   _Basket2_BoxBasketOptionComponentState createState() =>
       _Basket2_BoxBasketOptionComponentState();
@@ -42,11 +47,24 @@ class _Basket2_BoxBasketOptionComponentState
   }
 
   Future<void> DoBuy() async {
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) => PreviewConfirmItemScreen(
-              data: this.widget.data,
-            )));
+    PreviewConfirmItem_return data_pop =
+        await Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) => PreviewConfirmItemScreen(
+                  data: this.widget.data,
+                )));
+    if (data_pop == null) {
+      print("ว่าง");
+    } else {
+      this.widget.DeleteBasket();
+      print("ไม่ว่าง");
+      if (data_pop.how_pay == "1") {
+        print("ชำระพร้อมเพย์");
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) =>
+                PaymentScreen(bill_id: data_pop.bill_id)));
+      } else {
+        print("ชำระปลายทาง");
+      }
+    }
   }
-
-  Future<void> Cancel() async {}
 }

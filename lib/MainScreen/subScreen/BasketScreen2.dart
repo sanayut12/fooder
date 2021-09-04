@@ -16,6 +16,7 @@ class _BasketScreen2State extends State<BasketScreen2> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    // print(bufferPost_id);
     GetPost_id();
   }
 
@@ -29,7 +30,10 @@ class _BasketScreen2State extends State<BasketScreen2> {
         child: ListView.builder(
             itemCount: bufferPost_id.length,
             itemBuilder: (BuildContext context, int index) {
-              return Basket2_BoxBasketComponent(post_id: bufferPost_id[index]);
+              return Basket2_BoxBasketComponent(
+                post_id: bufferPost_id[index],
+                index: index,
+              );
             }),
       ),
     );
@@ -49,5 +53,14 @@ class _BasketScreen2State extends State<BasketScreen2> {
     setState(() {
       bufferPost_id = bufferGetItemInBasket_ListPost_idResponse.bufferPost_id;
     });
+    print(bufferPost_id);
+  }
+
+  Future<void> DeleteBasket(int _index) {
+    print("${_index}");
+    setState(() {
+      bufferPost_id.removeAt(_index);
+    });
+    print(bufferPost_id);
   }
 }

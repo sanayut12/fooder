@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 
-class AddMenuTobasketRequest {
+class AddItemTobasketRequest {
   final String user_id, inventory_id, comment;
   final int quantity;
-  AddMenuTobasketRequest(
+  AddItemTobasketRequest(
       {@required this.user_id,
       @required this.inventory_id,
       @required this.quantity,
@@ -19,7 +19,7 @@ class AddMenuTobasketRequest {
   }
 }
 
-class AddMenuToBasketResponse {
+class AddItemToBasketResponse {
   final String code;
-  AddMenuToBasketResponse({@required this.code});
+  AddItemToBasketResponse({@required this.code});
 }

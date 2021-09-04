@@ -51,6 +51,7 @@ class _BuyMenuScreenState extends State<BuyMenuScreen> {
                     color: Colors.green,
                     child: ListView(
                       children: [
+                        Text("เลือกซื้อสินค้า"),
                         BuyMenu_ListImageComponent(
                           dataInventory: this.widget.dataInventory,
                           dataMenu: this.widget.dataMenu,

@@ -12,22 +12,31 @@ Map<String, String> Header = {
 };
 
 //r
-Future<ConfirmMenuOrderInBasketResponse> HttpConfirmMenuOrderInBasket(
-    ConfirmMenuOrderInBasketRequest
-        bufferConfirmMenuOrderInBasketRequest) async {
-  var body = bufferConfirmMenuOrderInBasketRequest.value();
+Future<ConfirmItemsInBasketResponse> HttpConfirmItemsInBasket(
+    ConfirmItemsInBasketRequest bufferConfirmItemsInBasketRequest) async {
+  var body = bufferConfirmItemsInBasketRequest.value();
   // print("$body");
-  var url = Uri.parse("${HostName()}/foodbuy/confirmMenuOrderInBasket");
+  var url = Uri.parse("${HostName()}/foodbuy/confirmItemsInBasket");
   var uriResponse = await client.post(
     url,
     body: jsonEncode(body),
     headers: Header,
   );
 
-  print("${uriResponse.bodyBytes.lengthInBytes * 0.001} kilo byte");
+  // print("${uriResponse.bodyBytes.lengthInBytes * 0.001} kilo byte");
   Map res = jsonDecode(uriResponse.body);
   print(res);
-  ConfirmMenuOrderInBasketResponse bufferConfirmMenuOrderInBasketResponse =
-      ConfirmMenuOrderInBasketResponse(code: res['code']);
-  return bufferConfirmMenuOrderInBasketResponse;
+  String bill_id = res['data']['bill_id'];
+
+  String code = res['code'];
+
+  List<String> list_over = [];
+  List _list_over = res['data']['list_over'];
+  _list_over.forEach((element) {
+    list_over.add(element);
+  });
+  ConfirmItemsInBasketResponse bufferConfirmItemsInBasketResponse =
+      ConfirmItemsInBasketResponse(
+          bill_id: bill_id, bufferInventoryOver: list_over, code: code);
+  return bufferConfirmItemsInBasketResponse;
 }

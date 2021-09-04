@@ -43,6 +43,8 @@ class _PostBoxComponentState extends State<PostBoxComponent> {
             borderRadius: BorderRadius.circular(10), color: Colors.red),
         child: Column(
           children: [
+            Text(
+                "oo${data.dataPost_PostBox.over_order} co${data.dataPost_PostBox.confirm_order}"),
             PostBox_ShopInfoTap(
                 dataShopInfo_PostBox: data.dataShopInfo_PostBox),
             PostBox_StatusBar1(dataPost_PostBox: data.dataPost_PostBox),

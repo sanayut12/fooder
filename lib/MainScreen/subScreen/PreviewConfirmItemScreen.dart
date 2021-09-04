@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fooder/MainScreen/subScreen/subBasketScreen2/subBoxBasket.dart/Basket2_boxBasketItemComponent.dart';
 import 'package:fooder/MainScreen/subScreen/subPreviewConfirmItemScreen/PreviewConfirmItem_ItemComponent.dart';
 import 'package:fooder/MainScreen/subScreen/subPreviewConfirmItemScreen/PreviewConfirmItem_OptionBarComponent.dart';
+import 'package:fooder/MainScreen/subScreen/subPreviewConfirmItemScreen/PreviewConfirmItem_RateServiceComponent.dart';
 import 'package:fooder/MainScreen/subScreen/subPreviewConfirmItemScreen/PreviewConfirmItem_SelectAddressComponent.dart';
 import 'package:fooder/MainScreen/subScreen/subPreviewConfirmItemScreen/PreviewConfirmItem_SelectHowPayComponent.dart';
 import 'package:fooder/MainScreen/subScreen/subPreviewConfirmItemScreen/PreviewConfirmItem_SelectHowSendComponent.dart';
@@ -21,7 +22,7 @@ class PreviewConfirmItemScreen extends StatefulWidget {
 
 class _PreviewConfirmItemScreenState extends State<PreviewConfirmItemScreen> {
   String how_send;
-  String address_select;
+  String address_user_id;
   String how_pay;
 
   int active = 0;
@@ -76,7 +77,7 @@ class _PreviewConfirmItemScreenState extends State<PreviewConfirmItemScreen> {
                           ShowAllMenu,
                           PreviewConfirmItem_TimeStopComponent(
                               post_info: this.widget.data.post_info),
-                          Text("อัตราค่าบริการ"),
+                          PreviewConfirmItem_RateServiceComponent(),
                           PreviewConfirmItem_TotalCostContainer(
                               data: this.widget.data),
                         ],
@@ -90,7 +91,7 @@ class _PreviewConfirmItemScreenState extends State<PreviewConfirmItemScreen> {
                     PreviewConfirmItem_SelectAddressComponent(
                       SetAddressSelect: SetAddressSelect,
                     ),
-                    // Text("${address_select}")
+                    // Text("${address_user_id}")
                     PreviewConfirmItem_SelectHowPayComponent(
                         how_pay: how_pay, SetHowPay: SetHowPay),
                     SizedBox(
@@ -101,7 +102,7 @@ class _PreviewConfirmItemScreenState extends State<PreviewConfirmItemScreen> {
               ),
               PreviewConfirmItem_OptionBarComponent(
                 how_send: how_send,
-                address_select: address_select,
+                address_user_id: address_user_id,
                 how_pay: how_pay,
                 active: active,
                 data: this.widget.data,
@@ -123,7 +124,7 @@ class _PreviewConfirmItemScreenState extends State<PreviewConfirmItemScreen> {
 
   Future<void> SetAddressSelect(String _ac) {
     setState(() {
-      address_select = _ac;
+      address_user_id = _ac;
     });
     SetActive();
   }
@@ -136,7 +137,7 @@ class _PreviewConfirmItemScreenState extends State<PreviewConfirmItemScreen> {
   }
 
   Future<void> SetActive() {
-    if (how_send != null && address_select != null && how_pay != null) {
+    if (how_send != null && address_user_id != null && how_pay != null) {
       setState(() {
         active = 1;
       });

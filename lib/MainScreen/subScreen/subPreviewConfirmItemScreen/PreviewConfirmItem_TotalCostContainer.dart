@@ -15,10 +15,17 @@ class PreviewConfirmItem_TotalCostContainer extends StatefulWidget {
 class _PreviewConfirmItem_TotalCostContainerState
     extends State<PreviewConfirmItem_TotalCostContainer> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("${this.widget.data.post_info.post_id}");
+  }
+
+  @override
   Widget build(BuildContext context) {
     int sendCost = this.widget.data.post_info.sendCost;
 
-    int menuCost = 0;
+    int menuCost = 3;
     this.widget.data.bufferItem.forEach((element) {
       int quantity = element.quantity;
       String inventory_id = element.inventory_id;

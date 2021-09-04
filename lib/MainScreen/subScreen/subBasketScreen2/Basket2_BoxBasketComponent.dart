@@ -10,8 +10,13 @@ import 'package:fooder/function/dataManagement/dataUserInfo.dart';
 import 'package:fooder/function/http/httpGetItemInBasket_Items.dart';
 
 class Basket2_BoxBasketComponent extends StatefulWidget {
+  final int index;
   final String post_id;
-  Basket2_BoxBasketComponent({@required this.post_id});
+
+  Basket2_BoxBasketComponent({
+    @required this.post_id,
+    @required this.index,
+  });
   @override
   _Basket2_BoxBasketComponentState createState() =>
       _Basket2_BoxBasketComponentState();
@@ -62,7 +67,11 @@ class _Basket2_BoxBasketComponentState
             ShowAllMenu,
             Basket2_BoxBasketTimeStopComponent(post_info: data.post_info),
             Basket2_BoxBasketTotalCostComponent(data: data),
-            Basket2_BoxBasketOptionComponent(data: data)
+            Basket2_BoxBasketOptionComponent(
+              data: data,
+              index: this.widget.index,
+              DeleteBasket: DeleteBasket,
+            )
           ],
         ),
         // color: data == null ? Colors.red : Colors.blue,
@@ -82,6 +91,12 @@ class _Basket2_BoxBasketComponentState
                 bufferGetItemInBasket_ItemsRequest);
     setState(() {
       data = bufferGetItemInBasket_ItemsResponse;
+    });
+  }
+
+  Future<void> DeleteBasket() {
+    setState(() {
+      data = null;
     });
   }
 }
