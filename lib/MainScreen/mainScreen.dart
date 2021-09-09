@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fooder/MainScreen/component/bottomBar.dart';
 import 'package:fooder/MainScreen/subScreen/BasketScreen2.dart';
+import 'package:fooder/MainScreen/subScreen/billScreen2.dart';
 import 'package:fooder/MainScreen/subScreen/feedScreen.dart';
 import 'package:fooder/MainScreen/subScreen/notificationScreen.dart';
 import 'package:fooder/MainScreen/subScreen/BillScreen.dart';
@@ -29,7 +30,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     List<Widget> ListSwapScreen = [
       FeedScreen(),
-      BillScreen(),
+      BillScreen2(),
       NotificationScreen(),
       ProfileScreen()
     ];
