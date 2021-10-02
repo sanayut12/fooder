@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fooder/function/ClassObjects/httpObjectGetItemInBasket_Items.dart';
 import 'package:fooder/function/dataManagement/Readhostname.dart';
 
@@ -12,11 +13,13 @@ class Basket2_BoxBasketShopInfoComponent extends StatefulWidget {
 
 class _Basket2_BoxBasketShopInfoComponentState
     extends State<Basket2_BoxBasketShopInfoComponent> {
+  Color color = Colors.transparent;
   @override
   Widget build(BuildContext context) {
+    double weight_screen = MediaQuery.of(context).size.width;
     Widget ImageShop = Container(
-      height: 40,
-      width: 40,
+      height: weight_screen * 0.14,
+      width: weight_screen * 0.14,
       decoration: BoxDecoration(
           shape: BoxShape.circle,
           image: DecorationImage(
@@ -24,11 +27,29 @@ class _Basket2_BoxBasketShopInfoComponentState
               image: NetworkImage(
                   "${HostName()}/image/ImageProfileShop/${this.widget.shop_info.image}"))),
     );
-    Widget NameShop = Container(
-      child: Text("${this.widget.shop_info.name}"),
+    Widget NameShop = GestureDetector(
+      onTap: () async {
+        setState(() {
+          color = Colors.grey[200];
+        });
+        await Future.delayed(Duration(milliseconds: 50));
+        setState(() {
+          color = Colors.transparent;
+        });
+        await Future.delayed(Duration(milliseconds: 50));
+      },
+      child: Container(
+        margin: EdgeInsets.only(left: 10),
+        color: color,
+        child: Text(
+          "${this.widget.shop_info.name}",
+          style: TextStyle(
+              fontSize: weight_screen * 0.06, fontWeight: FontWeight.bold),
+        ),
+      ),
     );
     return Container(
-      height: 40,
+      height: weight_screen * 0.15,
       width: double.infinity,
       child: Row(
         children: [ImageShop, NameShop],

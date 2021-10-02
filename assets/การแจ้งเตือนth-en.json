@@ -1,0 +1,30 @@
+{
+    "001" : {
+        "th" : "ทำการสั่งซื้อสินค้าเรียบร้อยแล้ว เลขที่คำสั่งซื้อ...ผู้ขายจะจัดส่งสินค้าใน...",
+        "en" : "Your order has been completed. Order number...The shop will deliver on ..."
+    },
+    "002" : {
+        "th" : "คำสั่งซื้อเลขที่... กำลังรอการยืนยันจากร้านค้า ผู้ขายจะยืนยันสินค้าภายใน",
+        "en" : "Order number ... Wait for confirmation from the shop. The store must confirm the product by ..."
+    },
+    "003" : {
+        "th" : "ผู้ขายกำลังจัดเตรียมสินค้า",
+        "en" : "The shop is preparing the products."
+    },
+    "004" : {
+        "th" : "สินค้ากำลังจัดส่ง เลขที่คำสั่งซื้อ...",
+        "en" : "product is shipping Order number ..."
+    },
+    "005" : {
+        "th" : "สินค้าถูกจัดส่งเรียบร้อยแล้ว กรุณายืนยันการรับสินค้า",
+        "en" : "The product has been delivered successfully. Please confirm receipt."
+    },
+    "006" : {
+        "th" : "... ได้สั่งซื้อสินค้าในโพสต์ 'ขนมหวาน มาแล้ว' คำสั่งซื้อได้ยืนยันอัตโนมัติแล้ว",
+        "en" : "... order in the post  'ขนมหวานมาแล้ว' ,  the order has been automatically confirmed."
+    },
+    "007" : {
+        "th" : "กรุณายืนยันคำสั่งซื้อ ... ได้สั่งซื้อสินค้าในโพสต์ 'ขนมหวานมาแล้ว'",
+        "en" : "Please confirm the order. ... order in the post 'ขนมหวานมาแล้ว'"
+    }
+}

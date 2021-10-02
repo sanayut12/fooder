@@ -1,10 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fooder/MainScreen/component/progress5H.dart';
 import 'package:fooder/function/ClassObjects/httpObjectGetBillFooderData.dart';
+import 'package:fooder/module/socketioManagerForgound.dart';
 
 class FullBill_DetailComponent extends StatefulWidget {
-  final GetBillFooderDataResponse data;
+  GetBillFooderDataResponse data;
   FullBill_DetailComponent({@required this.data});
   @override
   _FullBill_DetailComponentState createState() =>
@@ -12,6 +15,22 @@ class FullBill_DetailComponent extends StatefulWidget {
 }
 
 class _FullBill_DetailComponentState extends State<FullBill_DetailComponent> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    SocketioManagerForgound().subscript(
+        "bill_progress_step:${this.widget.data.bill.bill_id}", setValue);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    SocketioManagerForgound()
+        .unsubscript("bill_progress_step:${this.widget.data.bill.bill_id}");
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget ShowBillID = Container(
@@ -152,5 +171,14 @@ class _FullBill_DetailComponentState extends State<FullBill_DetailComponent> {
         ],
       ),
     ));
+  }
+
+  Future<void> setValue(String data) {
+    print(data);
+    Map dataJson = json.decode(data);
+    String status = dataJson['status'];
+    setState(() {
+      this.widget.data.bill.status = status;
+    });
   }
 }

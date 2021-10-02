@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 
 class CreateAddressUser_InputComponent extends StatefulWidget {
   final String name, phone, address, no, moo, baan, road, soy;
@@ -40,75 +41,126 @@ class _CreateAddressUser_InputComponentState
 
   @override
   Widget build(BuildContext context) {
-    Widget InputName = TextFormField(
+    double weight_screen = MediaQuery.of(context).size.width;
+
+    Widget InputBox(Widget w) => Container(
+          padding: EdgeInsets.only(left: 2, right: 2),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                    blurRadius: 0.5,
+                    color: Colors.red,
+                    offset: Offset(0.1, 0.1),
+                    spreadRadius: 0.5)
+              ],
+              border: Border.all(color: Colors.grey[200]),
+              borderRadius: BorderRadius.circular(weight_screen * 0.01)),
+          child: w,
+        );
+    Widget InputName = InputBox(TextFormField(
       controller: _name,
+      decoration: InputDecoration(border: InputBorder.none),
       onChanged: (e) {
         this.widget.setData(e, null, null, null, null, null, null, null);
       },
-    );
-    Widget InputPhone = TextFormField(
+    ));
+    Widget InputPhone = InputBox(TextFormField(
       controller: _phone,
+      keyboardType: TextInputType.phone,
+      decoration: InputDecoration(border: InputBorder.none),
       onChanged: (e) {
         this.widget.setData(null, e, null, null, null, null, null, null);
       },
-    );
-    Widget InputAddress = TextFormField(
+    ));
+    Widget InputAddress = InputBox(TextFormField(
       controller: _address,
+      decoration: InputDecoration(border: InputBorder.none),
       onChanged: (e) {
         this.widget.setData(null, null, e, null, null, null, null, null);
       },
-    );
-    Widget InputNo = TextFormField(
+    ));
+    Widget InputNo = InputBox(TextFormField(
       controller: _no,
+      decoration: InputDecoration(border: InputBorder.none),
       onChanged: (e) {
         this.widget.setData(null, null, null, e, null, null, null, null);
       },
-    );
-    Widget InputMoo = TextFormField(
+    ));
+    Widget InputMoo = InputBox(TextFormField(
       controller: _moo,
+      decoration: InputDecoration(border: InputBorder.none),
       onChanged: (e) {
         this.widget.setData(null, null, null, null, e, null, null, null);
       },
-    );
-    Widget InputBaan = TextFormField(
+    ));
+    Widget InputBaan = InputBox(TextFormField(
       controller: _baan,
+      decoration: InputDecoration(border: InputBorder.none),
       onChanged: (e) {
         this.widget.setData(null, null, null, null, null, e, null, null);
       },
-    );
-    Widget InputRoad = TextFormField(
+    ));
+    Widget InputRoad = InputBox(TextFormField(
       controller: _road,
+      decoration: InputDecoration(border: InputBorder.none),
       onChanged: (e) {
         this.widget.setData(null, null, null, null, null, null, e, null);
       },
-    );
-    Widget InputSoy = TextFormField(
+    ));
+    Widget InputSoy = InputBox(TextFormField(
       controller: _soy,
+      decoration: InputDecoration(border: InputBorder.none),
       onChanged: (e) {
         this.widget.setData(null, null, null, null, null, null, null, e);
       },
-    );
-
+    ));
+    TextStyle style =
+        TextStyle(fontSize: weight_screen * 0.04, fontWeight: FontWeight.w800);
     return Container(
       padding: EdgeInsets.only(top: 20, left: 20, right: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("ชื่อผู้รับ"),
+          Text(
+            "ชื่อผู้รับ",
+            style: style,
+          ),
           InputName,
-          Text("เบอร์โทรศัพท์"),
+          Text(
+            "เบอร์โทรศัพท์",
+            style: style,
+          ),
           InputPhone,
-          Text("ที่อยู่"),
+          Text(
+            "ที่อยู่",
+            style: style,
+          ),
           InputAddress,
-          Text("เลขที่"),
+          Text(
+            "เลขที่",
+            style: style,
+          ),
           InputNo,
-          Text("หมู่ที่"),
+          Text(
+            "หมู่ที่",
+            style: style,
+          ),
           InputMoo,
-          Text("ชื่อหมู่บ้าน"),
+          Text(
+            "ชื่อหมู่บ้าน",
+            style: style,
+          ),
           InputBaan,
-          Text("ชื่อถนน"),
+          Text(
+            "ชื่อถนน",
+            style: style,
+          ),
           InputRoad,
-          Text("ชื่อซอย"),
+          Text(
+            "ชื่อซอย",
+            style: style,
+          ),
           InputSoy,
         ],
       ),

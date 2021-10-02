@@ -16,8 +16,9 @@ class GetPostFeedFooderPostShopResponse {
   // ร้าน ข้อมูลโพสต์ ข้อมูล สตอก ข้อมูลอาหาร
   final DataShopInfo_PostBox dataShopInfo_PostBox;
   final DataPost_PostBox dataPost_PostBox;
-  final List<DataInventory_PostBox> bufferDataInventory_PostBox;
-  final Map<String, DataMenu_PostBox> bufferDataMenu_PostBox;
+  final Map<String, DataInventory_PostBox>
+      bufferDataInventory_PostBox; //inventory_id, , data
+  final Map<String, DataMenu_PostBox> bufferDataMenu_PostBox; //<menu_id , data
 
   GetPostFeedFooderPostShopResponse(
       {@required this.dataShopInfo_PostBox,

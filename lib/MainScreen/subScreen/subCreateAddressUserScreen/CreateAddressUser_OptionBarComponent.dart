@@ -35,6 +35,7 @@ class _CreateAddressUser_OptionBarComponentState
   // int active = 0;
   @override
   Widget build(BuildContext context) {
+    double weight_screen = MediaQuery.of(context).size.height;
     Widget ButtonModel(String text, Function fun, int act) => GestureDetector(
           onTap: () {
             if (act == 1) {
@@ -53,7 +54,7 @@ class _CreateAddressUser_OptionBarComponentState
           ),
         );
     return Container(
-      height: MediaQuery.of(context).size.height * 0.1,
+      height: weight_screen * 0.1,
       width: double.infinity,
       color: Colors.green,
       child: Row(

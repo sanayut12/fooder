@@ -34,7 +34,7 @@ Future<GetPostFeedFooderPostShopResponse> HttpGetPostFeedFooderPostShop(
   List inventory_list = res['data']['inventory_list'];
   Map menu_list = res['data']['menu_list'];
   var code = res['code'];
-
+  ;
   //ข้อมูลร้านค้า ที่จัดเข้า class
   DataAddressBox addressBox = DataAddressBox(
       address: shop_info['address'],
@@ -47,6 +47,7 @@ Future<GetPostFeedFooderPostShopResponse> HttpGetPostFeedFooderPostShop(
       district: shop_info['district'],
       province: shop_info['province']);
   DataShopInfo_PostBox dataShopInfo_PostBox = DataShopInfo_PostBox(
+      post_id: bufferGetPostFeedFooderPostShopRequest.post_id,
       shop_id: shop_info['shop_id'],
       name: shop_info['name'],
       image: shop_info['image'],
@@ -88,13 +89,13 @@ Future<GetPostFeedFooderPostShopResponse> HttpGetPostFeedFooderPostShop(
       confirm_order: post_info['confirm_order'],
       over_order: post_info['over_order']);
   //จัดข้อมูล สตอกสิน้ค้า
-  List<DataInventory_PostBox> bufferDataInventory_PostBox = [];
+  Map<String, DataInventory_PostBox> bufferDataInventory_PostBox = {};
   inventory_list.forEach((element) {
-    bufferDataInventory_PostBox.add(DataInventory_PostBox(
-        inventory_id: element['inventory_id'],
-        menu_id: element['menu_id'],
-        quantity: element['quantity'],
-        cost: element['cost']));
+    bufferDataInventory_PostBox[element['inventory_id']] =
+        DataInventory_PostBox(
+            menu_id: element['menu_id'],
+            quantity: element['quantity'],
+            cost: element['cost']);
   });
 
   //จัดข้อมูลเมนู

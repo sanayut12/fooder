@@ -69,14 +69,24 @@ class _PaymentScreenState extends State<PaymentScreen> {
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        child: Column(
-          children: [
-            ShowTitle,
-            ShowRef,
-            ShowQrcode,
-            ShowCost,
-            ShowPaymentAtApp
-          ],
+        color: Color(0xfffa897b),
+        child: SafeArea(
+          child: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Color(0xfffa897b), Colors.white])),
+            child: Column(
+              children: [
+                ShowTitle,
+                ShowRef,
+                ShowQrcode,
+                ShowCost,
+                ShowPaymentAtApp
+              ],
+            ),
+          ),
         ),
       ),
     );

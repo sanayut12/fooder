@@ -16,7 +16,8 @@ Future<String> ReadDataInStorage({@required String key}) async {
 }
 
 //ลบข้อมูลใน local storage
-Future<void> DeleteDataInLocalStorage({@required String key}) async {
+Future<bool> DeleteDataInLocalStorage({@required String key}) async {
   final prefs = await SharedPreferences.getInstance();
-  prefs.remove(key);
+  bool status = await prefs.remove(key);
+  return status;
 }

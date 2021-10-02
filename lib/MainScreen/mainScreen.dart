@@ -1,14 +1,28 @@
+import 'dart:io';
+
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:fooder/Load/LoadScreen.dart';
+import 'package:fooder/MainScreen/appBar/AppBar2Fooder.dart';
+import 'package:fooder/MainScreen/appBar/AppBarFooder.dart';
 import 'package:fooder/MainScreen/component/bottomBar.dart';
+import 'package:fooder/MainScreen/drawer/DrawerApp.dart';
 import 'package:fooder/MainScreen/subScreen/BasketScreen2.dart';
+import 'package:fooder/MainScreen/subScreen/SearchScreen.dart';
 import 'package:fooder/MainScreen/subScreen/billScreen2.dart';
 import 'package:fooder/MainScreen/subScreen/feedScreen.dart';
 import 'package:fooder/MainScreen/subScreen/notificationScreen.dart';
 import 'package:fooder/MainScreen/subScreen/BillScreen.dart';
 import 'package:fooder/MainScreen/subScreen/profileScreen.dart';
 import 'package:fooder/MainScreen/subScreen/BasketScreen.dart';
+import 'package:fooder/function/dataManagement/dataUserInfo.dart';
+import 'package:fooder/module/AlertCard.dart';
+import 'package:fooder/provider/DataManagementProvider.dart';
+import 'package:provider/provider.dart';
+// import 'package:fooder/module/socketioManagerForgound.dart';
 
 class MainScreen extends StatefulWidget {
+  static String routeName = "/main";
   @override
   _MainScreenState createState() => _MainScreenState();
 }
@@ -18,7 +32,7 @@ class _MainScreenState extends State<MainScreen> {
   int bottomBarIndex = 0;
 
   ///0-3uj
-
+  final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
   @override
   void initState() {
     // TODO: implement initState
@@ -28,97 +42,102 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> ListSwapScreen = [
-      FeedScreen(),
-      BillScreen2(),
-      NotificationScreen(),
-      ProfileScreen()
-    ];
+    List<Widget> ListSwapScreen(String language) => [
+          FeedScreen(
+            language: language,
+          ),
+          BillScreen2(),
+          NotificationScreen(),
+          ProfileScreen()
+        ];
 
-    Widget TopBar = Container(
-      alignment: Alignment.center,
-      height: double.infinity,
-      width: double.infinity,
-      color: Colors.red[400],
-      child: Row(
-        children: [
-          Expanded(
-              flex: 4,
-              child: Container(
-                alignment: Alignment.center,
-                child: Text(
-                  "fooder",
-                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                ),
-              )),
-          Expanded(
-              flex: 2,
-              child: Row(
+    return WillPopScope(
+      onWillPop: () {
+        ShowExit();
+      },
+      child: Scaffold(
+        key: _key,
+        drawer: Drawer(
+          child: DrawerApp(),
+        ),
+        // appBar: appBarFooder(OpenDrawer, OnClickGotoBasket, null,
+        //     OpenSearchScreen, MediaQuery.of(context).size.width),
+        body: Consumer(
+            builder: (context, DataManagementProvider provider, Widget child) {
+          String language = provider.LanguageValue();
+          int number = provider.NumberInBasket();
+          return Container(
+            height: double.infinity,
+            width: double.infinity,
+            color: Color(0xfffa897b),
+            child: SafeArea(
+              child: Column(
                 children: [
+                  AppBar2Fooder(
+                    page: bottomBarIndex,
+                    number: number,
+                  ),
                   Expanded(
-                      child: GestureDetector(
-                    onTap: () {
-                      OnClickGotoBasket();
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(left: 2, right: 2),
-                      padding: EdgeInsets.only(top: 3, bottom: 3),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                      ),
-                      child: Icon(
-                        Icons.add_shopping_cart_rounded,
-                        size: 40,
-                        color: Colors.grey[700],
-                      ),
-                    ),
-                  )),
-                  Expanded(
-                      child: Container(
-                    margin: EdgeInsets.only(left: 2, right: 2),
-                    padding: EdgeInsets.only(top: 3, bottom: 3),
-
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                    ),
-                    // color: Colors.blue,
-                    child: Icon(Icons.chat, size: 40, color: Colors.grey[700]),
-                  ))
+                      flex: 8, child: ListSwapScreen(language)[bottomBarIndex])
                 ],
-              ))
-        ],
+              ),
+            ),
+          );
+        }),
+        bottomNavigationBar: CurvedNavigationBar(
+          index: 0,
+          height: 60.0,
+          items: <Widget>[
+            Icon(
+              Icons.home,
+              size: 30,
+              color: Colors.white,
+            ),
+            Icon(Icons.event, size: 30, color: Colors.white),
+            Icon(Icons.notifications, size: 30, color: Colors.white),
+            Icon(Icons.account_circle_sharp, size: 30, color: Colors.white),
+          ],
+          color: Color(0xfffa897b),
+          buttonBackgroundColor: Color(0xfffa897b),
+          backgroundColor: Colors.white,
+          animationCurve: Curves.easeInOut,
+          animationDuration: Duration(milliseconds: 600),
+          onTap: (index) {
+            setState(() {
+              bottomBarIndex = index;
+            });
+          },
+          letIndexChange: (index) => true,
+        ),
+
+        //  BottomBar(
+        //   bottombarIndex: bottomBarIndex,
+        //   changeScreen: ChangeScreen,
+        // )
       ),
     );
-    return Scaffold(
-        drawer: Drawer(
-          child: Container(
-            height: double.infinity,
-            width: 200,
-            color: Colors.red,
-          ),
-        ),
-        body: Column(
-          children: [
-            Expanded(flex: 1, child: TopBar),
-            Expanded(flex: 8, child: ListSwapScreen[bottomBarIndex])
-          ],
-        ),
-        bottomNavigationBar: BottomBar(
-          bottombarIndex: bottomBarIndex,
-          changeScreen: ChangeScreen,
-        ));
   }
 
-  Future<void> ChangeScreen({@required int bottombarindex}) {
-    setState(() {
-      bottomBarIndex = bottombarindex;
-    });
+  // Future<void> ChangeScreen({@required int bottombarindex}) {
+  //   setState(() {
+  //     bottombarindex;
+  //   });
+  // }
+
+  Future<void> ShowExit() async {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertCardAsk(
+              message: "ต้องการออกจากแอปหรือไม่", func: ExitApp);
+        });
   }
 
-  Future OnClickGotoBasket() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (BuildContext context) => BasketScreen2()));
+  Future<void> ExitApp() {
+    exit(0);
+  }
+
+  Future<void> OpenDrawer() {
+    _key.currentState.openDrawer();
   }
 }

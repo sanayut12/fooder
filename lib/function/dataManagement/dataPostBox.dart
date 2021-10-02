@@ -3,12 +3,13 @@ import 'package:fooder/function/dataManagement/dataAddressBox.dart';
 import 'package:fooder/function/dataManagement/dateBox.dart';
 
 class DataShopInfo_PostBox {
-  final String shop_id, name, image, type;
-  final DataAddressBox addressBox;
-  final double latitude, longtitude;
+  String post_id, shop_id, name, image, type;
+  DataAddressBox addressBox;
+  double latitude, longtitude;
 
   DataShopInfo_PostBox(
-      {@required this.shop_id,
+      {@required this.post_id,
+      @required this.shop_id,
       @required this.name,
       @required this.image,
       @required this.type,
@@ -18,10 +19,10 @@ class DataShopInfo_PostBox {
 }
 
 class DataPost_PostBox {
-  final String post_id, shop_id, detail;
-  final int sendCost;
-  final DateBox start, stop, send;
-  final String how_send, over_order, confirm_order;
+  String post_id, shop_id, detail;
+  int sendCost;
+  DateBox start, stop, send;
+  String how_send, over_order, confirm_order;
 
   DataPost_PostBox(
       {@required this.post_id,
@@ -37,18 +38,15 @@ class DataPost_PostBox {
 }
 
 class DataInventory_PostBox {
-  final String inventory_id, menu_id;
-  final int quantity, cost;
+  String menu_id;
+  int quantity, cost;
 
   DataInventory_PostBox(
-      {@required this.inventory_id,
-      @required this.menu_id,
-      @required this.quantity,
-      @required this.cost});
+      {@required this.menu_id, @required this.quantity, @required this.cost});
 }
 
 class DataMenu_PostBox {
-  final String name, detail, type, path;
+  String name, detail, type, path;
   DataMenu_PostBox(
       {@required this.name,
       @required this.detail,

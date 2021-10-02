@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'dart:typed_data';
+
 class LoginRequest {
   final String phone;
   final String password;
@@ -19,7 +21,7 @@ class DataUserInfo {
   final String name;
   final String phone;
   final String email;
-  final String image;
+  final Uint8List image;
 
   DataUserInfo({this.user_id, this.name, this.phone, this.email, this.image});
 

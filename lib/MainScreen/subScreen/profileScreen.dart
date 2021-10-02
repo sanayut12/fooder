@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fooder/MainScreen/subScreen/subProfileScreen/Profile_ProfileComponent.dart';
 import 'package:fooder/function/dataManagement/dataUserInfo.dart';
 import 'package:fooder/function/dataManagement/Readhostname.dart';
 
@@ -19,11 +20,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future getUserProfile() async {
     String _name = await UserInfoManagement().Name();
-    String _image = await UserInfoManagement().Image();
+    // String _image = await UserInfoManagement().Image();
     setState(() {
       name = _name;
-      image = _image;
+      // image = _image;
     });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    print(
+        "---------------------------------profie dispost----------------------");
   }
 
   @override
@@ -31,6 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Container(
       child: Column(
         children: [
+          Profile_ProfileComponent(),
           Text(
             "$name",
             style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),

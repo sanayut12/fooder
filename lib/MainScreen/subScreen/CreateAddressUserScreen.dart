@@ -4,6 +4,7 @@ import 'package:fooder/MainScreen/subScreen/PinPositionScreen.dart';
 import 'package:fooder/MainScreen/subScreen/subCreateAddressUserScreen/CreateAddressUser_InputComponent.dart';
 import 'package:fooder/MainScreen/subScreen/subCreateAddressUserScreen/CreateAddressUser_OptionBarComponent.dart';
 import 'package:fooder/MainScreen/subScreen/subCreateAddressUserScreen/CreateAddressUser_SelectAddressComponent.dart';
+import 'package:fooder/MainScreen/subScreen/subCreateAddressUserScreen/CreateAddressUser_appbarComponent.dart';
 import 'package:fooder/MainScreen/subScreen/subPinPositionScreen/PinPosition_MiniMapComponent.dart';
 import 'package:fooder/function/dataManagement/getGPS.dart';
 
@@ -40,59 +41,84 @@ class _CreateAddressUserScreenState extends State<CreateAddressUserScreen> {
         color: Colors.red,
       ),
     );
-    return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: Container(
-              height: double.infinity,
-              width: double.infinity,
-              child: ListView(
-                children: [
-                  CreateAddressUser_InputComponent(
-                      name: name,
-                      phone: phone,
-                      address: address,
-                      no: no,
-                      moo: moo,
-                      baan: baan,
-                      road: road,
-                      soy: soy,
-                      setData: setData),
-                  CreateAddressUser_SelectAddressComponent(
-                      sub_district: sub_district,
-                      district: district,
-                      province: province,
-                      SetAddress: SetAddress),
-                  Column(
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          height: double.infinity,
+          width: double.infinity,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Color(0xfffa897b), Colors.white])),
+          child: Column(
+            children: [
+              CreateAddressUser_appbarComponent(),
+              Expanded(
+                child: Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  child: ListView(
                     children: [
-                      PinPosition_MiniMapComponent(
-                          latitude: latitude,
-                          longtitude: longtitude,
-                          OpenPinPositionScreen: OpenPinPositionScreen)
+                      CreateAddressUser_InputComponent(
+                          name: name,
+                          phone: phone,
+                          address: address,
+                          no: no,
+                          moo: moo,
+                          baan: baan,
+                          road: road,
+                          soy: soy,
+                          setData: setData),
+                      CreateAddressUser_SelectAddressComponent(
+                          sub_district: sub_district,
+                          district: district,
+                          province: province,
+                          SetAddress: SetAddress),
+                      Column(
+                        children: [
+                          latitude == null
+                              ? GestureDetector(
+                                  onTap: () {
+                                    OpenPinPositionScreen();
+                                  },
+                                  child: Container(
+                                    height:
+                                        MediaQuery.of(context).size.width * 0.9,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.9,
+                                    color: Colors.red,
+                                  ),
+                                )
+                              : PinPosition_MiniMapComponent(
+                                  latitude: latitude,
+                                  longtitude: longtitude,
+                                  OpenPinPositionScreen: OpenPinPositionScreen)
+                        ],
+                      )
                     ],
-                  )
-                ],
+                  ),
+                ),
               ),
-            ),
+              CreateAddressUser_OptionBarComponent(
+                name: name,
+                phone: phone,
+                address: address,
+                no: no,
+                moo: moo,
+                baan: baan,
+                road: road,
+                soy: soy,
+                sub_district: sub_district,
+                district: district,
+                province: province,
+                latitude: latitude,
+                longtitude: longtitude,
+                active: active,
+              ),
+            ],
           ),
-          CreateAddressUser_OptionBarComponent(
-            name: name,
-            phone: phone,
-            address: address,
-            no: no,
-            moo: moo,
-            baan: baan,
-            road: road,
-            soy: soy,
-            sub_district: sub_district,
-            district: district,
-            province: province,
-            latitude: latitude,
-            longtitude: longtitude,
-            active: active,
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -143,9 +169,16 @@ class _CreateAddressUserScreenState extends State<CreateAddressUserScreen> {
     if (positionGPS == null) {
     } else {
       setState(() {
+        latitude = null;
+        longtitude = null;
+      });
+      await Future.delayed(Duration(milliseconds: 10));
+
+      setState(() {
         latitude = positionGPS.latitude;
         longtitude = positionGPS.longtitude;
       });
+      await Future.delayed(Duration(milliseconds: 10));
     }
     SetActive();
   }

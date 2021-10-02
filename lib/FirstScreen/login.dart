@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 
 import 'package:fooder/MainScreen/mainScreen.dart';
 import 'package:fooder/function/ClassObjects/httpObjectLogin.dart';
+import 'package:fooder/function/dataManagement/dataLanguageManagement.dart';
 import 'package:fooder/function/dataManagement/dataUserInfo.dart';
 import 'package:fooder/function/http/httpLogin.dart';
 
 String phone = "0998765432";
 String password = "12345";
 
-class Login extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
+  String language;
+  LoginScreen({@required this.language});
   @override
-  _LoginState createState() => _LoginState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _phone, _password;
 
   @override
@@ -26,6 +30,7 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    LanguageManagement lgm = LanguageManagement();
     Widget PhoneInput = TextFormField(
       controller: _phone,
       onChanged: (e) {
@@ -34,7 +39,8 @@ class _LoginState extends State<Login> {
         });
       },
       decoration: InputDecoration(
-          hintText: "Phone", hintStyle: TextStyle(color: Colors.black38)),
+          hintText: "${lgm.value('003', this.widget.language)}",
+          hintStyle: TextStyle(color: Colors.black38)),
     );
 
     Widget PasswordInput = TextFormField(
@@ -45,7 +51,8 @@ class _LoginState extends State<Login> {
         });
       },
       decoration: InputDecoration(
-          hintText: "Password", hintStyle: TextStyle(color: Colors.black38)),
+          hintText: "${lgm.value('004', this.widget.language)}",
+          hintStyle: TextStyle(color: Colors.black38)),
     );
 
     Widget ButtonLogin = GestureDetector(
@@ -57,7 +64,7 @@ class _LoginState extends State<Login> {
         height: 40,
         width: 100,
         child: Text(
-          "Login",
+          "${lgm.value('001', this.widget.language)}",
           style: TextStyle(fontSize: 20, color: Colors.white),
         ),
         decoration: BoxDecoration(
@@ -122,11 +129,13 @@ class _LoginState extends State<Login> {
           phone: bufferLoginResponse.userInfo.phone,
           email: bufferLoginResponse.userInfo.email,
           image: bufferLoginResponse.userInfo.image);
-
+      FlutterBackgroundService().sendData({
+        "event": "start_service_push_notification",
+        "user_id": "${bufferLoginResponse.userInfo.user_id}"
+      });
       UserInfoManagement()
           .InsertUserInfoToStorage(bufferUserInfo: bufferUserInfo);
-      Navigator.push(context,
-          MaterialPageRoute(builder: (BuildContext context) => MainScreen()));
+      Navigator.of(context).pushNamed(MainScreen.routeName);
     } else if (bufferLoginResponse.code == 10004) {
       //เมื่อ login ไม่าำเร็จ
       AlertLoginFail();

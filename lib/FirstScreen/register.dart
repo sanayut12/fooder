@@ -3,14 +3,16 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fooder/function/ClassObjects/httpObjectRegister.dart';
+import 'package:fooder/function/dataManagement/dataLanguageManagement.dart';
 import '../function/http/httpRegister.dart';
 
 String name, password, confirmpassword, phone, email;
 
 class Register extends StatefulWidget {
+  String language;
   final Function rePage;
 
-  Register({this.rePage});
+  Register({@required this.rePage, @required this.language});
 
   @override
   _RegisterState createState() => _RegisterState();
@@ -42,6 +44,7 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
+    LanguageManagement lgm = LanguageManagement();
     Widget NameInput = TextFormField(
       onChanged: (e) {
         setState(() {
@@ -50,7 +53,8 @@ class _RegisterState extends State<Register> {
       },
       controller: _name,
       decoration: InputDecoration(
-          hintText: "Name", hintStyle: TextStyle(color: Colors.black38)),
+          hintText: "${lgm.value('019', this.widget.language)}",
+          hintStyle: TextStyle(color: Colors.black38)),
     );
 
     Widget PhoneInput = TextFormField(
@@ -61,7 +65,8 @@ class _RegisterState extends State<Register> {
       },
       controller: _phone,
       decoration: InputDecoration(
-          hintText: "Phone", hintStyle: TextStyle(color: Colors.black38)),
+          hintText: "${lgm.value('020', this.widget.language)}",
+          hintStyle: TextStyle(color: Colors.black38)),
     );
 
     Widget EmailInput = TextFormField(
@@ -72,7 +77,8 @@ class _RegisterState extends State<Register> {
       },
       controller: _email,
       decoration: InputDecoration(
-          hintText: "Email", hintStyle: TextStyle(color: Colors.black38)),
+          hintText: "${lgm.value('021', this.widget.language)}",
+          hintStyle: TextStyle(color: Colors.black38)),
     );
 
     Widget PasswordInput = TextFormField(
@@ -83,7 +89,8 @@ class _RegisterState extends State<Register> {
       },
       controller: _password,
       decoration: InputDecoration(
-          hintText: "Password", hintStyle: TextStyle(color: Colors.black38)),
+          hintText: "${lgm.value('004', this.widget.language)}",
+          hintStyle: TextStyle(color: Colors.black38)),
     );
 
     Widget ConfirmPasswordInput = TextFormField(
@@ -94,7 +101,7 @@ class _RegisterState extends State<Register> {
       },
       controller: _confirmpassword,
       decoration: InputDecoration(
-          hintText: "comfirm Password",
+          hintText: "${lgm.value('022', this.widget.language)}",
           hintStyle: TextStyle(color: Colors.black38)),
     );
 
@@ -104,7 +111,7 @@ class _RegisterState extends State<Register> {
       },
       child: Container(
         child: Text(
-          "Register",
+          "${lgm.value('002', this.widget.language)}",
           style: TextStyle(fontSize: 20.0, color: Colors.white),
         ),
         height: 40,

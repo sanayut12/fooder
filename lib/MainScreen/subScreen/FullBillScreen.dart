@@ -9,7 +9,7 @@ import 'package:fooder/MainScreen/subScreen/subFullBillScreen/FullBill_TitleComp
 import 'package:fooder/function/ClassObjects/httpObjectGetBillFooderData.dart';
 
 class FullBillScreen extends StatefulWidget {
-  final GetBillFooderDataResponse data;
+  GetBillFooderDataResponse data;
   FullBillScreen({@required this.data});
   @override
   _FullBillScreenState createState() => _FullBillScreenState();
@@ -19,13 +19,21 @@ class _FullBillScreenState extends State<FullBillScreen> {
   int index = 0;
   @override
   Widget build(BuildContext context) {
+    double weight_screen = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: weight_screen * 0.15,
+        backgroundColor: Color(0xfffa897b),
+        shadowColor: Colors.transparent,
+        leading: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back_ios)),
+        title: Text("รายละเอียดคำสั่งซื้อ"),
+      ),
       body: Container(
         height: double.infinity,
         width: double.infinity,
         child: Column(
           children: [
-            FullBill_TitleComponent(),
+            // FullBill_TitleComponent(),
             Expanded(
               child: Stack(
                 children: [

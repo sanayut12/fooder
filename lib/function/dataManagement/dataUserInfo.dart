@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:fooder/function/dataManagement/storageFunction.dart';
@@ -23,17 +24,44 @@ class UserInfoManagement {
   }
 
   //ทำการนำข้อมมูลจาก local storage ชื่อ 'userInfo' แล้วไป update ที่ตัวแปร userInfo ของ class นี้
-  Future<void> init() async {
+  Future<bool> init() async {
     String dataString = await ReadDataInStorage(key: 'userInfo');
-    var dataJson = await json.decode(dataString);
 
-    UserInfo bufferUserInfo = UserInfo(
-        user_id: dataJson['user_id'],
-        name: dataJson['name'],
-        phone: dataJson['phone'],
-        email: dataJson['email'],
-        image: dataJson['image']);
-    userInfo = bufferUserInfo;
+    if (dataString == null) {
+      return false;
+    } else {
+      var dataJson = await json.decode(dataString);
+      List _image = dataJson['image'];
+      if (_image == null) {
+        UserInfo bufferUserInfo = UserInfo(
+            user_id: dataJson['user_id'],
+            name: dataJson['name'],
+            phone: dataJson['phone'],
+            email: dataJson['email'],
+            image: null);
+        userInfo = bufferUserInfo;
+      } else {
+        Uint8List image = new Uint8List(_image.length);
+
+        for (int i = 0; i < _image.length; i++) {
+          image[i] = _image[i];
+        }
+        UserInfo bufferUserInfo = UserInfo(
+            user_id: dataJson['user_id'],
+            name: dataJson['name'],
+            phone: dataJson['phone'],
+            email: dataJson['email'],
+            image: image);
+        userInfo = bufferUserInfo;
+      }
+
+      return true;
+    }
+  }
+
+  Future<bool> DeleteUser() async {
+    bool status = await DeleteDataInLocalStorage(key: "userInfo");
+    return status;
   }
 
   String User_id() {
@@ -52,17 +80,21 @@ class UserInfoManagement {
     return userInfo.email;
   }
 
-  String Image() {
+  Uint8List Image() {
     return userInfo.image;
+  }
+
+  Future<void> UpdateImage(Uint8List _image) {
+    userInfo.image = _image;
   }
 }
 
 class UserInfo {
   final String user_id;
-  final String name;
-  final String phone;
-  final String email;
-  final String image;
+  String name;
+  String phone;
+  String email;
+  Uint8List image;
 
   UserInfo({this.user_id, this.name, this.phone, this.email, this.image});
 }

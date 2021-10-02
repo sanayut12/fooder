@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart ';
+// import 'package:hexcolor/hexcolor.dart ';
 // import 'package:hexcolor/hexcolor.dart';
 
 class StepProgressView extends StatelessWidget {
@@ -9,7 +9,7 @@ class StepProgressView extends StatelessWidget {
   final List<String> _titles;
   final int _curStep;
   final Color _activeColor;
-  final Color _inactiveColor = HexColor("#E6EEF3");
+  final Color _inactiveColor = Color(0xFFE6EEF3);
   final double lineWidth = 3.0;
 
   StepProgressView(
@@ -90,7 +90,7 @@ class StepProgressView extends StatelessWidget {
   List<Widget> _titleViews() {
     var list = <Widget>[];
     _titles.asMap().forEach((i, text) {
-      list.add(Text(text, style: TextStyle(color: HexColor("#000000"))));
+      list.add(Text(text, style: TextStyle(color: Color(0xFF000000))));
     });
     return list;
   }

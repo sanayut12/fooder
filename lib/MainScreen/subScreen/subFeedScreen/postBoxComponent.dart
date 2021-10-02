@@ -3,71 +3,63 @@ import 'package:flutter/material.dart';
 import 'package:fooder/MainScreen/subScreen/subFeedScreen/subPostBoxComponent/PostBox_Detail.dart';
 import 'package:fooder/MainScreen/subScreen/subFeedScreen/subPostBoxComponent/PostBox_ListMenu.dart';
 import 'package:fooder/MainScreen/subScreen/subFeedScreen/subPostBoxComponent/PostBox_ShopInfoTap.dart';
-import 'package:fooder/MainScreen/subScreen/subFeedScreen/subPostBoxComponent/PostBox_status1.dart';
 import 'package:fooder/MainScreen/subScreen/subFeedScreen/subPostBoxComponent/PostBox_status2.dart';
-
 import 'package:fooder/function/ClassObjects/httpObjectGetPostFeedFooderPostShop.dart';
-// import 'package:fooder/function/dataManagement/dataPostBox.dart';
-import 'package:fooder/function/http/httpGetPostFeedFooderPost_shop.dart';
+import 'package:fooder/provider/DataManagementProvider.dart';
+import 'package:provider/provider.dart';
 
 class PostBoxComponent extends StatefulWidget {
-  String post_id;
-
-  PostBoxComponent({@required this.post_id});
+  // String post_id;
+  GetPostFeedFooderPostShopResponse data;
+  final Function PopUpAddItemToBasket;
+  PostBoxComponent({@required this.data, @required this.PopUpAddItemToBasket});
   @override
   _PostBoxComponentState createState() => _PostBoxComponentState();
 }
 
 class _PostBoxComponentState extends State<PostBoxComponent> {
-  GetPostFeedFooderPostShopResponse data;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    print("${this.widget.post_id}");
-    getFeedPost();
   }
-  // String
 
   @override
   Widget build(BuildContext context) {
-    if (data == null) {
-      return Container();
-    } else {
-      return Container(
-        margin: EdgeInsets.only(top: 5),
-        width: double.infinity,
-        // height: 400,
-        // color: Colors.red,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), color: Colors.red),
-        child: Column(
+    return Container(
+      margin: EdgeInsets.only(top: 5, left: 10, right: 10),
+      padding: EdgeInsets.all(5),
+      width: double.infinity,
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(
+            color: Colors.grey[500],
+            offset: Offset(0.1, 0.1),
+            blurRadius: 0.1,
+            spreadRadius: 0.5)
+      ], borderRadius: BorderRadius.circular(10), color: Colors.white),
+      child: Consumer(
+          builder: (context, DataManagementProvider provider, Widget child) {
+        String language = provider.LanguageValue();
+        return Column(
           children: [
             // Text(
             //     "oo${data.dataPost_PostBox.over_order} co${data.dataPost_PostBox.confirm_order}"),
             PostBox_ShopInfoTap(
-                dataShopInfo_PostBox: data.dataShopInfo_PostBox),
-            PostBox_StatusBar1(dataPost_PostBox: data.dataPost_PostBox),
-            PostBox_Detail(dataPost_PostBox: data.dataPost_PostBox),
+                language: language,
+                dataShopInfo_PostBox: this.widget.data.dataShopInfo_PostBox,
+                dataPost_PostBox: this.widget.data.dataPost_PostBox),
+            // PostBox_StatusBar1(),
+            PostBox_Detail(dataPost_PostBox: this.widget.data.dataPost_PostBox),
             PostBox_ListMenu(
-                bufferDataInventory_PostBox: data.bufferDataInventory_PostBox,
-                bufferDataMenu_PostBox: data.bufferDataMenu_PostBox),
-            PostBox_StatusBar2(dataPost_PostBox: data.dataPost_PostBox),
+              data: this.widget.data,
+              PopUpAddItemToBasket: this.widget.PopUpAddItemToBasket,
+            ),
+            PostBox_StatusBar2(
+                language: language,
+                dataPost_PostBox: this.widget.data.dataPost_PostBox),
           ],
-        ),
-      );
-    }
-  }
-
-  Future<void> getFeedPost() async {
-    GetPostFeedFooderPostShopRequest bufferGetPostFeedFooderPostShopRequest =
-        GetPostFeedFooderPostShopRequest(post_id: this.widget.post_id);
-    GetPostFeedFooderPostShopResponse bufferGetPostFeedFooderPostShopResponse =
-        await HttpGetPostFeedFooderPostShop(
-            bufferGetPostFeedFooderPostShopRequest);
-
-    setState(() {
-      data = bufferGetPostFeedFooderPostShopResponse;
-    });
+        );
+      }),
+    );
   }
 }

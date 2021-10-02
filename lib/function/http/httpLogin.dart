@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:fooder/function/ClassObjects/httpObjectLogin.dart';
 import 'package:fooder/function/dataManagement/Readhostname.dart';
 
@@ -23,12 +25,18 @@ Future<LoginResponse> HttpLogin(LoginRequest bufferLoginRequest) async {
   );
   var res = jsonDecode(uriResponse.body);
   print(res);
+
+  Uint8List image = null;
+  if (res['userInfo']['image'] != null) {
+    image = base64Decode(res['userInfo']['image']);
+  }
+
   DataUserInfo userInfo = DataUserInfo(
       user_id: res['userInfo']['user_id'],
       name: res['userInfo']['name'],
       phone: res['userInfo']['phone'],
       email: res['userInfo']['email'],
-      image: res['userInfo']['image']);
+      image: image);
   LoginResponse data = LoginResponse(userInfo: userInfo, code: res['code']);
   return data;
 }

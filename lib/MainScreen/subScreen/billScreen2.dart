@@ -13,12 +13,19 @@ class BillScreen2 extends StatefulWidget {
 }
 
 class _BillScreen2State extends State<BillScreen2> {
-  Map<int, GetBillFooderDataResponse> bufferdata = {};
+  Map<String, GetBillFooderDataResponse> bufferdata = {};
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    GetBill_id();
+    GetBill();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    print("==================billscreen2 dispost =============");
   }
 
   @override
@@ -26,35 +33,37 @@ class _BillScreen2State extends State<BillScreen2> {
     return Container(
       height: double.infinity,
       width: double.infinity,
-      color: Colors.red,
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xfffa897b), Colors.white])),
       child: ListView.builder(
           itemCount: bufferdata.length,
           itemBuilder: (BuildContext context, int index) {
-            return Bill2_BillBoxComponent(data: bufferdata[index]);
+            String bill_id = bufferdata.keys.toList()[index];
+            return Bill2_BillBoxComponent(data: bufferdata[bill_id]);
           }),
     );
   }
 
-  Future<void> GetBill_id() async {
+  Future<void> GetBill() async {
     String user_id = UserInfoManagement().User_id();
     GetBillFooderInitRequest bufferGetBillFooderInitRequest =
         GetBillFooderInitRequest(user_id: user_id);
     // GetBillFooderInitResponse bufferGetBillFooderInitResponse =
     GetBillFooderInitResponse bufferGetBillFooderInitResponse =
         await HttpGetBillFooderInit(bufferGetBillFooderInitRequest);
-    int index = 0;
-    Map<int, GetBillFooderDataResponse> _bufferdata = {};
-    for (String key in bufferGetBillFooderInitResponse.bufferBill_id) {
+
+    for (String bill_id in bufferGetBillFooderInitResponse.bufferBill_id) {
       GetBillFooderDataRequest bufferGetBillFooderDataRequest =
-          GetBillFooderDataRequest(bill_id: key);
+          GetBillFooderDataRequest(bill_id: bill_id);
       GetBillFooderDataResponse data =
           await HttpGetBillFooderData(bufferGetBillFooderDataRequest);
-      _bufferdata[index] = data;
-      index += 1;
-      // print(index);
+
+      setState(() {
+        bufferdata[bill_id] = data;
+      });
     }
-    setState(() {
-      bufferdata = _bufferdata;
-    });
   }
 }

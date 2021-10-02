@@ -25,7 +25,7 @@ class _PreviewConfirmItem_TimeStopComponentState
       width: double.infinity,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [ShowTimeStop, ShowSendCost],
+        children: [ShowTimeStop, Container()],
       ),
     );
   }

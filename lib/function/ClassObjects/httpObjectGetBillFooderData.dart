@@ -10,14 +10,14 @@ class GetBillFooderDataRequest {
 }
 
 class GetBillFooderDataResponse {
-  final BillFooder_Bill bill;
-  final BillFooder_Payment payment;
-  final BillFooder_ShopInfo shop_info;
-  final BillFooder_PostInfo post_info;
-  final Map<String, BillFooder_Inventory> bufferInventory;
-  final Map<String, BillFooder_Menu> bufferMenu;
-  final Map<String, BillFooder_Items> bufferItems;
-  final String code;
+  BillFooder_Bill bill;
+  BillFooder_Payment payment;
+  BillFooder_ShopInfo shop_info;
+  BillFooder_PostInfo post_info;
+  Map<String, BillFooder_Inventory> bufferInventory;
+  Map<String, BillFooder_Menu> bufferMenu;
+  Map<String, BillFooder_Items> bufferItems;
+  String code;
 
   GetBillFooderDataResponse(
       {@required this.bill,
@@ -31,8 +31,8 @@ class GetBillFooderDataResponse {
 }
 
 class BillFooder_Bill {
-  final String bill_id, address_user_id, how_send, how_pay, pay_status, status;
-  final DateBox date;
+  String bill_id, address_user_id, how_send, how_pay, pay_status, status;
+  DateBox date;
   BillFooder_Bill(
       {@required this.bill_id,
       @required this.address_user_id,
@@ -44,8 +44,8 @@ class BillFooder_Bill {
 }
 
 class BillFooder_Payment {
-  final String payment_id, bill_id, ref, status;
-  final int cost;
+  String payment_id, bill_id, ref, status;
+  int cost;
   BillFooder_Payment(
       {@required this.payment_id,
       @required this.bill_id,
@@ -55,15 +55,15 @@ class BillFooder_Payment {
 }
 
 class BillFooder_ShopInfo {
-  final String shop_id, name, image;
+  String shop_id, name, image;
   BillFooder_ShopInfo(
       {@required this.shop_id, @required this.name, @required this.image});
 }
 
 class BillFooder_PostInfo {
-  final String post_id, shop_id;
-  final int sendCost;
-  final DateBox start, stop, send;
+  String post_id, shop_id;
+  int sendCost;
+  DateBox start, stop, send;
   BillFooder_PostInfo(
       {@required this.post_id,
       @required this.shop_id,
@@ -74,20 +74,20 @@ class BillFooder_PostInfo {
 }
 
 class BillFooder_Inventory {
-  final String post_id, menu_id;
-  final int cost;
+  String post_id, menu_id;
+  int cost;
   BillFooder_Inventory(
       {@required this.post_id, @required this.menu_id, @required this.cost});
 }
 
 class BillFooder_Menu {
-  final String name, path;
+  String name, path;
   BillFooder_Menu({@required this.name, @required this.path});
 }
 
 class BillFooder_Items {
-  final String bill_id, inventory_id, comment, status;
-  final int quantity;
+  String bill_id, inventory_id, comment, status;
+  int quantity;
   BillFooder_Items(
       {@required this.bill_id,
       @required this.inventory_id,

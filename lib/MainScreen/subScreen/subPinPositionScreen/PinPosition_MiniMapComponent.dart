@@ -40,8 +40,11 @@ class _PinPosition_MiniMapComponentState
     return Container(
       height: MediaQuery.of(context).size.width * 0.9,
       width: MediaQuery.of(context).size.width * 0.9,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.red,
+      ),
       margin: EdgeInsets.only(bottom: 50),
-      color: Colors.red,
       child: Stack(
         children: [
           ShowMap,

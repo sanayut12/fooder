@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:fooder/function/ClassObjects/httpObjectGetItemInBasket_Items.dart';
 
 class PreviewConfirmItem_SelectHowSendComponent extends StatefulWidget {
@@ -19,6 +20,8 @@ class _PreviewConfirmItem_SelectHowSendComponentState
     extends State<PreviewConfirmItem_SelectHowSendComponent> {
   @override
   Widget build(BuildContext context) {
+    double weight_screen = MediaQuery.of(context).size.width;
+
     Widget SendAt = Container(
       child: Row(
         children: [
@@ -57,12 +60,16 @@ class _PreviewConfirmItem_SelectHowSendComponentState
       listRadio = [SendAt, RecieveShop];
     }
     return Container(
-      color: Colors.red,
+      // color: Colors.red,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("เลือกวิธีการรับสินค้า"),
-          Row(
+          Text(
+            "เลือกวิธีการรับสินค้า",
+            style: TextStyle(
+                fontSize: weight_screen * 0.05, fontWeight: FontWeight.bold),
+          ),
+          Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: listRadio,
           ),

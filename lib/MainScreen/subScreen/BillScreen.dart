@@ -22,6 +22,13 @@ class _BillScreenState extends State<BillScreen> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    print("------------------------bill screen dispost-------------------");
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
         height: double.infinity,

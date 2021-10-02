@@ -18,16 +18,9 @@ class _Bill2Box_Billstatus1ComponentState
           Text("รหัสบิล ${this.widget.data.bill.bill_id.substring(0, 15)}..."),
     );
 
-    Widget ShowDateSend = Container(
-      child: Text(
-          "วันที่จัดส่ง${this.widget.data.post_info.send.ToDateString()} ${this.widget.data.post_info.send.ToTimeString()}"),
-    );
     return Container(
       // height: ,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [ShowBill_id, ShowDateSend],
-      ),
+      child: ShowBill_id,
     );
   }
 }

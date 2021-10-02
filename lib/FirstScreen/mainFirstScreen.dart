@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:fooder/FirstScreen/login.dart';
 import 'package:fooder/FirstScreen/register.dart';
 import 'package:fooder/function/dataManagement/Readhostname.dart';
+import 'package:fooder/function/dataManagement/dataLanguageManagement.dart';
 import 'package:fooder/function/dataManagement/readJsonAddress.dart';
 import 'package:fooder/function/http/httpGetOrderBasketFooder.dart';
+import 'package:fooder/provider/DataManagementProvider.dart';
+import 'package:provider/provider.dart';
 
-class MainScreen extends StatelessWidget {
+class MainFirstScreen extends StatelessWidget {
+  static String routeName = "/first";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,13 +39,8 @@ class _SubFirstState extends State<SubFirst> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    LoadData();
+    // LoadData();
     this.page = 0;
-  }
-
-  Future LoadData() async {
-    await initLoadHostName();
-    await AddressThailand().init();
   }
 
   Function changeFromRegistered() {
@@ -53,69 +52,75 @@ class _SubFirstState extends State<SubFirst> {
 
   @override
   Widget build(BuildContext context) {
-    // double width = MediaQuery.of(context).size.width;
-    // double height = MediaQuery.of(context).size.height;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: 20.0,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              child: Container(
-                width: 100,
-                height: 40,
-                child: Text(
-                  "Login",
-                  style: TextStyle(
-                    color: this.page == 1 ? Colors.red : Colors.white,
+    LanguageManagement lgm = LanguageManagement();
+    return Consumer(
+        builder: (context, DataManagementProvider provider, Widget child) {
+      String _language = provider.LanguageValue();
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 20.0,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                child: Container(
+                  width: 100,
+                  height: 40,
+                  child: Text(
+                    "${lgm.value('001', _language)}",
+                    style: TextStyle(
+                      color: this.page == 1 ? Colors.red : Colors.white,
+                    ),
                   ),
-                ),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: this.page == 0 ? Colors.red : Colors.white,
-                ),
-              ),
-              onTap: () {
-                setState(() {
-                  this.page = 0;
-                });
-              },
-            ),
-            GestureDetector(
-              child: Container(
-                width: 100,
-                height: 40,
-                child: Text(
-                  "Register",
-                  style: TextStyle(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
                     color: this.page == 0 ? Colors.red : Colors.white,
                   ),
                 ),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: this.page == 1 ? Colors.red : Colors.white,
+                onTap: () {
+                  setState(() {
+                    this.page = 0;
+                  });
+                },
+              ),
+              GestureDetector(
+                child: Container(
+                  width: 100,
+                  height: 40,
+                  child: Text(
+                    "${lgm.value('002', _language)}",
+                    style: TextStyle(
+                      color: this.page == 0 ? Colors.red : Colors.white,
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: this.page == 1 ? Colors.red : Colors.white,
+                  ),
                 ),
+                onTap: () {
+                  setState(() {
+                    this.page = 1;
+                  });
+                },
               ),
-              onTap: () {
-                setState(() {
-                  this.page = 1;
-                });
-              },
-            ),
-          ],
-        ),
-        this.page == 0
-            ? Login()
-            : Register(
-                rePage: changeFromRegistered,
-              ),
-      ],
-    );
+            ],
+          ),
+          this.page == 0
+              ? LoginScreen(
+                  language: _language,
+                )
+              : Register(
+                  language: _language,
+                  rePage: changeFromRegistered,
+                ),
+        ],
+      );
+    });
   }
 }

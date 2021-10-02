@@ -4,7 +4,7 @@ import 'package:fooder/function/ClassObjects/httpObjectGetBillFooderData.dart';
 import 'package:fooder/function/dataManagement/Readhostname.dart';
 
 class Bill2Box_ShopProfileComponent extends StatefulWidget {
-  final GetBillFooderDataResponse data;
+  GetBillFooderDataResponse data;
   Bill2Box_ShopProfileComponent({@required this.data});
   @override
   _Bill2Box_ShopProfileComponentState createState() =>

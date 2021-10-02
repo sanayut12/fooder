@@ -1,20 +1,18 @@
 import 'package:flutter/cupertino.dart';
 
 class AddItemTobasketRequest {
-  final String user_id, inventory_id, comment;
+  final String user_id, inventory_id;
   final int quantity;
   AddItemTobasketRequest(
       {@required this.user_id,
       @required this.inventory_id,
-      @required this.quantity,
-      @required this.comment});
+      @required this.quantity});
 
   Map<String, dynamic> value() {
     return {
       "user_id": this.user_id,
       "inventory_id": this.inventory_id,
-      "quantity": this.quantity,
-      "comment": this.comment
+      "quantity": this.quantity
     };
   }
 }

@@ -1,16 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fooder/MainScreen/subScreen/BuyMenuScreen.dart';
+import 'package:fooder/MainScreen/subScreen/subFeedScreen/subMenuBoxComponent/MenuBox_ButtonComponent.dart';
+import 'package:fooder/function/ClassObjects/httpObjectAddItemtoBasket.dart';
+import 'package:fooder/function/ClassObjects/httpObjectGetPostFeedFooderPostShop.dart';
 import 'package:fooder/function/dataManagement/Readhostname.dart';
-import 'package:fooder/function/dataManagement/dataPostBox.dart';
+import 'package:fooder/function/dataManagement/dataUserInfo.dart';
+import 'package:fooder/function/http/httpAddItemToBasket.dart';
+import 'package:fooder/provider/DataManagementProvider.dart';
+import 'package:provider/provider.dart';
 
 class MenuBoxComponent extends StatefulWidget {
-  final DataMenu_PostBox dataMenu;
-  final DataInventory_PostBox dataInventory;
-  MenuBoxComponent({
-    @required this.dataInventory,
-    @required this.dataMenu,
-  });
+  String inventory_id;
+  GetPostFeedFooderPostShopResponse data;
+  final Function PopUpAddItemToBasket;
+  MenuBoxComponent(
+      {@required this.inventory_id,
+      @required this.data,
+      @required this.PopUpAddItemToBasket});
   @override
   _MenuBoxComponentState createState() => _MenuBoxComponentState();
 }
@@ -18,6 +25,25 @@ class MenuBoxComponent extends StatefulWidget {
 class _MenuBoxComponentState extends State<MenuBoxComponent> {
   @override
   Widget build(BuildContext context) {
+    double weight_screen = MediaQuery.of(context).size.width;
+
+    String menu_id = this
+        .widget
+        .data
+        .bufferDataInventory_PostBox[this.widget.inventory_id]
+        .menu_id;
+    String name = this.widget.data.bufferDataMenu_PostBox[menu_id].name;
+    String image = this.widget.data.bufferDataMenu_PostBox[menu_id].path;
+    int cost = this
+        .widget
+        .data
+        .bufferDataInventory_PostBox[this.widget.inventory_id]
+        .cost;
+    int quantity = this
+        .widget
+        .data
+        .bufferDataInventory_PostBox[this.widget.inventory_id]
+        .quantity;
     Widget SelectMenu = GestureDetector(
       onTap: () {
         selectMenu();
@@ -26,61 +52,69 @@ class _MenuBoxComponentState extends State<MenuBoxComponent> {
         height: 80,
         width: double.infinity,
         color: Colors.transparent,
-        // child: Text("ffff"),
-        // color: Colors.red,
       ),
     );
 
     Widget ImageMenu = Container(
+      height: weight_screen * 0.4,
+      width: weight_screen * 0.4,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           image: DecorationImage(
               fit: BoxFit.cover,
-              image: NetworkImage("${HostName()}/image/menuImage/" +
-                  this.widget.dataMenu.path))),
+              image: NetworkImage("${HostName()}/image/menuImage/${image}"))),
     );
-    Widget DetailMenu = Container(
-      padding: EdgeInsets.only(top: 2, bottom: 3),
+    ///////////////////////////////////////////////////////////////
+    Widget DetailMenuBox = Container(
       height: double.infinity,
       width: double.infinity,
+      padding: EdgeInsets.only(top: 2, left: 5, right: 5),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10)),
+        // color: Colors.amber,
+      ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            // height: 30,
-            // width: 100,
-            // padding: ,
-            decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(10)),
-            alignment: Alignment.center,
-            child: Text("${this.widget.dataMenu.name}"),
-          ),
-          SelectMenu,
+              width: double.infinity,
+              alignment: Alignment.center,
+              child: Text("${name}")),
           Container(
-            // height: 25,
-            // width: 50,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10), color: Colors.red),
-            child: Text(
-              "${this.widget.dataInventory.cost} บาท",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-            ),
-          ),
+              width: double.infinity,
+              alignment: Alignment.centerLeft,
+              child: Text("฿ ${cost}")),
+          Expanded(child: Container()),
+          Expanded(
+              child: Row(
+            children: [
+              Expanded(
+                  child: MenuBox_ButtonComponent(
+                      text: "เพิ่มลงตะกล้า", fun: AddMenuToBasket)),
+              Expanded(
+                child: MenuBox_ButtonComponent(text: "ซื้อ", fun: selectMenu),
+              ),
+            ],
+          ))
         ],
       ),
     );
     return Container(
-      height: double.infinity,
-      width: double.infinity,
+      height: weight_screen * 0.8,
+      width: weight_screen * 0.5,
+
       // color: Colors.red,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10), color: Colors.red),
+          border: Border.all(color: Colors.grey[300]),
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white),
       margin: EdgeInsets.only(left: 10),
-      child: Stack(
-        children: [ImageMenu, DetailMenu],
+      padding: EdgeInsets.only(top: 5),
+      child: Column(
+        children: [
+          ImageMenu,
+          Expanded(child: DetailMenuBox),
+        ], //, DetailMenu
       ),
     );
   }
@@ -90,8 +124,26 @@ class _MenuBoxComponentState extends State<MenuBoxComponent> {
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => BuyMenuScreen(
-                  dataInventory: this.widget.dataInventory,
-                  dataMenu: this.widget.dataMenu,
+                  inventory_id: this.widget.inventory_id,
+                  data: this.widget.data,
                 )));
+  }
+
+  Future<void> AddMenuToBasket() async {
+    String user_id = await UserInfoManagement().User_id();
+    String inventory_id = this.widget.inventory_id;
+    AddItemTobasketRequest bufferAddItemTobasketRequest =
+        AddItemTobasketRequest(
+            user_id: user_id, inventory_id: inventory_id, quantity: 1);
+    AddItemToBasketResponse bufferAddItemToBasketResponse =
+        await HttpAddMenuToBasket(
+            bufferAddMenuTobasketRequest: bufferAddItemTobasketRequest);
+    print(bufferAddItemToBasketResponse.code);
+    if (bufferAddItemToBasketResponse.code == "20200") {
+      this.widget.PopUpAddItemToBasket();
+    }
+    DataManagementProvider provider =
+        Provider.of<DataManagementProvider>(context, listen: false);
+    provider.UpdateBasket();
   }
 }

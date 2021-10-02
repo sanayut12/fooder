@@ -27,6 +27,7 @@ class _BuyMenu_DetailComponentState extends State<BuyMenu_DetailComponent> {
           margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.grey[300]),
             color: Colors.white,
           ),
           child: Text(this.widget.dataMenu.detail == 'null'

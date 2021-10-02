@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fooder/MainScreen/subScreen/CreateAddressUserScreen.dart';
 import 'package:fooder/MainScreen/subScreen/SelectAddressScreen.dart';
+import 'package:fooder/MainScreen/subScreen/subPreviewConfirmItemScreen/selectAddress/PreviewSelectAddressConponent.dart';
 // import 'package:fooder/function/ClassObjects/httpObjectGetAllAddress.dart';
 import 'package:fooder/function/dataManagement/dataAddressUser.dart';
 // import 'package:fooder/function/dataManagement/dataUserInfo.dart';
@@ -28,57 +29,21 @@ class _PreviewConfirmItem_SelectAddressComponentState
 
   @override
   Widget build(BuildContext context) {
-    Widget OpenAddressUser = GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (BuildContext context) => CreateAddressUserScreen()));
-      },
-      child: Container(
-        // height: 100,
-
-        alignment: Alignment.center,
-        margin: EdgeInsets.all(2),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.red,
-        ),
-
-        child: Text("เพิ่มที่อยู่"),
-      ),
-    );
-
-    Widget OpenSelectAddressUser = GestureDetector(
-      onTap: () async {
-        Map<String, DataAddressUser> _address_select =
-            await Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => SelectAddressScreen()));
-        if (_address_select != null) {
-          setState(() {
-            address_select = _address_select;
-          });
-          this.widget.SetAddressSelect(_address_select.keys.toList()[0]);
-        }
-      },
-      child: Container(
-        // height: 100,
-        alignment: Alignment.center,
-        margin: EdgeInsets.all(2),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.red,
-        ),
-        child: Text("เลือกที่อยู่"),
-      ),
-    );
+    double weight_screen = MediaQuery.of(context).size.width;
 
     return Container(
-      height: MediaQuery.of(context).size.height * 0.2,
+      height: weight_screen * 0.35,
       width: double.infinity,
-      color: Colors.green,
+      padding: EdgeInsets.only(left: 5, right: 5),
+      // color: Colors.green,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("เลือกที่อยู่การจัดส่ง"),
+          Text(
+            "เลือกที่อยู่การจัดส่ง",
+            style: TextStyle(
+                fontSize: weight_screen * 0.05, fontWeight: FontWeight.bold),
+          ),
           Expanded(
             child: Row(
               children: [
@@ -90,6 +55,7 @@ class _PreviewConfirmItem_SelectAddressComponentState
                     margin: EdgeInsets.all(2),
                     padding: EdgeInsets.all(5),
                     decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey[200]),
                         borderRadius: BorderRadius.circular(10),
                         color: Colors.white),
                     child: address_select == null
@@ -105,32 +71,39 @@ class _PreviewConfirmItem_SelectAddressComponentState
                     children: [
                       Expanded(
                           child: Container(
-                        child: OpenSelectAddressUser,
+                        child: PreviewSelectAddressConponent(
+                            text: "เลือกที่อยู่", fun: OpenSelectAddress),
                       )),
                       Expanded(
                           child: Container(
-                        child: OpenAddressUser,
+                        child: PreviewSelectAddressConponent(
+                            text: "เพิ่มที่อยู่", fun: OpenAddressUSers),
                       ))
                     ],
                   ),
                 ))
-                // Expanded(
-                //   child: Column(
-                //     children: [
-                //       Column(
-                //         children: [
-                //           Expanded(child: OpenSelectAddressUser),
-                //           Expanded(child: OpenAddressUser),
-                //         ],
-                //       ),
-                //     ],
-                //   ),
-                // )
               ],
             ),
           )
         ],
       ),
     );
+  }
+
+  Future<void> OpenSelectAddress() async {
+    Map<String, DataAddressUser> _address_select = await Navigator.of(context)
+        .push(MaterialPageRoute(
+            builder: (BuildContext context) => SelectAddressScreen()));
+    if (_address_select != null) {
+      setState(() {
+        address_select = _address_select;
+      });
+      this.widget.SetAddressSelect(_address_select.keys.toList()[0]);
+    }
+  }
+
+  Future<void> OpenAddressUSers() async {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) => CreateAddressUserScreen()));
   }
 }

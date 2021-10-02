@@ -52,13 +52,10 @@ Future<GetItemInBasket_ItemsResponse> HttpGetItemInBasketItems(
       stop: date_stop,
       how_send: _post_info['how_send']);
 //ข้อมูลสินค้าที่ซื้อ
-  List<BasketBox_Item> bufferItem = [];
+  Map<String, BasketBox_Item> bufferItem = {};
   item_list.forEach((element) {
-    bufferItem.add(BasketBox_Item(
-        item_id: element['item_id'],
-        inventory_id: element['inventory_id'],
-        quantity: element['quantity'],
-        comment: element['comment']));
+    bufferItem[element['item_id']] = BasketBox_Item(
+        inventory_id: element['inventory_id'], quantity: element['quantity']);
   });
 
   //ข้อมูลสตอกสินค้า

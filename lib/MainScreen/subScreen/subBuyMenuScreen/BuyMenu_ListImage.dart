@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fooder/function/ClassObjects/httpObjectGetPathImageMenu.dart';
+import 'package:fooder/function/ClassObjects/httpObjectGetPostFeedFooderPostShop.dart';
 import 'package:fooder/function/dataManagement/Readhostname.dart';
-import 'package:fooder/function/dataManagement/dataPostBox.dart';
 import 'package:fooder/function/http/httpGetPathImageMenu.dart';
 
 class BuyMenu_ListImageComponent extends StatefulWidget {
-  final DataMenu_PostBox dataMenu;
-  final DataInventory_PostBox dataInventory;
+  String inventory_id;
+  GetPostFeedFooderPostShopResponse data;
   BuyMenu_ListImageComponent(
-      {@required this.dataInventory, @required this.dataMenu});
+      {@required this.inventory_id, @required this.data});
   @override
   _BuyMenu_ListImageComponentState createState() =>
       _BuyMenu_ListImageComponentState();
@@ -27,6 +27,13 @@ class _BuyMenu_ListImageComponentState
 
   @override
   Widget build(BuildContext context) {
+    String menu_id = this
+        .widget
+        .data
+        .bufferDataInventory_PostBox[this.widget.inventory_id]
+        .menu_id;
+    String image = this.widget.data.bufferDataMenu_PostBox[menu_id].path;
+    // print(image);
     Widget ShowImage(String _image) => Container(
           height: MediaQuery.of(context).size.width,
           width: MediaQuery.of(context).size.width,
@@ -38,6 +45,7 @@ class _BuyMenu_ListImageComponentState
                         "${HostName()}/image/menuImage/${_image}"))),
           ),
         );
+
     return Container(
       height: MediaQuery.of(context).size.width,
       width: MediaQuery.of(context).size.width,
@@ -48,7 +56,7 @@ class _BuyMenu_ListImageComponentState
           itemCount: list_image.length + 1,
           itemBuilder: (BuildContext context, int index) {
             if (index == 0) {
-              return ShowImage(this.widget.dataMenu.path);
+              return ShowImage(image);
             } else {
               return ShowImage("${list_image[index - 1]}");
             }
@@ -57,7 +65,7 @@ class _BuyMenu_ListImageComponentState
   }
 
   Future<void> GetPathImageOther() async {
-    String inventory_id = this.widget.dataInventory.inventory_id;
+    String inventory_id = this.widget.inventory_id;
     GetPathImageMenuRequest bufferGetPathImageMenuRequest =
         GetPathImageMenuRequest(inventory_id: inventory_id);
     GetPathImageMenuResponse bufferGetPathImageMenuResponse =

@@ -19,12 +19,12 @@ class _Basket2_BoxBasketTotalCostComponentState
     int sendCost = this.widget.data.post_info.sendCost;
 
     int menuCost = 0;
-    this.widget.data.bufferItem.forEach((element) {
-      int quantity = element.quantity;
-      String inventory_id = element.inventory_id;
-      int cost = this.widget.data.bufferInventory[inventory_id].cost;
-      menuCost += quantity * cost;
-    });
+    // this.widget.data.bufferItem.forEach((element) {
+    //   int quantity = element.quantity;
+    //   String inventory_id = element.inventory_id;
+    //   int cost = this.widget.data.bufferInventory[inventory_id].cost;
+    //   menuCost += quantity * cost;
+    // });
 
     TextStyle total_style =
         TextStyle(fontSize: 20, fontWeight: FontWeight.bold);

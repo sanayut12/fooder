@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fooder/MainScreen/subScreen/subFeedScreen/menuBoxComponent.dart';
+import 'package:fooder/function/ClassObjects/httpObjectGetPostFeedFooderPostShop.dart';
 import 'package:fooder/function/dataManagement/dataPostBox.dart';
 
 class PostBox_ListMenu extends StatefulWidget {
-  final List<DataInventory_PostBox> bufferDataInventory_PostBox;
-  final Map<String, DataMenu_PostBox> bufferDataMenu_PostBox;
-  PostBox_ListMenu(
-      {@required this.bufferDataInventory_PostBox,
-      @required this.bufferDataMenu_PostBox});
+  GetPostFeedFooderPostShopResponse data;
+  final Function PopUpAddItemToBasket;
+  PostBox_ListMenu({@required this.data, @required this.PopUpAddItemToBasket});
   @override
   _PostBox_ListMenuState createState() => _PostBox_ListMenuState();
 }
@@ -16,23 +15,31 @@ class PostBox_ListMenu extends StatefulWidget {
 class _PostBox_ListMenuState extends State<PostBox_ListMenu> {
   @override
   Widget build(BuildContext context) {
+    // final List<DataInventory_PostBox> bufferDataInventory_PostBox;
+    // final Map<String, DataMenu_PostBox> bufferDataMenu_PostBox;
     return Container(
       width: double.infinity,
-      height: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.width * 0.8,
       color: Colors.white,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: this.widget.bufferDataInventory_PostBox.length,
+          itemCount: this.widget.data.bufferDataInventory_PostBox.length,
           itemBuilder: (BuildContext context, int index) {
-            String menu_id =
-                this.widget.bufferDataInventory_PostBox[index].menu_id;
-            return Container(
-              height: MediaQuery.of(context).size.width,
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.all(20),
-              child: MenuBoxComponent(
-                  dataInventory: this.widget.bufferDataInventory_PostBox[index],
-                  dataMenu: this.widget.bufferDataMenu_PostBox[menu_id]),
+            String inventory_id = this
+                .widget
+                .data
+                .bufferDataInventory_PostBox
+                .keys
+                .toList()[index];
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                MenuBoxComponent(
+                  inventory_id: inventory_id,
+                  data: this.widget.data,
+                  PopUpAddItemToBasket: this.widget.PopUpAddItemToBasket,
+                ),
+              ],
             );
           }),
     );

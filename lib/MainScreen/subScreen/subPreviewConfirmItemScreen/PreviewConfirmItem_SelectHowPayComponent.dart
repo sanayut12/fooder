@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 
 class PreviewConfirmItem_SelectHowPayComponent extends StatefulWidget {
   final String how_pay;
@@ -26,6 +27,7 @@ class _PreviewConfirmItem_SelectHowPayComponentState
   List<String> ListHowPay = ['1', '2'];
   @override
   Widget build(BuildContext context) {
+    double weight_screen = MediaQuery.of(context).size.width;
     List<DropdownMenuItem<String>> ItemHowPay =
         ListHowPay.map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem(
@@ -39,13 +41,24 @@ class _PreviewConfirmItem_SelectHowPayComponentState
       items: ItemHowPay,
       hint: Text(
         "เลือกวิธีการชำระสินค้า",
-        style: TextStyle(
-            color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+        style: TextStyle(color: Colors.grey[500], fontSize: 16),
       ),
       onChanged: (e) {
         this.widget.SetHowPay(e);
       },
     );
-    return InputHowPay;
+    return Container(
+        padding: EdgeInsets.only(left: 5, right: 5),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "วิธีการชำระสินค้า",
+              style: TextStyle(
+                  fontSize: weight_screen * 0.05, fontWeight: FontWeight.bold),
+            ),
+            InputHowPay,
+          ],
+        ));
   }
 }

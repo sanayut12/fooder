@@ -43,7 +43,7 @@ class Progress5W extends StatelessWidget {
       height: 30,
       width: double.infinity,
       // color: Colors.green,
-      padding: EdgeInsets.only(left: 50, right: 50),
+      // padding: EdgeInsets.only(left: 50, right: 50),
       child: Stack(
         children: [
           Container(
