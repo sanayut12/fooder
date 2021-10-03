@@ -2,20 +2,12 @@ import 'dart:io';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:fooder/Load/LoadScreen.dart';
 import 'package:fooder/MainScreen/appBar/AppBar2Fooder.dart';
-import 'package:fooder/MainScreen/appBar/AppBarFooder.dart';
-import 'package:fooder/MainScreen/component/bottomBar.dart';
 import 'package:fooder/MainScreen/drawer/DrawerApp.dart';
-import 'package:fooder/MainScreen/subScreen/BasketScreen2.dart';
-import 'package:fooder/MainScreen/subScreen/SearchScreen.dart';
 import 'package:fooder/MainScreen/subScreen/billScreen2.dart';
 import 'package:fooder/MainScreen/subScreen/feedScreen.dart';
 import 'package:fooder/MainScreen/subScreen/notificationScreen.dart';
-import 'package:fooder/MainScreen/subScreen/BillScreen.dart';
 import 'package:fooder/MainScreen/subScreen/profileScreen.dart';
-import 'package:fooder/MainScreen/subScreen/BasketScreen.dart';
-import 'package:fooder/function/dataManagement/dataUserInfo.dart';
 import 'package:fooder/module/AlertCard.dart';
 import 'package:fooder/provider/DataManagementProvider.dart';
 import 'package:provider/provider.dart';
@@ -60,11 +52,13 @@ class _MainScreenState extends State<MainScreen> {
         drawer: Drawer(
           child: DrawerApp(),
         ),
+
         // appBar: appBarFooder(OpenDrawer, OnClickGotoBasket, null,
         //     OpenSearchScreen, MediaQuery.of(context).size.width),
         body: Consumer(
             builder: (context, DataManagementProvider provider, Widget child) {
           String language = provider.LanguageValue();
+          provider.UpdateBasket();
           int number = provider.NumberInBasket();
           return Container(
             height: double.infinity,

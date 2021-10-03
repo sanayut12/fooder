@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:fooder/function/ClassObjects/httpObjectGetBillFooderData.dart';
 import 'package:fooder/function/ClassObjects/httpObjectGetBillFooderInit.dart';
 import 'package:fooder/function/dataManagement/Readhostname.dart';
+import 'package:fooder/function/dataManagement/dataAddressUser.dart';
 import 'package:fooder/function/dataManagement/dateBox.dart';
 import 'package:http/http.dart' as http;
 
@@ -25,6 +26,7 @@ Future<GetBillFooderDataResponse> HttpGetBillFooderData(
 
   // print("${uriResponse.bodyBytes.lengthInBytes * 0.001} kilo byte");
   Map res = jsonDecode(uriResponse.body);
+  // print(res);
   Map _bill = res['data']['bill'];
   Map _payment = res['data']['payment'];
   Map _shopinfo = res['data']['shopinfo'];
@@ -32,7 +34,9 @@ Future<GetBillFooderDataResponse> HttpGetBillFooderData(
   Map _inventory = res['data']['inventory'];
   Map _menu = res['data']['menu'];
   Map _items = res['data']['items'];
-
+  Map _address = res['data']['address_users'];
+  // print(_bill);
+  // print(_address);
   //ส่วนของบิล
   DateBox bill_date = DateBox(
       year: _bill['date']['year'],
@@ -41,6 +45,17 @@ Future<GetBillFooderDataResponse> HttpGetBillFooderData(
       hour: _bill['date']['hour'],
       min: _bill['date']['min'],
       sec: _bill['date']['sec']);
+  DateBox bill_date_confirm = null;
+  Map json_bill_date_confirm = _bill['date_confirm'];
+  print(json_bill_date_confirm);
+  if (json_bill_date_confirm != null) {
+    bill_date_confirm = DateBox(
+        year: json_bill_date_confirm['year'],
+        month: json_bill_date_confirm['month'],
+        day: json_bill_date_confirm['day'],
+        hour: json_bill_date_confirm['hour'],
+        min: json_bill_date_confirm['min']);
+  }
   BillFooder_Bill bill = BillFooder_Bill(
       bill_id: _bill['bill_id'],
       address_user_id: _bill['address_user_id'],
@@ -48,6 +63,7 @@ Future<GetBillFooderDataResponse> HttpGetBillFooderData(
       how_send: _bill['how_send'],
       how_pay: _bill['how_pay'],
       pay_status: _bill['pay_status'],
+      date_confirm: bill_date_confirm,
       status: _bill['status']);
   //ส่วนของพร้อมเพย์
   BillFooder_Payment payment = BillFooder_Payment(
@@ -113,6 +129,25 @@ Future<GetBillFooderDataResponse> HttpGetBillFooderData(
         comment: value['comment'],
         status: value['status']);
   });
+
+  Map<String, DataAddressUser> bufferAddress = {};
+  if (_address != null) {
+    bufferAddress[_address['address_user_id']] = DataAddressUser(
+        user_id: _address['user_id'],
+        name: _address['name'],
+        phone: _address['phone'],
+        address: _address['address'],
+        no: _address['no'],
+        moo: _address['moo'],
+        baan: _address['baan'],
+        road: _address['road'],
+        soy: _address['soy'],
+        sub_district: _address['sub_district'],
+        district: _address['district'],
+        province: _address['province'],
+        latitude: _address['latitude'].toDouble(),
+        longtitude: _address['longtitude'].toDouble());
+  }
   String code = res['code'];
   return GetBillFooderDataResponse(
       bill: bill,
@@ -122,5 +157,6 @@ Future<GetBillFooderDataResponse> HttpGetBillFooderData(
       bufferInventory: bufferInventory,
       bufferMenu: bufferMenu,
       bufferItems: bufferItems,
+      bufferAddress: bufferAddress,
       code: code);
 }

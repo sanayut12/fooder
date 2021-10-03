@@ -27,7 +27,7 @@ class DataManagementProvider with ChangeNotifier {
   }
 
   int NumberInBasket() {
-    print("rrrrrrrrrrrr");
+    // print("rrrrrrrrrrrr");
     int number = 0;
 
     basket.forEach((key1, value1) {
@@ -41,7 +41,7 @@ class DataManagementProvider with ChangeNotifier {
 
   void UpdateBasket() async {
     String user_id = UserInfoManagement().User_id();
-    print(user_id);
+    // print(user_id);
     GetItemInBasket_ListPost_idRequest
         bufferGetItemInBasket_ListPost_idRequest =
         GetItemInBasket_ListPost_idRequest(user_id: user_id);

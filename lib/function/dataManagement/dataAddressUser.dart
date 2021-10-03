@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:fooder/function/dataManagement/readJsonAddress.dart';
 
 class DataAddressUser {
-  final String user_id,
+  String user_id,
       name,
       phone,
       address,
@@ -14,7 +14,7 @@ class DataAddressUser {
       sub_district,
       district,
       province;
-  final double latitude, longtitude;
+  double latitude, longtitude;
   DataAddressUser(
       {@required this.user_id,
       @required this.name,

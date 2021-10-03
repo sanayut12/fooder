@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setEnabledSystemUIOverlays([]);
+    // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) {
@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Fooder',
         debugShowCheckedModeBanner: false,
+
         theme: ThemeData(
             primarySwatch: Colors.blue, bottomAppBarColor: Colors.transparent),
         // home: LoadScreen(), //MainScreen(),

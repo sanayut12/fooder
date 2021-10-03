@@ -17,6 +17,12 @@ class _AppBar2_IconButtonComponentState
     extends State<AppBar2_IconButtonComponent> {
   Color color = Colors.transparent;
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // Widget ButtonModel() => ;
     double weight_screen = MediaQuery.of(context).size.width;

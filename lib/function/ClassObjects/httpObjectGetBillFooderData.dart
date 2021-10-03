@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:fooder/function/dataManagement/dataAddressUser.dart';
 import 'package:fooder/function/dataManagement/dateBox.dart';
 
 class GetBillFooderDataRequest {
@@ -17,6 +18,7 @@ class GetBillFooderDataResponse {
   Map<String, BillFooder_Inventory> bufferInventory;
   Map<String, BillFooder_Menu> bufferMenu;
   Map<String, BillFooder_Items> bufferItems;
+  Map<String, DataAddressUser> bufferAddress;
   String code;
 
   GetBillFooderDataResponse(
@@ -27,12 +29,13 @@ class GetBillFooderDataResponse {
       @required this.bufferInventory,
       @required this.bufferMenu,
       @required this.bufferItems,
+      @required this.bufferAddress,
       @required this.code});
 }
 
 class BillFooder_Bill {
   String bill_id, address_user_id, how_send, how_pay, pay_status, status;
-  DateBox date;
+  DateBox date, date_confirm;
   BillFooder_Bill(
       {@required this.bill_id,
       @required this.address_user_id,
@@ -40,6 +43,7 @@ class BillFooder_Bill {
       @required this.how_send,
       @required this.how_pay,
       @required this.pay_status,
+      @required this.date_confirm,
       @required this.status});
 }
 

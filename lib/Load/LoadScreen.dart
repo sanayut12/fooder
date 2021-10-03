@@ -76,7 +76,7 @@ class _LoadScreenState extends State<LoadScreen> {
     DataManagementProvider provider =
         Provider.of<DataManagementProvider>(context, listen: false);
     String language = await ReadDataInStorage(key: "FOODERLANGUAGE");
-    provider.UpdateBasket();
+
     print("Language ${language}");
     if (language == null) {
       provider.ChangeLanguage('th');

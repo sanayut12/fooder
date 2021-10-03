@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fooder/MainScreen/subScreen/FullBillScreen.dart';
+import 'package:fooder/MainScreen/subScreen/FullBillScreen2.dart';
 import 'package:fooder/MainScreen/subScreen/subBillScreen2/subBillBox/Bill2Box_Billstatus1Component.dart';
 import 'package:fooder/MainScreen/subScreen/subBillScreen2/subBillBox/Bill2Box_Billstatus2Component.dart';
 import 'package:fooder/MainScreen/subScreen/subBillScreen2/subBillBox/Bill2Box_MenuListComponent.dart';
@@ -63,6 +63,6 @@ class _Bill2_BillBoxComponentState extends State<Bill2_BillBoxComponent> {
   Future<void> OpenFullBill() async {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext context) =>
-            FullBillScreen(data: this.widget.data)));
+            FullBillScreen2(data: this.widget.data)));
   }
 }
