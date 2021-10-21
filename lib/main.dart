@@ -33,7 +33,9 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
 
         theme: ThemeData(
-            primarySwatch: Colors.blue, bottomAppBarColor: Colors.transparent),
+            fontFamily: "SukhumvitSet-Light",
+            primarySwatch: Colors.blue,
+            bottomAppBarColor: Colors.transparent),
         // home: LoadScreen(), //MainScreen(),
         initialRoute: initRoute,
         routes: <String, WidgetBuilder>{

@@ -33,7 +33,7 @@ class _PreviewSelectAddressConponentState
         alignment: Alignment.center,
         margin: EdgeInsets.all(2),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(20),
           color: color,
         ),
 

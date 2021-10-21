@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:fooder/module/BackButton.dart';
 
 class CreateAddressUser_appbarComponent extends StatefulWidget {
   @override
@@ -24,19 +25,12 @@ class _CreateAddressUser_appbarComponentState
         ));
 
     Widget title = Container(
-      margin: EdgeInsets.only(
-          left: weight_screen * 0.05,
-          right: weight_screen * 0.1,
-          bottom: weight_screen * 0.01,
-          top: weight_screen * 0.01),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(weight_screen * 0.05)),
-      alignment: Alignment.center,
       child: Text(
         "เพิ่มที่อยู่",
         style: TextStyle(
-            fontSize: weight_screen * 0.05, fontWeight: FontWeight.w800),
+            fontSize: weight_screen * 0.05,
+            fontWeight: FontWeight.w800,
+            color: Colors.white),
       ),
     );
     return Container(
@@ -44,7 +38,7 @@ class _CreateAddressUser_appbarComponentState
       width: double.infinity,
       color: Color(0xfffa897b),
       child: Row(
-        children: [BackButton, Expanded(child: title)],
+        children: [BackButton21(), Expanded(child: title)],
       ),
     );
   }

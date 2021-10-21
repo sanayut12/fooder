@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fooder/MainScreen/subScreen/subFeedScreen/Feed_BoxComponent.dart';
 import 'package:fooder/MainScreen/subScreen/subFeedScreen/postBoxComponent.dart';
 import 'package:fooder/function/ClassObjects/httpObjectGetPostFeedFooderInit.dart';
 import 'package:fooder/function/ClassObjects/httpObjectGetPostFeedFooderPostShop.dart';
@@ -52,13 +53,21 @@ class _FeedScreenState extends State<FeedScreen> {
                         end: Alignment.bottomCenter,
                         colors: [Color(0xfffa897b), Colors.white])),
                 child: ListView.builder(
-                    itemCount: bufferData.length,
+                    itemCount: bufferData.length + 2,
                     itemBuilder: (BuildContext context, int index) {
-                      String post_id = bufferData.keys.toList()[index];
-                      return PostBoxComponent(
-                        data: bufferData[post_id],
-                        PopUpAddItemToBasket: this.PopUpAddItemToBasket,
-                      );
+                      if (index == 0) {
+                        return Feed_BoxComponent();
+                      } else if (bufferData.length == index - 1) {
+                        return SizedBox(
+                          height: 100,
+                        );
+                      } else {
+                        String post_id = bufferData.keys.toList()[index - 1];
+                        return PostBoxComponent(
+                          data: bufferData[post_id],
+                          PopUpAddItemToBasket: this.PopUpAddItemToBasket,
+                        );
+                      }
                     }),
               ),
             ),
@@ -80,7 +89,7 @@ class _FeedScreenState extends State<FeedScreen> {
                     color: Colors.grey[500].withOpacity(0.5),
                   ),
                   child: Text(
-                    "เพิ่มสินค้าลงตะกล้าสำเร็จ",
+                    "เพิ่มสินค้าลงตะกร้าสำเร็จ",
                     style: TextStyle(color: Colors.white),
                   ),
                 )

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fooder/MainScreen/subScreen/subFeedScreen/PostUsersComponent.dart';
 import 'package:fooder/MainScreen/subScreen/subProfileScreen/Profile_ProfileComponent.dart';
+import 'package:fooder/function/ClassObjects/httpObjectGetPostUsers_Data.dart';
+import 'package:fooder/function/ClassObjects/httpObjectGetPostUsers_Init.dart';
 import 'package:fooder/function/dataManagement/dataUserInfo.dart';
-import 'package:fooder/function/dataManagement/Readhostname.dart';
+import 'package:fooder/function/http/httpGetPostUsers_Data.dart';
+import 'package:fooder/function/http/httpGetPostUsers_Init.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -9,49 +13,65 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  String name;
-  String image;
+  Map<String, GetPostUsers_PostInfo> data = {};
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getUserProfile();
-  }
-
-  Future getUserProfile() async {
-    String _name = await UserInfoManagement().Name();
-    // String _image = await UserInfoManagement().Image();
-    setState(() {
-      name = _name;
-      // image = _image;
-    });
+    GetPost();
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    print(
-        "---------------------------------profie dispost----------------------");
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        children: [
-          Profile_ProfileComponent(),
-          Text(
-            "$name",
-            style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            "$image",
-            style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
-          ),
-          Text("${HostName()}")
-        ],
-      ),
-    );
+        height: double.infinity,
+        width: double.infinity,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Color(0xfffa897b), Colors.white])),
+        child: ListView.builder(
+            itemCount: data.length + 1,
+            itemBuilder: (BuildContext context, int index) {
+              if (index == 0) {
+                return Column(
+                  children: [
+                    Profile_ProfileComponent(),
+                  ],
+                );
+              } else {
+                String post_users_id = data.keys.toList()[index - 1];
+                return PostUsersComponent(data: data[post_users_id]);
+              }
+            }));
+  }
+
+  Future<void> GetPost() async {
+    String user_id = UserInfoManagement().User_id();
+    GetPostUsersInitRequest bufferGetPostUsersInitRequest =
+        GetPostUsersInitRequest(user_id: user_id);
+    GetPostUsersInitResponse bufferGetPostUsersInitResponse =
+        await HttpGetPostUsersInit(
+            bufferGetPostUsersInitRequest: bufferGetPostUsersInitRequest);
+    for (int i = 0;
+        i < bufferGetPostUsersInitResponse.bufferPostUser_id.length;
+        i++) {
+      String post_users_id =
+          bufferGetPostUsersInitResponse.bufferPostUser_id[i];
+      GetPostUsersDataRequest bufferGetPostUsersDataRequest =
+          GetPostUsersDataRequest(post_users_id: post_users_id);
+      GetPostUsersDataResponse _data = await HttpGetPostUsersData(
+          bufferGetPostUsersDataRequest: bufferGetPostUsersDataRequest);
+      setState(() {
+        data[post_users_id] = _data.post_info;
+      });
+    }
   }
 }

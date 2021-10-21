@@ -21,12 +21,12 @@ class _DrawerAppState extends State<DrawerApp> {
       },
       child: Container(
         height: 30,
-        width: double.infinity,
+        width: 150,
         padding: EdgeInsets.all(2),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), color: Colors.red),
-        child: Text("ล๊อกเอ้า"),
+            borderRadius: BorderRadius.circular(10), color: Colors.grey[200]),
+        child: Text("ออกจากระบบ"),
       ),
     );
 
@@ -39,9 +39,10 @@ class _DrawerAppState extends State<DrawerApp> {
       ),
       child: Column(
         children: [
-          Drawer_ChangeLangaugeComponent(),
+          // Drawer_ChangeLangaugeComponent(),
           Drawer_ProfileComponent(),
-          Logout,
+          Expanded(
+              child: Container(alignment: Alignment(0.8, 0.9), child: Logout)),
         ],
       ),
     );
@@ -51,7 +52,8 @@ class _DrawerAppState extends State<DrawerApp> {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
-          return AlertCardAsk(message: "ต้องการล๊อกเอ้าหรือไม่", func: Logout);
+          return AlertCardAsk(
+              message: "ต้องการออกจากระบบหรือไม่", func: Logout);
         });
   }
 

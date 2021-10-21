@@ -48,19 +48,19 @@ class _CreateAddressUser_OptionBarComponentState
             alignment: Alignment.center,
             margin: EdgeInsets.all(10),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: act == 1 ? Colors.red : Colors.white),
+                borderRadius: BorderRadius.circular(25),
+                color: act == 1 ? Color(0xfffa897b) : Colors.grey[200]),
             child: Text("${text}"),
           ),
         );
     return Container(
       height: weight_screen * 0.1,
       width: double.infinity,
-      color: Colors.green,
+      // color: Colors.green,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Expanded(child: ButtonModel("ยกเลิก", Cancel, 1)),
+          Expanded(child: Container()), //ButtonModel("ยกเลิก", Cancel, 1)
           Expanded(child: ButtonModel("ยืนยัน", Confirm, this.widget.active))
         ],
       ),

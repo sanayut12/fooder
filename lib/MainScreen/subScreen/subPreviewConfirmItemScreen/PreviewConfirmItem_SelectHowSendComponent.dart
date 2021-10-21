@@ -65,7 +65,7 @@ class _PreviewConfirmItem_SelectHowSendComponentState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "เลือกวิธีการรับสินค้า",
+            "วิธีการจัดส่ง",
             style: TextStyle(
                 fontSize: weight_screen * 0.05, fontWeight: FontWeight.bold),
           ),

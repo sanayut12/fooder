@@ -18,7 +18,7 @@ class _BuyMenu_Optionbuy2ComponentState
     double weight_screen = MediaQuery.of(context).size.width;
     return Container(
       height: weight_screen * 0.2,
-      width: double.infinity,
+      width: weight_screen * 0.5,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -31,7 +31,7 @@ class _BuyMenu_Optionbuy2ComponentState
             child: Text(
               "${this.widget.quantity}",
               style: TextStyle(
-                  fontSize: weight_screen * 0.1, fontWeight: FontWeight.w800),
+                  fontSize: weight_screen * 0.08, fontWeight: FontWeight.w500),
             ),
           ),
           ButtonModel(
@@ -71,14 +71,15 @@ class _ButtonModelState extends State<ButtonModel> {
         this.widget.fun(this.widget.status);
       },
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
+            shape: BoxShape.circle,
             border: Border.all(color: Colors.grey[200]),
-            borderRadius: BorderRadius.circular(weight_screen * 0.02),
+            // borderRadius: BorderRadius.circular(weight_screen * 0.02),
             color: color),
         child: Icon(
           this.widget.icon,
-          size: weight_screen * 0.11,
+          size: weight_screen * 0.08,
         ),
       ),
     );

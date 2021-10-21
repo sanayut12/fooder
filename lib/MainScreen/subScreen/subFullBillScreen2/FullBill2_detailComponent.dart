@@ -105,7 +105,6 @@ class _FullBill2_detailComponentState extends State<FullBill2_detailComponent> {
   Future<void> ChangePay() async {
     String how_pay = this.widget.data.bill.how_pay;
     String bill_id = this.widget.data.bill.bill_id;
-    print("dddddddddddddddddddddddd");
     if (how_pay == "1") {
       how_pay = "2";
     } else if (how_pay == "2") {
@@ -124,8 +123,16 @@ class _FullBill2_detailComponentState extends State<FullBill2_detailComponent> {
 
   Future<void> Payment() async {
     String bill_id = this.widget.data.bill.bill_id;
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) => PaymentScreen(bill_id: bill_id)));
+    PaymentReturn pay_status = await Navigator.of(context).push(
+        MaterialPageRoute(
+            builder: (BuildContext context) =>
+                PaymentScreen(bill_id: bill_id)));
+    if (pay_status.status) {
+      setState(() {
+        this.widget.data.bill.pay_status = "1";
+      });
+    }
+    ;
   }
 }
 

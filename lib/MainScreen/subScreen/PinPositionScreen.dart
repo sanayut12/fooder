@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fooder/MainScreen/subScreen/subPinPositionScreen/PinPosition_AppBarComponent.dart';
 import 'package:fooder/MainScreen/subScreen/subPinPositionScreen/PinPosition_OptionComponent.dart';
 import 'package:fooder/function/dataManagement/getGPS.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -27,7 +28,7 @@ class _PinPositionScreenState extends State<PinPositionScreen> {
         ? Container()
         : GoogleMap(
             cameraTargetBounds: CameraTargetBounds.unbounded,
-            mapType: MapType.hybrid,
+            mapType: MapType.normal,
             onCameraMove: (position) => {PinMark(position: position)},
             markers: <Marker>[
               Marker(
@@ -40,15 +41,21 @@ class _PinPositionScreenState extends State<PinPositionScreen> {
                 target: LatLng(latitude, longtitude), zoom: 17.5));
     return Scaffold(
       body: Container(
-        height: double.infinity,
-        width: double.infinity,
         color: Colors.red,
-        child: Column(
-          children: [
-            Expanded(child: ShowMap),
-            PinPosition_OptionComponent(
-                latitude: latitude, longtitude: longtitude)
-          ],
+        child: SafeArea(
+          child: Container(
+            height: double.infinity,
+            width: double.infinity,
+            color: Colors.red,
+            child: Column(
+              children: [
+                PinPosition_AppBarComponent(),
+                Expanded(child: ShowMap),
+                PinPosition_OptionComponent(
+                    latitude: latitude, longtitude: longtitude)
+              ],
+            ),
+          ),
         ),
       ),
     );

@@ -90,7 +90,7 @@ class _PreviewConfirmItem_ItemComponentState
       // color: Colors.red,
       margin: EdgeInsets.only(top: 1, bottom: 1),
       alignment: Alignment.center,
-      child: IconButton(onPressed: () {}, icon: Icon(Icons.restore_from_trash)),
+      child: IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
     );
     return Container(
       height: weight_screen * 0.18,

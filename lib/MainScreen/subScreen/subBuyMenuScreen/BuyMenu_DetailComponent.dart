@@ -18,18 +18,18 @@ class _BuyMenu_DetailComponentState extends State<BuyMenu_DetailComponent> {
       // mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Container(
+        //     padding: EdgeInsets.only(left: 10, bottom: 5),
+        //     child: Text("รายละเอียดสินค้า")),
         Container(
-            padding: EdgeInsets.only(left: 10, bottom: 5),
-            child: Text("รายละเอียดสินค้า")),
-        Container(
-          height: 150,
-          width: double.infinity,
-          margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Colors.grey[300]),
-            color: Colors.white,
-          ),
+          // height: 150,
+          // width: double.infinity,
+          // margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+          // decoration: BoxDecoration(
+          //   borderRadius: BorderRadius.circular(10),
+          //   border: Border.all(color: Colors.grey[300]),
+          //   color: Colors.white,
+          // ),
           child: Text(this.widget.dataMenu.detail == 'null'
               ? ""
               : " ${this.widget.dataMenu.detail}"),

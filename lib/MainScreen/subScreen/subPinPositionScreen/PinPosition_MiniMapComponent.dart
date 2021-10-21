@@ -24,7 +24,7 @@ class _PinPosition_MiniMapComponentState
         ? Container()
         : GoogleMap(
             // cameraTargetBounds: CameraTargetBounds.unbounded,
-            mapType: MapType.hybrid,
+            mapType: MapType.normal,
             markers: <Marker>[
               Marker(
                 markerId: MarkerId("value"),

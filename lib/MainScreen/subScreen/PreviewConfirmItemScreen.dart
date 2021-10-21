@@ -199,14 +199,34 @@ class _PreviewConfirmItemScreenState extends State<PreviewConfirmItemScreen> {
           how_pay: this.how_pay);
       Navigator.of(context).pop(data_pop);
     } else if (bufferConfirmItemsInBasketResponse.code == "20400") {
+      ShowAlert("สินค้าหมด");
       //ของไม่พอ
     } else if (bufferConfirmItemsInBasketResponse.code == "20500") {
+      ShowAlert("หมดเวลาซื้อสินค้า");
       //หมดเวลาการซื้อ
     } else if (bufferConfirmItemsInBasketResponse.code == "40400") {
+      ShowAlert("เกิดข้อผิดพลาด");
       //เกิดข้อผิดพลาด
     } else {
       //server ไม่ตอบ
     }
+  }
+
+  Future ShowAlert(String message) async {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text("${message}"),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("ตกลง"))
+            ],
+          );
+        });
   }
 }
 
@@ -253,4 +273,5 @@ class _Preview_ListMenuState extends State<Preview_ListMenu> {
   //     child: Column(
   //       children: ListItemsComponent,
   //     ));
+
 }

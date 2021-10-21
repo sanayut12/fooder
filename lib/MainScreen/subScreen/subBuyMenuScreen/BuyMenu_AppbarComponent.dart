@@ -35,9 +35,9 @@ class _BuyMenu_AppbarComponentState extends State<BuyMenu_AppbarComponent> {
     return Container(
       height: weight_screen * 0.15,
       width: double.infinity,
-      color: Color(0xfffa897b),
+      color: Colors.transparent, // Color(0xfffa897b)
       child: Row(
-        children: [BackButton, Expanded(child: Title)],
+        children: [BackButton], //, Expanded(child: Title)
       ),
     );
   }

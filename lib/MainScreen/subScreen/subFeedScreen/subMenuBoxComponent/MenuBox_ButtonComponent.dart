@@ -11,7 +11,7 @@ class MenuBox_ButtonComponent extends StatefulWidget {
 }
 
 class _MenuBox_ButtonComponentState extends State<MenuBox_ButtonComponent> {
-  Color color = Colors.amber;
+  Color color = Color(0xFFFA897B).withOpacity(0.7);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -21,8 +21,9 @@ class _MenuBox_ButtonComponentState extends State<MenuBox_ButtonComponent> {
         });
 
         await Future.delayed(Duration(milliseconds: 50));
+
         setState(() {
-          color = Colors.amber;
+          color = Color(0xFFFA897B).withOpacity(0.7);
         });
         await Future.delayed(Duration(milliseconds: 50));
         this.widget.fun();
@@ -33,7 +34,7 @@ class _MenuBox_ButtonComponentState extends State<MenuBox_ButtonComponent> {
         alignment: Alignment.center,
         margin: EdgeInsets.all(MediaQuery.of(context).size.width * 0.01),
         decoration: BoxDecoration(
-            color: color, borderRadius: BorderRadius.circular(10)),
+            color: color, borderRadius: BorderRadius.circular(20)),
         child: Text(
           "${this.widget.text}",
           style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03),

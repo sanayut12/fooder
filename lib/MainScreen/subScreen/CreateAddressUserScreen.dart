@@ -48,8 +48,8 @@ class _CreateAddressUserScreenState extends State<CreateAddressUserScreen> {
           width: double.infinity,
           decoration: BoxDecoration(
               gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
+                  begin: Alignment(0, -0.9),
+                  end: Alignment(0, -0.5),
                   colors: [Color(0xfffa897b), Colors.white])),
           child: Column(
             children: [
@@ -87,7 +87,12 @@ class _CreateAddressUserScreenState extends State<CreateAddressUserScreen> {
                                         MediaQuery.of(context).size.width * 0.9,
                                     width:
                                         MediaQuery.of(context).size.width * 0.9,
-                                    color: Colors.red,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Color(0xFFFDC9c2),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: Text("คลิกเพื่อทำการปักหมุด"),
                                   ),
                                 )
                               : PinPosition_MiniMapComponent(
@@ -125,23 +130,41 @@ class _CreateAddressUserScreenState extends State<CreateAddressUserScreen> {
 
   Future<void> setData(String _name, String _phone, String _address, String _no,
       String _moo, String _baan, String _road, String _soy) {
+    print(
+        "${_name} ${_phone} ${_address} ${_no} ${_moo} ${_baan} ${_road} ${_soy} ");
     setState(() {
       if (_name != null) {
-        name = _name;
+        setState(() {
+          name = _name;
+        });
       } else if (_phone != null) {
-        phone = _phone;
+        setState(() {
+          phone = _phone;
+        });
       } else if (_address != null) {
-        address = _address;
+        setState(() {
+          address = _address;
+        });
       } else if (_no != null) {
-        no = _no;
+        setState(() {
+          no = _no;
+        });
       } else if (_moo != null) {
-        moo = _moo;
+        setState(() {
+          moo = _moo;
+        });
       } else if (_baan != null) {
-        baan = _baan;
+        setState(() {
+          baan = _baan;
+        });
       } else if (_road != null) {
-        road = _road;
+        setState(() {
+          road = _road;
+        });
       } else if (_soy != null) {
-        soy = _soy;
+        setState(() {
+          soy = _soy;
+        });
       }
     });
     SetActive();

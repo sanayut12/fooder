@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fooder/MainScreen/subScreen/subSelectAddress/SelectAddress_AppbarComponent.dart';
 import 'package:fooder/function/ClassObjects/httpObjectGetAllAddress.dart';
 import 'package:fooder/function/dataManagement/dataAddressUser.dart';
 import 'package:fooder/function/dataManagement/dataUserInfo.dart';
@@ -44,16 +45,36 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
 
     return Scaffold(
       body: Container(
-          height: double.infinity,
-          width: double.infinity,
-          color: Colors.red,
-          child: ListView.builder(
-              itemCount: bufferAddress_user_id.length,
-              itemBuilder: (BuildContext context, int index) {
-                String address_user_id = bufferAddress_user_id[index];
-                String text = bufferDataAddressUser[address_user_id].ToString();
-                return ShowAddressUser(address_user_id, text);
-              })),
+        color: Color(0xfffa897b),
+        child: SafeArea(
+          child: Container(
+              height: double.infinity,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment(0, 0),
+                      end: Alignment.bottomCenter,
+                      colors: [Color(0xfffa897b), Colors.white])),
+              child: Column(
+                children: [
+                  SelectAddress_AppbarComponent(),
+                  Expanded(
+                    child: Container(
+                      child: ListView.builder(
+                          itemCount: bufferAddress_user_id.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            String address_user_id =
+                                bufferAddress_user_id[index];
+                            String text = bufferDataAddressUser[address_user_id]
+                                .ToString();
+                            return ShowAddressUser(address_user_id, text);
+                          }),
+                    ),
+                  ),
+                ],
+              )),
+        ),
+      ),
     );
   }
 

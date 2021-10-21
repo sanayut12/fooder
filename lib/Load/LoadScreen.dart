@@ -7,6 +7,7 @@ import 'package:fooder/FirstScreen/mainFirstScreen.dart';
 import 'package:fooder/Load/navigator_notification/page1GotoFullBillScreen.dart';
 import 'package:fooder/MainScreen/mainScreen.dart';
 import 'package:fooder/MainScreen/subScreen/FullBillScreen.dart';
+import 'package:fooder/MainScreen/subScreen/FullBillScreen2.dart';
 import 'package:fooder/function/ClassObjects/httpObjectGetBillFooderData.dart';
 import 'package:fooder/function/dataManagement/Readhostname.dart';
 import 'package:fooder/function/dataManagement/dataLanguageManagement.dart';
@@ -16,11 +17,9 @@ import 'package:fooder/function/dataManagement/readJsonAddress.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fooder/function/dataManagement/storageFunction.dart';
-import 'package:fooder/main.dart';
 import 'package:fooder/module/socketioManagerForgound.dart';
 import 'package:fooder/provider/DataManagementProvider.dart';
 import 'package:provider/provider.dart';
-import 'package:rxdart/subjects.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -85,6 +84,7 @@ class _LoadScreenState extends State<LoadScreen> {
     }
 
     bool userinfo_check = await UserInfoManagement().init();
+
     //เช็คการเปิดแอปจาก icon
     print("init ${notificationAppLaunchDetails.didNotificationLaunchApp}");
     if (notificationAppLaunchDetails.payload == "") {
@@ -127,7 +127,7 @@ class _LoadScreenState extends State<LoadScreen> {
           GetBillFooderDataResponse data =
               await Page1GotoFullBillScreen(bill_id);
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => FullBillScreen(data: data)));
+              builder: (BuildContext context) => FullBillScreen2(data: data)));
         }
       }
       // selectedNotificationPayload = payload;

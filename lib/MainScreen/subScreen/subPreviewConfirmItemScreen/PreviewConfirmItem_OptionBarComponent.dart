@@ -1,9 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fooder/function/ClassObjects/httpObjectConfirmMenuOrderInBasket.dart';
-import 'package:fooder/function/ClassObjects/httpObjectGetItemInBasket_Items.dart';
-import 'package:fooder/function/dataManagement/dataUserInfo.dart';
-import 'package:fooder/function/http/httpConfirmMenuOrderInBasket.dart';
 
 class PreviewConfirmItem_OptionBarComponent extends StatefulWidget {
   Function fun;
@@ -22,7 +18,7 @@ class _PreviewConfirmItem_OptionBarComponentState
     return Container(
       height: MediaQuery.of(context).size.width * 0.2,
       width: double.infinity,
-      color: Color(0xfffa897b),
+      // color: Color(0xfffa897b),
       child: Row(
         children: [
           Expanded(child: Container()),
@@ -73,8 +69,8 @@ class _ButtonModelState extends State<ButtonModel> {
         alignment: Alignment.center,
         decoration: BoxDecoration(
             border: Border.all(color: Colors.grey[300]),
-            borderRadius: BorderRadius.circular(10),
-            color: this.widget.active == 1 ? Colors.amber : Colors.white),
+            borderRadius: BorderRadius.circular(20),
+            color: this.widget.active == 1 ? Color(0xfffa897b) : Colors.white),
         child: Text("${this.widget.text}"),
       ),
     );

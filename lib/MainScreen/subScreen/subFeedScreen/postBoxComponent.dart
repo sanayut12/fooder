@@ -1,10 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fooder/MainScreen/subScreen/ChatScreen.dart';
 import 'package:fooder/MainScreen/subScreen/subFeedScreen/subPostBoxComponent/PostBox_Detail.dart';
 import 'package:fooder/MainScreen/subScreen/subFeedScreen/subPostBoxComponent/PostBox_ListMenu.dart';
 import 'package:fooder/MainScreen/subScreen/subFeedScreen/subPostBoxComponent/PostBox_ShopInfoTap.dart';
 import 'package:fooder/MainScreen/subScreen/subFeedScreen/subPostBoxComponent/PostBox_status2.dart';
+import 'package:fooder/function/ClassObjects/httpObjectChatConnection.dart';
 import 'package:fooder/function/ClassObjects/httpObjectGetPostFeedFooderPostShop.dart';
+import 'package:fooder/function/dataManagement/dataChatBox.dart';
+import 'package:fooder/function/dataManagement/dataUserInfo.dart';
+import 'package:fooder/function/http/httpChatConnection.dart';
 import 'package:fooder/provider/DataManagementProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -57,9 +62,46 @@ class _PostBoxComponentState extends State<PostBoxComponent> {
             PostBox_StatusBar2(
                 language: language,
                 dataPost_PostBox: this.widget.data.dataPost_PostBox),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                    onPressed: () {
+                      OpenChatScreen();
+                    },
+                    icon: Icon(Icons.chat_rounded))
+              ],
+            )
           ],
         );
       }),
     );
+  }
+
+  Future<void> OpenChatScreen() async {
+    String user_id = UserInfoManagement().User_id();
+    String shop_id = this.widget.data.dataPost_PostBox.shop_id;
+    ChatConnectRequest bufferChatConnectRequest =
+        ChatConnectRequest(user_id: user_id, shop_id: shop_id);
+    ChatConnectionResponse bufferChatConnectionResponse =
+        await HttpChatConnection(
+            bufferChatConnectRequest: bufferChatConnectRequest);
+    ///////////////////////////////
+    String chatmanager_id = bufferChatConnectionResponse.chatmanager_id;
+    ShopProfileMini shopProfileMini =
+        bufferChatConnectionResponse.shopProfileMini;
+    ChatManager chatManager = bufferChatConnectionResponse.chatManager;
+    /////เพิ่มข้อมูลลงไปในส่วน provider
+    DataManagementProvider provider =
+        Provider.of<DataManagementProvider>(context, listen: false);
+    provider.AddShopProfileMini(shop_id, shopProfileMini);
+    provider.AddChatmanager(chatmanager_id, chatManager);
+    ///////////////////////////////////////
+    await Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) => ChatScreen(
+              chatmanager_id: chatmanager_id,
+              type_chat: "5",
+              message: this.widget.data.dataPost_PostBox.post_id,
+            )));
   }
 }

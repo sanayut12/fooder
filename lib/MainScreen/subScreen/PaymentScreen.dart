@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fooder/MainScreen/subScreen/subPayment/Payment_AppbarComponent.dart';
 import 'package:fooder/function/ClassObjects/httpObjectPayment.dart';
 import 'package:fooder/function/dataManagement/socketManagement.dart';
 import 'package:fooder/function/http/httpPayment.dart';
+import 'package:fooder/module/socketioManagerForgound.dart';
 
 class PaymentScreen extends StatefulWidget {
   final String bill_id;
@@ -13,11 +15,19 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   PaymentResponse data;
+  PaymentReturn payres = PaymentReturn(status: false);
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     GeneratePaymentQrcode();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    SocketioManagerForgound().unsubscript("payment_users:" + data.ref);
   }
 
   @override
@@ -35,15 +45,26 @@ class _PaymentScreenState extends State<PaymentScreen> {
     Widget ShowQrcode = Container(
       height: MediaQuery.of(context).size.width * 0.8,
       width: MediaQuery.of(context).size.width * 0.8,
-      // color: Colors.red,
-      decoration: data == null
-          ? BoxDecoration(color: Colors.red)
-          : BoxDecoration(
-              image: DecorationImage(image: MemoryImage(data.image))),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20), color: Colors.white),
+      child: Container(
+        height: MediaQuery.of(context).size.width * 0.7,
+        width: MediaQuery.of(context).size.width * 0.7,
+        // color: Colors.red,
+
+        decoration: data == null
+            ? BoxDecoration(color: Colors.white)
+            : BoxDecoration(
+                image: DecorationImage(image: MemoryImage(data.image))),
+      ),
     );
 
     Widget ShowCost = Container(
-      child: Text("ที่ต้องชำระ ${data == null ? 0 : data.cost} บาท"),
+      child: Text(
+        "จำนวนเงินที่ต้องชำระ ${data == null ? 0 : data.cost} บาท",
+        style: TextStyle(fontSize: 20, fontFamily: "SukhumvitSet-Bold"),
+      ),
     );
 
     Widget ShowRef = Container(
@@ -52,7 +73,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
     Widget ShowPaymentAtApp = GestureDetector(
       onTap: () {
-        click();
+        // click();
       },
       child: Container(
         height: 100,
@@ -65,26 +86,32 @@ class _PaymentScreenState extends State<PaymentScreen> {
       ),
     );
 
-    return Scaffold(
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        color: Color(0xfffa897b),
-        child: SafeArea(
-          child: Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Color(0xfffa897b), Colors.white])),
-            child: Column(
-              children: [
-                ShowTitle,
-                ShowRef,
-                ShowQrcode,
-                ShowCost,
-                ShowPaymentAtApp
-              ],
+    return WillPopScope(
+      onWillPop: () {
+        Navigator.of(context).pop(payres);
+      },
+      child: Scaffold(
+        body: Container(
+          height: double.infinity,
+          width: double.infinity,
+          color: Color(0xfffa897b),
+          child: SafeArea(
+            child: Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Color(0xfffa897b), Colors.white])),
+              child: Column(
+                children: [
+                  Payment_AppbarComponent(),
+                  // ShowTitle,
+                  ShowCost,
+                  ShowQrcode,
+                  ShowRef,
+                  // ShowPaymentAtApp
+                ],
+              ),
             ),
           ),
         ),
@@ -101,29 +128,37 @@ class _PaymentScreenState extends State<PaymentScreen> {
       data = bufferPaymentResponse;
     });
 
-    SocketManagement().subscript(bufferPaymentResponse.ref, alert);
+    SocketioManagerForgound()
+        .subscript("payment_users:" + bufferPaymentResponse.ref, alert);
+    // SocketManagement().subscript(bufferPaymentResponse.ref, alert);
   }
 
-  Future<void> click() {
-    SocketManagement().emit("test", "_message");
-  }
+  // Future<void> click() {
+  //   SocketManagement().emit("test", "_message");
+  // }
 
   void alert(String _message) async {
     print("${_message}");
+    payres = PaymentReturn(status: true);
     return showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: Text("ชำระตังสำเร็จ"),
+            content: Text("ชำระเงินสำเร็จ"),
             actions: [
               TextButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pop(payres);
+                    Navigator.of(context).pop(payres);
                   },
                   child: Text("ตกลง"))
             ],
           );
         });
   }
+}
+
+class PaymentReturn {
+  bool status;
+  PaymentReturn({@required this.status});
 }

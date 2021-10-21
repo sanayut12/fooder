@@ -90,7 +90,7 @@ class _MenuBoxComponentState extends State<MenuBoxComponent> {
             children: [
               Expanded(
                   child: MenuBox_ButtonComponent(
-                      text: "เพิ่มลงตะกล้า", fun: AddMenuToBasket)),
+                      text: "เพิ่มลงตะกร้า", fun: AddMenuToBasket)),
               Expanded(
                 child: MenuBox_ButtonComponent(text: "ซื้อ", fun: selectMenu),
               ),

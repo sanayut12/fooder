@@ -106,12 +106,14 @@ class _CreateAddressUser_SelectAddressComponentState
       },
     );
     return Container(
+      padding: EdgeInsets.only(left: 10),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           InputProvince,
           InputDistrict,
           InputSub_District,
-          Text("รหัสไปรษณี ${_post_code == null ? '' : _post_code}")
+          Text("รหัสไปรษณีย์ ${_post_code == null ? '' : _post_code}")
         ],
       ),
     );

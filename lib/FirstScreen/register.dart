@@ -1,12 +1,13 @@
-import 'dart:convert';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:fooder/FirstScreen/subRegister/Register_ButtonComponent.dart';
+import 'package:fooder/FirstScreen/subRegister/Register_ConfirmPasswordComponent.dart';
+import 'package:fooder/FirstScreen/subRegister/Register_EmailComponent.dart';
+import 'package:fooder/FirstScreen/subRegister/Register_NameComponent.dart';
+import 'package:fooder/FirstScreen/subRegister/Register_PasswordComponent.dart';
+import 'package:fooder/FirstScreen/subRegister/Register_PhoneComponent.dart';
 import 'package:fooder/function/ClassObjects/httpObjectRegister.dart';
 import 'package:fooder/function/dataManagement/dataLanguageManagement.dart';
 import '../function/http/httpRegister.dart';
-
-String name, password, confirmpassword, phone, email;
 
 class Register extends StatefulWidget {
   String language;
@@ -19,17 +20,16 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  TextEditingController _name, _password, _confirmpassword, _phone, _email;
+  String name = "";
+  String password = "";
+  String confirmpassword = "";
+  String phone = "";
+  String email = "";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _name = TextEditingController(text: name);
-    _password = TextEditingController(text: password);
-    _confirmpassword = TextEditingController(text: confirmpassword);
-    _phone = TextEditingController(text: phone);
-    _email = TextEditingController(text: email);
   }
 
   void resetInput() {
@@ -45,116 +45,84 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     LanguageManagement lgm = LanguageManagement();
-    Widget NameInput = TextFormField(
-      onChanged: (e) {
-        setState(() {
-          name = e;
-        });
-      },
-      controller: _name,
-      decoration: InputDecoration(
-          hintText: "${lgm.value('019', this.widget.language)}",
-          hintStyle: TextStyle(color: Colors.black38)),
-    );
+    double weight_screen = MediaQuery.of(context).size.width;
 
-    Widget PhoneInput = TextFormField(
-      onChanged: (e) {
-        setState(() {
-          phone = e;
-        });
-      },
-      controller: _phone,
-      decoration: InputDecoration(
-          hintText: "${lgm.value('020', this.widget.language)}",
-          hintStyle: TextStyle(color: Colors.black38)),
-    );
-
-    Widget EmailInput = TextFormField(
-      onChanged: (e) {
-        setState(() {
-          email = e;
-        });
-      },
-      controller: _email,
-      decoration: InputDecoration(
-          hintText: "${lgm.value('021', this.widget.language)}",
-          hintStyle: TextStyle(color: Colors.black38)),
-    );
-
-    Widget PasswordInput = TextFormField(
-      onChanged: (e) {
-        setState(() {
-          password = e;
-        });
-      },
-      controller: _password,
-      decoration: InputDecoration(
-          hintText: "${lgm.value('004', this.widget.language)}",
-          hintStyle: TextStyle(color: Colors.black38)),
-    );
-
-    Widget ConfirmPasswordInput = TextFormField(
-      onChanged: (e) {
-        setState(() {
-          confirmpassword = e;
-        });
-      },
-      controller: _confirmpassword,
-      decoration: InputDecoration(
-          hintText: "${lgm.value('022', this.widget.language)}",
-          hintStyle: TextStyle(color: Colors.black38)),
-    );
-
-    Widget RegisterButton = GestureDetector(
-      onTap: () async {
-        await registerOnPress();
-      },
-      child: Container(
-        child: Text(
-          "${lgm.value('002', this.widget.language)}",
-          style: TextStyle(fontSize: 20.0, color: Colors.white),
-        ),
-        height: 40,
-        width: 100,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            color: Colors.red,
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-      ),
-    );
-
-    Widget RegisterForm = Form(
-        child: Column(
-      children: [
-        NameInput,
-        PhoneInput,
-        EmailInput,
-        PasswordInput,
-        ConfirmPasswordInput,
-        RegisterButton
-      ],
-    ));
     return Container(
-        margin: EdgeInsets.fromLTRB(20, 0, 20, 0), child: RegisterForm);
+        height: weight_screen,
+        width: weight_screen * 0.8,
+        margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+        child: Form(
+          autovalidate: true,
+          child: Column(
+            children: [
+              Register_NameComponent(name: name, fun: SetName),
+              Register_PhoneComponent(phone: phone, fun: SetPhone),
+              Register_EmailComponent(email: email, fun: SetEmail),
+              Register_PasswordComponent(password: password, fun: SetPassword),
+              Register_ConfirmPasswordComponent(
+                  password: password,
+                  confirmpassword: confirmpassword,
+                  fun: SetConfirmPassword),
+              Expanded(
+                  child: Container(
+                alignment: Alignment.center,
+                child: Register_ButtonComponent(fun: registerOnPress),
+              ))
+            ],
+          ),
+        ));
+  }
+
+  Future<void> SetName(String _name) {
+    setState(() {
+      name = _name;
+    });
+  }
+
+  Future<void> SetPhone(String _phone) {
+    setState(() {
+      phone = _phone;
+    });
+  }
+
+  Future<void> SetEmail(String _email) {
+    setState(() {
+      email = _email;
+    });
+  }
+
+  Future<void> SetPassword(String _password) {
+    setState(() {
+      password = _password;
+    });
+  }
+
+  Future<void> SetConfirmPassword(String _confirmpassword) {
+    setState(() {
+      confirmpassword = _confirmpassword;
+    });
   }
 
   //เมื่อเรากดที่จะ register
-  Future registerOnPress() async {
+  Future<void> registerOnPress() async {
     RegisterResponse bufferRegisterResponse = await RegisterHttp();
 
     if (bufferRegisterResponse.code == 20200) {
       ConfirmRegisterResponse bufferConfirmRegisterResponse =
           await ShowAlertdialogConfirmRegister(bufferRegisterResponse);
 
-      // print("Confirm register response");
-      // print(
-      //     "${bufferConfirmRegisterResponse.message} ${bufferConfirmRegisterResponse.code} ${bufferConfirmRegisterResponse.key}");
       if (bufferConfirmRegisterResponse.code == 20200) {
         await ShowAlertdialogRegisterSuccesses();
         resetInput();
-        this.widget.rePage();
+        this.widget.rePage(true);
       } else {
-        ShowAlertdialogConfirmRegisterFail(bufferConfirmRegisterResponse);
+        if (bufferConfirmRegisterResponse.code == 10001) {
+          ShowAlertdialogConfirmRegisterFail("เบอร์โทรศัพท์ถูกใช้ไปแล้ว");
+        } else if (bufferConfirmRegisterResponse.code == 10003) {
+          ShowAlertdialogConfirmRegisterFail("OTP หมดเวลา");
+        } else if (bufferConfirmRegisterResponse.code == 10004) {
+          ShowAlertdialogConfirmRegisterFail("รหัส OTP ไม่ถูกต้อง");
+        }
       }
     } else if (bufferRegisterResponse.code == 10001) {
       ShowAlertdialogFail(bufferRegisterResponse);
@@ -175,8 +143,9 @@ class _RegisterState extends State<Register> {
         context: context,
         builder: (BuildContext builder) {
           return AlertDialog(
-            title: Text("fail"),
-            content: Text("${bufferRegisterResponse.message}"),
+            title: Text("เกินข้อผิดพลาด"),
+            content: Text(
+                "เบอร์โทรศัพท์ถูกใช้ไปแล้ว"), //${bufferRegisterResponse.message}
             actions: [
               TextButton(
                   onPressed: () {
@@ -236,7 +205,7 @@ class _RegisterState extends State<Register> {
         context: context,
         builder: (BuildContext builder) {
           return AlertDialog(
-            title: Text("successes"),
+            // title: Text("successes"),
             content: Text("ลงทะเบียนสำเร็จ"),
             actions: [
               TextButton(
@@ -249,14 +218,13 @@ class _RegisterState extends State<Register> {
         });
   }
 
-  Future ShowAlertdialogConfirmRegisterFail(
-      ConfirmRegisterResponse bufferConfirmRegisterResponse) {
+  Future ShowAlertdialogConfirmRegisterFail(String message) {
     return showDialog(
         context: context,
         builder: (BuildContext builder) {
           return AlertDialog(
-            title: Text("fail"),
-            content: Text("${bufferConfirmRegisterResponse.message}"),
+            title: Text("เกิดข้อผิดพลาด"),
+            content: Text("${message}"),
             actions: [
               TextButton(
                   onPressed: () {

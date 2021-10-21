@@ -22,8 +22,18 @@ class _PreviewConfirmItem_AppbarComponentState
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              icon: Icon(Icons.arrow_back_ios)),
-          Expanded(child: Text("ยืนยันการชำระสินค้า"))
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.white,
+              )),
+          Expanded(
+              child: Text(
+            "ยืนยันการชำระสินค้า",
+            style: TextStyle(
+                fontSize: 20,
+                fontFamily: "SukhumvitSet-Bold",
+                color: Colors.white),
+          ))
         ],
       ),
     );

@@ -8,6 +8,13 @@ import 'package:fooder/MainScreen/subScreen/billScreen2.dart';
 import 'package:fooder/MainScreen/subScreen/feedScreen.dart';
 import 'package:fooder/MainScreen/subScreen/notificationScreen.dart';
 import 'package:fooder/MainScreen/subScreen/profileScreen.dart';
+import 'package:fooder/function/ClassObjects/httpObjectGetChatMessage.dart';
+import 'package:fooder/function/ClassObjects/httpObjectGetListChatManager.dart';
+import 'package:fooder/function/dataManagement/Readhostname.dart';
+import 'package:fooder/function/dataManagement/dataChatBox.dart';
+import 'package:fooder/function/dataManagement/dataUserInfo.dart';
+import 'package:fooder/function/http/httpGetChatMessage.dart';
+import 'package:fooder/function/http/httpGetListChatManager.dart';
 import 'package:fooder/module/AlertCard.dart';
 import 'package:fooder/provider/DataManagementProvider.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +36,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    initUsers();
     // getDataUserInfo();
   }
 
@@ -52,13 +60,10 @@ class _MainScreenState extends State<MainScreen> {
         drawer: Drawer(
           child: DrawerApp(),
         ),
-
-        // appBar: appBarFooder(OpenDrawer, OnClickGotoBasket, null,
-        //     OpenSearchScreen, MediaQuery.of(context).size.width),
         body: Consumer(
             builder: (context, DataManagementProvider provider, Widget child) {
           String language = provider.LanguageValue();
-          provider.UpdateBasket();
+
           int number = provider.NumberInBasket();
           return Container(
             height: double.infinity,
@@ -103,11 +108,6 @@ class _MainScreenState extends State<MainScreen> {
           },
           letIndexChange: (index) => true,
         ),
-
-        //  BottomBar(
-        //   bottombarIndex: bottomBarIndex,
-        //   changeScreen: ChangeScreen,
-        // )
       ),
     );
   }
@@ -133,5 +133,56 @@ class _MainScreenState extends State<MainScreen> {
 
   Future<void> OpenDrawer() {
     _key.currentState.openDrawer();
+  }
+
+  Future<void> initUsers() async {
+    DataManagementProvider provider =
+        Provider.of<DataManagementProvider>(context, listen: false);
+    provider.initSocket();
+    provider.UpdateBasket();
+    String user_id = UserInfoManagement().User_id();
+    GetListChatManagerRequest bufferGetListChatManagerRequest =
+        GetListChatManagerRequest(user_id: user_id);
+    GetListChatManagerResponse bufferGetListChatManagerResponse =
+        await HttpGetListChatManager(
+            bufferGetListChatManagerRequest: bufferGetListChatManagerRequest,
+            host: HostName());
+    List<String> bufferChatManager_id =
+        bufferGetListChatManagerResponse.bufferChatManager_id;
+    Map<String, ChatManager> bufferChatManager =
+        bufferGetListChatManagerResponse.bufferChatManager;
+    Map<String, ShopProfileMini> bufferShopProfileMini =
+        bufferGetListChatManagerResponse.bufferShopProfileMini;
+
+    bufferShopProfileMini.forEach((key, value) {
+      provider.AddUsers(key, value);
+    });
+
+    bufferChatManager.forEach((key, value) {
+      provider.AddChatmanager(key, value);
+    });
+
+    for (String chatmanager_id in bufferChatManager_id) {
+      GetChatMessageRequest bufferGetChatMessageRequest =
+          GetChatMessageRequest(chatmanager_id: chatmanager_id);
+      GetChatMessageResponse bufferGetChatMessageResponse =
+          await HttpGetChatMessage(
+              bufferGetChatMessageRequest: bufferGetChatMessageRequest,
+              host: HostName());
+
+      int len_chatbox = bufferGetChatMessageResponse.bufferChatBox.length;
+
+      for (String chatmessage_id in bufferGetChatMessageResponse
+          .bufferChatBox.keys
+          .toList()
+          .reversed) {
+        provider.AddChatBox(chatmessage_id,
+            bufferGetChatMessageResponse.bufferChatBox[chatmessage_id]);
+      }
+    }
+
+    bufferChatManager_id.forEach((element) {
+      provider.AddChatSort(element);
+    });
   }
 }

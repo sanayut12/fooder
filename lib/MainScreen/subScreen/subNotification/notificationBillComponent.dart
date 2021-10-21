@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:fooder/MainScreen/subScreen/FullBillScreen.dart';
+import 'package:fooder/MainScreen/subScreen/FullBillScreen2.dart';
 import 'package:fooder/function/ClassObjects/httpObjectGetBillFooderData.dart';
 import 'package:fooder/function/ClassObjects/notificationUsers/httpObjectNotificationBill.dart';
 import 'package:fooder/function/dataManagement/Readhostname.dart';
@@ -90,6 +91,6 @@ class _NotificationBillComponentState extends State<NotificationBillComponent> {
     GetBillFooderDataResponse data =
         await HttpGetBillFooderData(bufferGetBillFooderDataRequest);
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) => FullBillScreen(data: data)));
+        builder: (BuildContext context) => FullBillScreen2(data: data)));
   }
 }

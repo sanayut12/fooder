@@ -36,7 +36,7 @@ Future<ConfirmRegisterResponse> HttpConfirmRegister(
     'phone': bufferConfirmRegisterRequest.phone,
     'code': bufferConfirmRegisterRequest.code
   };
-  var url = Uri.parse(hostname + "/users/confirmRegister");
+  var url = Uri.parse("${HostName()}/users/confirmRegister");
   var uriResponse = await client.post(
     url,
     body: jsonEncode(body),

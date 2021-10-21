@@ -25,16 +25,18 @@ class _PinPosition_OptionComponentState
             alignment: Alignment.center,
             margin: EdgeInsets.all(10),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10), color: Colors.green),
+                borderRadius: BorderRadius.circular(25),
+                color: Color(0xfffa897b)),
             child: Text("${text}"),
           ),
         );
     return Container(
       height: MediaQuery.of(context).size.height * 0.1,
       width: double.infinity,
+      color: Colors.white,
       child: Row(
         children: [
-          Expanded(child: ButtonModel("ยกเลิก", CancelPin)),
+          Expanded(child: Container()), //ButtonModel("ยกเลิก", CancelPin)
           Expanded(child: ButtonModel("ปักหมุด", ConfirmPin))
         ],
       ),

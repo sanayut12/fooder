@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fooder/MainScreen/appBar/subAppbar2/AppBar2_IconButtonComponent.dart';
 import 'package:fooder/MainScreen/subScreen/BasketScreen2.dart';
+import 'package:fooder/MainScreen/subScreen/ChatListScreen.dart';
 import 'package:fooder/MainScreen/subScreen/SearchScreen.dart';
 import 'package:fooder/provider/DataManagementProvider.dart';
 import 'package:provider/provider.dart';
@@ -31,17 +32,28 @@ class _AppBar2FooderState extends State<AppBar2Fooder> {
       color: Color(0xfffa897b),
       child: Row(
         children: [
-          Expanded(child: Container()),
+          Expanded(
+              child: Container(
+            padding: EdgeInsets.only(left: 10),
+            child: this.widget.page == 1
+                ? Text(
+                    "รายการสั่งซื้อ",
+                    style: TextStyle(
+                        fontSize: 20, fontFamily: "SukhumvitSet-Bold"),
+                  )
+                : Container(),
+          )),
           Expanded(
               child: Container(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                AppBar2_IconButtonComponent(
-                  icon: Icons.search,
-                  fun: OpenSearchScreen,
-                  number: 0,
-                ),
+                // AppBar2_IconButtonComponent(
+                //   icon: Icons.search,
+                //   fun: OpenSearchScreen,
+                //   number: 0,
+                // ),
+
                 AppBar2_IconButtonComponent(
                   icon: Icons.add_shopping_cart_rounded,
                   fun: OpenBasketScreen,
@@ -49,7 +61,7 @@ class _AppBar2FooderState extends State<AppBar2Fooder> {
                 ),
                 AppBar2_IconButtonComponent(
                   icon: Icons.chat,
-                  fun: null,
+                  fun: OpenChatListScreen,
                   number: 0,
                 )
               ],
@@ -68,5 +80,10 @@ class _AppBar2FooderState extends State<AppBar2Fooder> {
   Future<void> OpenSearchScreen() {
     Navigator.of(context).push(
         MaterialPageRoute(builder: (BuildContext context) => SearchScreen()));
+  }
+
+  Future<void> OpenChatListScreen() {
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (BuildContext context) => ChatListScreen()));
   }
 }

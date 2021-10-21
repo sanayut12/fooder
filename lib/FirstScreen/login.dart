@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:fooder/FirstScreen/subLogin/Login_ButtonLoginComponent.dart';
+import 'package:fooder/FirstScreen/subLogin/Login_PasswordUsersInputComponent.dart';
+import 'package:fooder/FirstScreen/subLogin/Login_PhoneUsersInputComponent.dart';
 
 import 'package:fooder/MainScreen/mainScreen.dart';
 import 'package:fooder/function/ClassObjects/httpObjectLogin.dart';
@@ -7,8 +10,8 @@ import 'package:fooder/function/dataManagement/dataLanguageManagement.dart';
 import 'package:fooder/function/dataManagement/dataUserInfo.dart';
 import 'package:fooder/function/http/httpLogin.dart';
 
-String phone = "0998765432";
-String password = "12345";
+// String phone = "0998765432";
+// String password = "12345";
 
 class LoginScreen extends StatefulWidget {
   String language;
@@ -18,100 +21,54 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController _phone, _password;
+  String phone = "";
+  String password = "";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _phone = TextEditingController(text: phone);
-    _password = TextEditingController(text: password);
   }
 
   @override
   Widget build(BuildContext context) {
     LanguageManagement lgm = LanguageManagement();
-    Widget PhoneInput = TextFormField(
-      controller: _phone,
-      onChanged: (e) {
-        setState(() {
-          phone = e;
-        });
-      },
-      decoration: InputDecoration(
-          hintText: "${lgm.value('003', this.widget.language)}",
-          hintStyle: TextStyle(color: Colors.black38)),
-    );
-
-    Widget PasswordInput = TextFormField(
-      controller: _password,
-      onChanged: (e) {
-        setState(() {
-          password = e;
-        });
-      },
-      decoration: InputDecoration(
-          hintText: "${lgm.value('004', this.widget.language)}",
-          hintStyle: TextStyle(color: Colors.black38)),
-    );
-
-    Widget ButtonLogin = GestureDetector(
-      onTap: () {
-        OnpressLogin();
-      },
-      child: Container(
-        alignment: Alignment.center,
-        height: 40,
-        width: 100,
-        child: Text(
-          "${lgm.value('001', this.widget.language)}",
-          style: TextStyle(fontSize: 20, color: Colors.white),
-        ),
-        decoration: BoxDecoration(
-            color: Colors.red,
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-      ),
-    );
-
-    // Widget FacebookLogin = FacebookAuthButton(
-    //   onPressed: () {},
-    //   style: AuthButtonStyle.icon,
-    // );
-    // Widget GoogleLogin = GoogleAuthButton(
-    //   onPressed: () {},
-    //   style: AuthButtonStyle.icon,
-    //   iconStyle: AuthIconStyle.secondary,
-    // );
-
-    Widget LoginFrom = Form(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Container(
-          child: Column(
-            children: [PhoneInput, PasswordInput, ButtonLogin],
-          ),
-        ),
-        // Container(
-        //   height: 200,
-        //   child: Column(
-        //     children: [
-        //       Row(
-        //         mainAxisAlignment: MainAxisAlignment.center,
-        //         children: [FacebookLogin, GoogleLogin],
-        //       )
-        //     ],
-        //   ),
-        // ),
-      ],
-    ));
+    double weight_screen = MediaQuery.of(context).size.width;
     return Container(
-        height: 400,
+        height: weight_screen,
+        width: weight_screen * 0.8,
         margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-        child: LoginFrom);
+        child: Form(
+          autovalidate: true,
+          child: Column(
+            children: [
+              Login_PhoneUsersInputComponent(phone: phone, fun: SetPhone),
+              Login_PasswordUsersInputComponent(
+                  password: password, fun: SetPassword),
+              Expanded(
+                  child: Container(
+                      alignment: Alignment.center,
+                      child: Login_ButtonLoginComponent(fun: OnpressLogin)))
+            ],
+          ),
+        ));
+  }
+
+  Future<void> SetPhone(String _phone) {
+    setState(() {
+      phone = _phone;
+    });
+  }
+
+  Future<void> SetPassword(String _password) {
+    print(_password);
+    setState(() {
+      password = _password;
+    });
   }
 
   Future OnpressLogin() {
+    // print("${phone} \n ${password}");
     LoginHttp();
   }
 
@@ -148,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
         builder: (BuildContext builder) {
           return AlertDialog(
             title: Text('แจ้งเตือน'),
-            content: Text("เบอร์โทรศัพท์ หรือ รหัสผ่านไม่ถ฿กต้อง"),
+            content: Text("เบอร์โทรศัพท์ หรือ รหัสผ่านไม่ถูกต้อง"),
             actions: [
               TextButton(
                   onPressed: () {

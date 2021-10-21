@@ -2,9 +2,18 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fooder/MainScreen/subScreen/ChatScreen.dart';
+import 'package:fooder/function/ClassObjects/httpObjectChatConnection.dart';
+import 'package:fooder/function/ClassObjects/httpObjectChatRoomUsers.dart';
 import 'package:fooder/function/dataManagement/Readhostname.dart';
+import 'package:fooder/function/dataManagement/dataChatBox.dart';
 import 'package:fooder/function/dataManagement/dataLanguageManagement.dart';
 import 'package:fooder/function/dataManagement/dataPostBox.dart';
+import 'package:fooder/function/dataManagement/dataUserInfo.dart';
+import 'package:fooder/function/http/httpChatConnection.dart';
+import 'package:fooder/function/http/httpChatRoomUsers.dart';
+import 'package:fooder/provider/DataManagementProvider.dart';
+import 'package:provider/provider.dart';
 
 class PostBox_ShopInfoTap extends StatefulWidget {
   String language;
@@ -25,7 +34,7 @@ class _PostBox_ShopInfoTapState extends State<PostBox_ShopInfoTap> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    CountDateStartPostInit();
+    CountDateStartPostInit(this.widget.language);
   }
 
   @override
@@ -77,14 +86,13 @@ class _PostBox_ShopInfoTapState extends State<PostBox_ShopInfoTap> {
               ],
             ),
           ),
-          IconButton(onPressed: () {}, icon: Icon(Icons.menu))
         ],
       ),
     );
   }
 
-  Future<void> CountDateStartPostInit() async {
-    CountDateStartPost();
+  Future<void> CountDateStartPostInit(String language) async {
+    CountDateStartPost(language);
     DateTime datetime_now = DateTime.now();
     int sec = datetime_now.second;
     // print(sec);
@@ -94,11 +102,11 @@ class _PostBox_ShopInfoTapState extends State<PostBox_ShopInfoTap> {
       if (!check_dispost) {
         e.cancel();
       }
-      CountDateStartPost();
+      CountDateStartPost(language);
     });
   }
 
-  Future<void> CountDateStartPost() {
+  Future<void> CountDateStartPost(String language) {
     LanguageManagement lgm = LanguageManagement();
     DateTime datetime_now = DateTime.now();
     DateTime datetime_start = this.widget.dataPost_PostBox.start.datetime();
@@ -116,35 +124,35 @@ class _PostBox_ShopInfoTapState extends State<PostBox_ShopInfoTap> {
       double _year = day / 365;
       int year = _year.toInt();
       setState(() {
-        date_status = "${year} ${lgm.value('064', this.widget.language)}";
+        date_status = "${year} ${lgm.value('064', language)}";
       });
     } else if (day > 30) {
       //แยกเดือน
       double _month = day / (365 / 12);
       int month = _month.toInt();
       setState(() {
-        date_status = "${month} ${lgm.value('063', this.widget.language)}";
+        date_status = "${month} ${lgm.value('063', language)}";
       });
     } else {
       //แยกวัน
 
       if (hour >= 24) {
         setState(() {
-          date_status = "${day} ${lgm.value('062', this.widget.language)}";
+          date_status = "${day} ${lgm.value('062', language)}";
         });
       } else {
         if (min >= 60) {
           setState(() {
-            date_status = "${hour} ${lgm.value('061', this.widget.language)}";
+            date_status = "${hour} ${lgm.value('061', language)}";
           });
         } else {
           if (min == 0) {
             setState(() {
-              date_status = "${lgm.value('059', this.widget.language)}";
+              date_status = "${lgm.value('059', language)}";
             });
           } else {
             setState(() {
-              date_status = "${min} ${lgm.value('060', this.widget.language)}";
+              date_status = "${min} ${lgm.value('060', language)}";
             });
           }
         }
